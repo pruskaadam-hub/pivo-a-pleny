@@ -49,6 +49,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/media.js"></script>
 <script>
 (async function () {
   const C = window.PP_CONFIG;
@@ -120,6 +121,28 @@
       } catch (e) {}
     }
     document.getElementById("z-out").onclick = async () => { await sb.auth.signOut(); loginForm(); };
+    zone.insertAdjacentHTML("beforeend", '<div id="z-media" class="mt-3"></div>');
+    renderMedia(d);
+  }
+
+  const SERIES = { "tata-za-5-minut": "Táta za 5 minut", podcast: "Podcast – rozhovory", video: "Videa a návody", pribehy: "Přečtené příběhy" };
+  async function renderMedia(d) {
+    const box = document.getElementById("z-media"); if (!box) return;
+    const { data, error } = await sb.rpc("member_media");
+    if (error || !data || !data.length) return;
+    // fáze a týden člena → doporučené nahoru
+    const D = 864e5, wk = d.phase === "tehotenstvi" && d.due_date ? 40 - Math.ceil((new Date(d.due_date) - Date.now()) / D / 7) : d.phase === "po-porodu" && d.birth_date ? Math.floor((Date.now() - new Date(d.birth_date)) / D / 7) : null;
+    const fits = m => (m.phase === "vse" || m.phase === d.phase) && (wk == null || m.week_from == null || (wk >= m.week_from && wk <= (m.week_to ?? 52)));
+    const items = data.filter(fits).concat(data.filter(m => !fits(m)));
+    const groups = {}; items.forEach(m => (groups[m.series] = groups[m.series] || []).push(m));
+    const urls = {};
+    await Promise.all(items.filter(m => m.storage_path && !m.locked).map(async m => { const r = await sb.storage.from("media").createSignedUrl(m.storage_path, 3600); if (r.data) urls[m.id] = r.data.signedUrl; }));
+    box.innerHTML = Object.entries(groups).map(([s, arr]) => `<h3 class="mt-3">${esc(SERIES[s] || s)}</h3><div class="grid g2">${arr.map(m => `
+      <article class="card media-card${m.locked ? " locked" : ""}">
+        <h4 style="margin:0 0 4px">${esc(m.title)}${m.duration_min ? ` <small class="muted">· ${m.duration_min} min</small>` : ""}</h4>
+        ${m.description ? `<p class="small">${esc(m.description)}</p>` : ""}
+        ${m.locked ? `<p class="small mb-0">🔒 Jen v plánu <strong>${esc(m.access === "klub-plus" ? "Klub+" : "Klub")}</strong>. <a href="klub.html#registrace">Odemknout</a></p>` : PPMedia.player(m, urls[m.id])}
+      </article>`).join("")}</div>`).join("");
   }
 
   const { data: { session } } = await sb.auth.getSession();

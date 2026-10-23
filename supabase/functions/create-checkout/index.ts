@@ -30,13 +30,24 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
   if (!Deno.env.get("STRIPE_SECRET_KEY")) return json({ error: "payments_not_configured" }, 503);
   try {
-    const { product, member_id, email } = await req.json();
-    const p = PRODUCTS[product];
+    const body = await req.json();
+    const { member_id, email } = body;
+    let product: string = body.product;
+    let p: Product | undefined;
+    if (body.plan) {
+      // členský plán z administrace (tabulka plans)
+      const interval = body.interval === "mesicne" ? "month" : "year";
+      const { data: pl } = await db.from("plans").select("slug,name,price_month,price_year,active").eq("slug", body.plan).single();
+      const price = pl && (interval === "month" ? pl.price_month : pl.price_year);
+      if (!pl || !pl.active || !price) return json({ error: "unknown_plan" }, 400);
+      product = `${pl.slug}-${interval === "month" ? "mesicne" : "rocne"}`;
+      p = { mode: "subscription", amount: price * 100, name: `${pl.name} Pivo & Pleny – ${interval === "month" ? "měsíčně" : "ročně"}`, interval };
+    } else p = PRODUCTS[product];
     if (!p) return json({ error: "unknown_product" }, 400);
 
     let mail: string | undefined = typeof email === "string" ? email.trim() : undefined;
     let memberId: string | null = null;
-    if (product.startsWith("klub-")) {
+    if (p.mode === "subscription") {
       if (!member_id) return json({ error: "missing_member" }, 400);
       const { data: m, error } = await db.from("members").select("id,email,status").eq("id", member_id).single();
       if (error || !m) return json({ error: "member_not_found" }, 404);
@@ -68,7 +79,7 @@ Deno.serve(async (req) => {
       }],
       ...(p.mode === "subscription" ? { subscription_data: { metadata: meta } } : { invoice_creation: { enabled: true } }),
       success_url: `${SITE}/klub.html?platba=ok&produkt=${product}#hotovo`,
-      cancel_url: `${SITE}/klub.html?platba=zruseno#${product.startsWith("klub-") ? "registrace" : "konzultace"}`,
+      cancel_url: `${SITE}/klub.html?platba=zruseno#${p.mode === "subscription" ? "registrace" : "konzultace"}`,
     });
     await db.from("orders").update({ stripe_session_id: session.id }).eq("id", order.id);
     return json({ url: session.url });

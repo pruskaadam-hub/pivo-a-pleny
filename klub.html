@@ -83,8 +83,8 @@
         <div class="hero-actions"><a class="btn btn-dark" href="#registrace">Chci do Klubu</a><a class="btn btn-ghost" href="#co-dostanes">Co dostanu?</a><a class="btn btn-ghost" href="clen.html">Už jsem člen · Přihlásit</a></div>
       </div>
       <div class="plans" aria-hidden="true">
-        <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p">290 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
-        <div class="plan"><div class="box" style="border-color:#000814;box-shadow:6px 6px 0 #000814"><div class="name">Ročně <span class="save">−22 %</span></div><div class="p">2 700 Kč<small> / rok</small></div><div class="sub">Vychází na 225 Kč měsíčně</div></div></div>
+        <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p" id="hero-m">290 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
+        <div class="plan"><div class="box" style="border-color:#000814;box-shadow:6px 6px 0 #000814"><div class="name">Ročně <span class="save" id="hero-save">−22 %</span></div><div class="p" id="hero-y">2 700 Kč<small> / rok</small></div><div class="sub" id="hero-ysub">Vychází na 225 Kč měsíčně</div></div></div>
       </div>
     </div>
   </section>
@@ -112,6 +112,16 @@
     </div>
   </section>
 
+  <section id="plany" class="hidden">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Členství</span>
+        <h2>Vyber si, kolik toho chceš.</h2>
+      </div>
+      <div class="grid g3" id="plan-cards"></div>
+    </div>
+  </section>
+
   <section id="registrace" class="surface">
     <div class="wrap">
       <div class="section-head">
@@ -127,9 +137,10 @@
 
             <div class="step">
               <div class="step-h"><b>1</b><h3>Členství</h3></div>
+              <div class="seg hidden" id="tier-pick" role="radiogroup" aria-label="Plán" style="margin-bottom:14px"></div>
               <div class="plans">
-                <label class="plan"><input type="radio" name="plan" value="mesicne"><span class="box"><span class="name" style="display:flex">Měsíčně</span><span class="p" style="display:block">290 Kč<small> / měsíc</small></span><span class="sub">Zrušíš kdykoli</span></span></label>
-                <label class="plan"><input type="radio" name="plan" value="rocne" checked><span class="box"><span class="name" style="display:flex">Ročně <span class="save">−22 %</span></span><span class="p" style="display:block">2 700 Kč<small> / rok</small></span><span class="sub">225 Kč měsíčně · ušetříš 780 Kč</span></span></label>
+                <label class="plan" id="opt-m"><input type="radio" name="plan" value="mesicne"><span class="box"><span class="name" style="display:flex">Měsíčně</span><span class="p" style="display:block" id="reg-m">290 Kč<small> / měsíc</small></span><span class="sub">Zrušíš kdykoli</span></span></label>
+                <label class="plan" id="opt-y"><input type="radio" name="plan" value="rocne" checked><span class="box"><span class="name" style="display:flex">Ročně <span class="save" id="reg-save">−22 %</span></span><span class="p" style="display:block" id="reg-y">2 700 Kč<small> / rok</small></span><span class="sub" id="reg-ysub">225 Kč měsíčně · ušetříš 780 Kč</span></span></label>
               </div>
             </div>
 
@@ -304,10 +315,52 @@
     }
   }
 
+  /* Plány z administrace (Supabase); bez spojení zůstanou výchozí ceny */
+  let PLANS_P = [{ slug: "klub", name: "Klub", price_month: 290, price_year: 2700 }], TIER = "klub";
+  const kc = n => (n || 0).toLocaleString("cs-CZ") + " Kč";
+  const curPlan = () => PLANS_P.find(x => x.slug === TIER) || PLANS_P[0];
+  const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  function applyPrices() {
+    const P = curPlan(), m = P.price_month, yr = P.price_year, set = (id, h) => { const e = document.getElementById(id); if (e) e.innerHTML = h; };
+    const disc = m && yr ? Math.round((1 - yr / (m * 12)) * 100) : 0;
+    set("reg-m", `${kc(m)}<small> / měsíc</small>`); set("reg-y", `${kc(yr)}<small> / rok</small>`);
+    set("reg-save", disc > 0 ? `−${disc} %` : ""); set("reg-ysub", m && yr ? `${kc(Math.round(yr / 12))} měsíčně · ušetříš ${kc(m * 12 - yr)}` : "");
+    document.getElementById("opt-m").classList.toggle("hidden", !m); document.getElementById("opt-y").classList.toggle("hidden", !yr);
+    if (!m && val("plan") === "mesicne") f.querySelector('[name=plan][value=rocne]').checked = true;
+    if (!yr && val("plan") === "rocne") f.querySelector('[name=plan][value=mesicne]').checked = true;
+  }
+  if (PP.live) PP.rpc("public_plans").then(rows => {
+    if (!rows || !rows.length) return;
+    const paid = rows.filter(r => (r.price_month || 0) + (r.price_year || 0) > 0);
+    if (paid.length) { PLANS_P = paid; TIER = (paid.find(r => r.highlight) || paid[0]).slug; }
+    const main = curPlan(), set = (id, h) => { const e = document.getElementById(id); if (e) e.innerHTML = h; };
+    if (main.price_month) set("hero-m", `${kc(main.price_month)}<small> / měsíc</small>`);
+    if (main.price_year) { set("hero-y", `${kc(main.price_year)}<small> / rok</small>`); set("hero-ysub", `Vychází na ${kc(Math.round(main.price_year / 12))} měsíčně`);
+      if (main.price_month) set("hero-save", `−${Math.round((1 - main.price_year / (main.price_month * 12)) * 100)} %`); }
+    if (rows.length > 1) {
+      document.getElementById("plan-cards").innerHTML = rows.map(r => {
+        const free = !((r.price_month || 0) + (r.price_year || 0));
+        return `<article class="card${r.highlight ? " tier-pop" : ""}"><span class="tag${r.highlight ? " premium" : ""}">${esc(r.name)}</span>
+          <h3 style="margin:12px 0 4px">${free ? "Zdarma" : r.price_month ? kc(r.price_month) + "<small> / měsíc</small>" : kc(r.price_year) + "<small> / rok</small>"}</h3>
+          ${!free && r.price_year && r.price_month ? `<p class="small muted" style="margin:0">nebo ${kc(r.price_year)} ročně</p>` : ""}
+          ${r.tagline ? `<p class="mt-1">${esc(r.tagline)}</p>` : ""}<ul>${(r.features || []).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          ${free ? '<a class="btn btn-ghost btn-sm" href="dotaznik.html">Začít zdarma</a>' : `<a class="btn btn-dark btn-sm" href="#registrace" data-tier="${esc(r.slug)}">Chci ${esc(r.name)}</a>`}</article>`; }).join("");
+      document.getElementById("plany").classList.remove("hidden");
+    }
+    if (paid.length > 1) {
+      const tp = document.getElementById("tier-pick");
+      tp.innerHTML = paid.map(r => `<label><input type="radio" name="tier" value="${esc(r.slug)}" ${r.slug === TIER ? "checked" : ""}><span>${esc(r.name)}</span></label>`).join("");
+      tp.classList.remove("hidden");
+    }
+    applyPrices(); summary();
+  }).catch(() => {});
+  document.addEventListener("click", e => { const a = e.target.closest("[data-tier]"); if (!a) return; TIER = a.dataset.tier; const r = f.querySelector(`[name=tier][value="${TIER}"]`); if (r) r.checked = true; applyPrices(); summary(); });
+  f.addEventListener("change", e => { if (e.target.name === "tier") { TIER = e.target.value; applyPrices(); summary(); } });
+
   function summary() {
-    const y = val("plan") === "rocne";
-    document.getElementById("sum-price").textContent = y ? "2 700 Kč" : "290 Kč";
-    document.getElementById("sum-sub").textContent = y ? "ročně · vychází na 225 Kč měsíčně" : "měsíčně · zrušíš kdykoli";
+    const y = val("plan") === "rocne", P = curPlan();
+    document.getElementById("sum-price").textContent = kc(y ? P.price_year : P.price_month);
+    document.getElementById("sum-sub").textContent = (PLANS_P.length > 1 ? P.name + " · " : "") + (y ? `ročně · vychází na ${kc(Math.round(P.price_year / 12))} měsíčně` : "měsíčně · zrušíš kdykoli");
     const z = [...f.querySelectorAll('[name="zajem"]:checked')].map(x => x.value);
     const items = ["Všechny taháky, checklisty a scénáře", "Audio, videa a živé Q&A"];
     if (z.includes("tipy-email")) items.unshift("Měsíční tipy na míru");
@@ -343,7 +396,7 @@
 
     /* Data připravená pro e-mailovou platformu (Ecomail / MailerLite – custom fields) */
     const data = {
-      plan: val("plan"), jmeno: $("#r-name").value.trim(), email: $("#r-email").value.trim(),
+      plan: val("plan"), tier: TIER, jmeno: $("#r-name").value.trim(), email: $("#r-email").value.trim(),
       vek: $("#r-age").value, kraj: $("#r-region").value,
       prvootec: val("prvootec") === "ano", pocet_deti: val("prvootec") === "ne" ? (val("pocet_deti") || "neuvedeno") : 0,
       faze: val("faze"), termin_porodu: $("#r-due").value || null, datum_narozeni: $("#r-birth").value || null,
@@ -360,7 +413,7 @@
         let memberId = null;
         if (PP.live) memberId = await PP.rpc("register_member", { p: { ...data, souhlas_gdpr: true } });
         if (PP.payments && memberId) {
-          const { url } = await PP.fn("create-checkout", { product: "klub-" + data.plan, member_id: memberId });
+          const { url } = await PP.fn("create-checkout", { plan: data.tier, interval: data.plan, member_id: memberId });
           location.href = url; return;
         }
         f.classList.add("hidden");
@@ -406,7 +459,7 @@
   }
   const q = new URLSearchParams(location.search);
   if (q.get("platba") === "ok") {
-    const isKlub = (q.get("produkt") || "").startsWith("klub");
+    const isKlub = /-(mesicne|rocne)$/.test(q.get("produkt") || "");
     f.classList.add("hidden");
     document.getElementById("reg-done").classList.remove("hidden");
     document.getElementById("done-text").textContent = isKlub

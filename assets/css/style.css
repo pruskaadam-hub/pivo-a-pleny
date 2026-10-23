@@ -487,3 +487,9 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .ticks-list li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); color: var(--ink); font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
 .quiz-banner { display: flex; gap: 14px; align-items: center; background: var(--gold); border: 2px solid var(--ink); border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 22px; box-shadow: 4px 4px 0 var(--ink); }
 .quiz-banner b { font-family: var(--f-loud); text-transform: uppercase; letter-spacing: -.02em; }
+.hidden { display: none !important; }
+.card.tier-pop { border: 2px solid var(--ink); box-shadow: var(--pop); }
+.embed { border-radius: 14px; overflow: hidden; background: var(--surface); margin-top: 10px; }
+.embed iframe { width: 100%; border: 0; display: block; }
+.embed audio { width: 100%; display: block; }
+.media-card.locked { background: var(--surface); }
