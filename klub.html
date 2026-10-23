@@ -3,97 +3,266 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Klub Pivo &amp; Pleny – prémiový obsah pro tátu za 99 Kč měsíčně</title>
-<meta name="description" content="Týden po týdnu od 12. týdne těhotenství do 1. roku dítěte, taháky, scénáře, audio a živé Q&A s odborníky. Soukromé konzultace a pánské předporodní kurzy.">
+<title>Klub Pivo &amp; Pleny – tipy na míru, taháky, workshopy a setkání tátů</title>
+<meta name="description" content="Členství v Klubu Pivo &amp; Pleny: měsíční tipy na míru podle týdne těhotenství nebo věku dítěte, taháky, audio, živé Q&A, pánský předporodní workshop a setkání tátů. 129 Kč měsíčně nebo 1 190 Kč ročně.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<style>
+  .benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; counter-reset: b; }
+  .benefit { display: grid; grid-template-columns: 56px 1fr; gap: 18px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .benefit .ico { width: 56px; height: 56px; border-radius: 16px; background: var(--surface); display: grid; place-items: center; font-size: 1.4rem; }
+  .benefit h4 { margin: 2px 0 4px; font-size: 1.1rem; }
+  .benefit p { margin: 0; color: var(--muted); font-size: .96rem; }
+  .benefit .only { display: inline-block; margin-left: 6px; font-size: .7rem; font-weight: 700; background: var(--gold); padding: 2px 8px; border-radius: 999px; vertical-align: 2px; }
+  @media (max-width: 760px) { .benefits { grid-template-columns: 1fr; } }
+
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .plan { position: relative; display: block; cursor: pointer; }
+  .plan input { position: absolute; opacity: 0; }
+  .plan .box { display: block; border: 2px solid var(--line); border-radius: 22px; padding: 22px 22px 20px; background: #fff; transition: border-color .2s, box-shadow .2s, transform .2s; height: 100%; }
+  .plan input:checked + .box { border-color: var(--ink); box-shadow: var(--pop); transform: translate(-2px, -2px); }
+  .plan input:focus-visible + .box { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .plan .name { font-weight: 700; font-size: 1.05rem !important; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .plan .p { font-size: 2.6rem; font-weight: 600; letter-spacing: -.07em; line-height: 1; margin: 12px 0 4px; }
+  .plan .p small { font-size: .95rem; letter-spacing: 0; color: var(--muted); font-weight: 500; }
+  .plan .sub { font-size: .88rem; color: var(--muted); }
+  .plan .save { background: var(--gold); font-size: .72rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+  @media (max-width: 560px) { .plans { grid-template-columns: 1fr; } }
+
+  .reg { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+  @media (max-width: 1000px) { .reg { grid-template-columns: 1fr; } }
+  .reg-card { background: #fff; border: 2px solid var(--ink); border-radius: 28px; box-shadow: var(--pop-lg); padding: clamp(22px, 4vw, 44px); }
+  .step { padding: 26px 0; border-top: 1px solid var(--line); }
+  .step:first-of-type { border-top: 0; padding-top: 0; }
+  .step-h { display: flex; gap: 14px; align-items: baseline; margin-bottom: 16px; }
+  .step-h b { width: 30px; height: 30px; flex: none; border-radius: 50%; background: var(--ink); color: var(--gold); display: grid; place-items: center; font-size: .85rem; }
+  .step-h h3 { margin: 0; font-size: 1.35rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seg label { margin: 0; }
+  .seg label { position: relative; }
+  .seg input, .plan input { position: absolute !important; opacity: 0; width: 1px !important; height: 1px; left: 0; top: 0; padding: 0 !important; }
+  .seg span { display: inline-block; padding: 11px 18px; border-radius: 999px; background: var(--surface); font-weight: 600; font-size: .95rem; cursor: pointer; border: 1.5px solid transparent; transition: background .2s, border-color .2s; }
+  .seg span:hover { background: var(--surface-2); }
+  .seg input:checked + span { background: var(--gold); border-color: var(--ink); }
+  .seg input:focus-visible + span { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .ticks { display: grid; gap: 10px; }
+  .tick { display: grid !important; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; padding: 14px 16px; background: var(--surface); border-radius: 16px; cursor: pointer; font-weight: 400 !important; margin: 0 !important; transition: background .2s; }
+  .tick:hover { background: var(--surface-2); }
+  .tick input { width: 20px !important; height: 20px; margin: 2px 0 0; accent-color: #000814; }
+  .tick strong { display: block; font-weight: 600; }
+  .tick small { color: var(--muted); }
+  .phase-out { margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: var(--ink); color: #fff; font-weight: 500; display: none; }
+  .phase-out.show { display: block; animation: pop .35s ease; }
+  .phase-out b { color: var(--gold); }
+  .hidden { display: none !important; }
+  .summary { position: sticky; top: 100px; }
+  .summary .card:first-child { background: var(--ink); color: #fff; }
+  .summary .card:first-child p, .summary .card:first-child li { color: #C6CFDB; }
+  .summary .card:last-child p { color: var(--muted); }
+  .summary ul { padding-left: 1.1em; margin: 0 0 18px; }
+  .summary .total { font-size: 2.4rem; font-weight: 600; letter-spacing: -.06em; color: #fff; line-height: 1; margin: 10px 0 4px; }
+  .req { color: #A87F00; }
+  .done-box { text-align: center; padding: 20px 0; }
+  .done-box .big { font-family: var(--f-loud); font-size: clamp(2.2rem, 6vw, 3.6rem); text-transform: uppercase; line-height: .95; background: var(--gold); display: inline-block; padding: 8px 16px 4px; transform: rotate(-1.5deg); margin-bottom: 18px; }
+</style>
 </head>
 <body>
 <header id="site-header"></header>
 <main>
-  <section class="page-hero grain">
-    <div class="wrap">
-      <div class="breadcrumb"><a href="index.html">Úvod</a> / Klub</div>
-      <span class="kicker">Klub Pivo &amp; Pleny ★</span>
-      <h1>Za cenu jednoho piva<br><span class="serif">měsíčně o krok napřed.</span></h1>
-      <p class="lead">Krátký, praktický obsah přesně pro fázi, ve které jste. Žádné hodinové kurzy, které nikdy nedokoukáš. Tři zprávy týdně, taháky do kapsy a jednou měsíčně živě s odborníkem.</p>
-      <div class="hero-actions"><a class="btn btn-copper" href="#cenik">Chci do Klubu</a><a class="btn btn-ghost" href="#ukazka">Ukázka obsahu</a></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="section-head"><span class="kicker">Co je uvnitř</span><h2>Obsah, který reálně použiješ</h2></div>
-      <div class="grid g3">
-        <div class="card"><div class="icon">✉</div><h3>Týden po týdnu</h3><p>Od 12. týdne těhotenství do prvních narozenin. 3 krátké zprávy týdně: co se děje s ní, s miminkem a s tebou – a jedna věc, kterou máš ten týden udělat.</p></div>
-        <div class="card"><div class="icon">✓</div><h3>Taháky a checklisty</h3><p>Tahák do kapsy na porodní sál, prvních 48 hodin doma, plán na večery s pláčem, rozpis nočních směn, karta varovných signálů.</p></div>
-        <div class="card"><div class="icon">“</div><h3>Scénáře rozhovorů</h3><p>Co říct personálu, když nesouhlasíte. Jak mluvit se šéfem o otcovské. Jak nastavit hranice tchyni. Co říct partnerce ve 3 ráno.</p></div>
-        <div class="card"><div class="icon">♪</div><h3>Audio do sluchátek</h3><p>„Cesta domů z porodnice“, 5 minut zpátky do klidu, usínání po noční směně. Vybrané příběhy z Cage načtené jako podcast.</p></div>
-        <div class="card"><div class="icon">▶</div><h3>Videa do 12 minut</h3><p>Přebalování, koupání, nosítko, montáž autosedačky, masáž zad při porodu. Krátce a k věci.</p></div>
-        <div class="card"><div class="icon">?</div><h3>Živé Q&amp;A 1× měsíčně</h3><p>Online s porodní asistentkou, psychologem nebo zkušeným tátou. Ptát se můžeš i anonymně předem.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="ukazka" class="cream">
-    <div class="wrap split">
+  <section class="page-hero">
+    <div class="wrap split" style="align-items:end">
       <div>
-        <span class="kicker">Ukázka</span>
-        <h2>Takhle vypadá jeden týden</h2>
-        <p class="lead">Každá zpráva se dá přečíst do dvou minut. Píšeme je s porodními asistentkami, dulami a psychology.</p>
+        <div class="breadcrumb"><a href="index.html">Úvod</a> / Klub</div>
+        <span class="kicker">Klub Pivo &amp; Pleny</span>
+        <h1>Za cenu jednoho<br><span class="loud hl">piva měsíčně.</span></h1>
+        <p class="lead">Tipy na míru podle toho, kde zrovna jste. Taháky do kapsy, audio, živé Q&amp;A s odborníky – a parta tátů, se kterými se dá potkat na workshopu i u piva.</p>
+        <div class="hero-actions"><a class="btn btn-dark" href="#registrace">Chci do Klubu</a><a class="btn btn-ghost" href="#co-dostanes">Co dostanu?</a></div>
       </div>
-      <div class="card" style="font-size:.95rem">
-        <span class="tag premium">34. týden těhotenství</span>
-        <h3>Pondělí: Taška a trasa</h3>
-        <p>Ona: tlak na pánev, horší spánek, možná poslíčci. Miminko: kolem 2,2 kg, pořád přibírá.</p>
-        <p><strong>Tvůj úkol tento týden:</strong> projeď trasu do porodnice v noci a zjisti, kde se parkuje a kudy na příjem. Zabere to 40 minut a ušetří ti to nejstresovějších 40 minut tvého života.</p>
-        <hr style="border:0;border-top:1px dashed var(--line);margin:18px 0">
-        <p class="small muted mb-0">Středa: Jak poznat poslíčky od porodu · Pátek: Otázka pro tebe – čeho se u porodu bojíš nejvíc?</p>
+      <div class="plans" aria-hidden="true">
+        <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p">129 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
+        <div class="plan"><div class="box" style="border-color:#000814;box-shadow:6px 6px 0 #000814"><div class="name">Ročně <span class="save">−23 %</span></div><div class="p">1 190 Kč<small> / rok</small></div><div class="sub">Vychází na 99 Kč měsíčně</div></div></div>
       </div>
     </div>
   </section>
 
-  <section id="cenik">
+  <section id="co-dostanes">
     <div class="wrap">
-      <div class="section-head center"><span class="kicker">Ceník</span><h2>Vyber si</h2></div>
-      <div class="grid g3">
-        <div class="price-card"><h3>Newsletter</h3><div class="price">0 Kč</div><p class="muted">Navždy zdarma</p>
-          <ul><li>Každou neděli 3 rady</li><li>Nové příběhy z Cage</li><li>Upozornění na nové články</li></ul>
-          <a class="btn btn-dark" href="index.html#newsletter">Odebírat zdarma</a></div>
-        <div class="price-card featured"><span class="tag premium">Doporučujeme</span><h3>Klub</h3><div class="price">99 Kč <small>/ měsíc</small></div><p>nebo 990 Kč ročně (2 měsíce zdarma)</p>
-          <ul><li>Týden po týdnu do 1. roku dítěte</li><li>Všechny taháky, checklisty a scénáře</li><li>Audio a videa</li><li>Živé Q&amp;A 1× měsíčně</li><li>Zrušení jedním klikem</li></ul>
-          <a class="btn btn-copper" href="#" data-todo="platba">Vstoupit do Klubu</a></div>
-        <div class="price-card"><h3>Dárek pro tátu</h3><div class="price">990 Kč</div><p class="muted">Roční členství jako poukaz</p>
-          <ul><li>Krásný PDF poukaz k vytištění</li><li>Aktivuje se, kdy chcete</li><li>Ideální dárek od partnerky nebo kamarádů</li></ul>
-          <a class="btn btn-dark" href="#" data-todo="platba">Koupit poukaz</a></div>
+      <div class="section-head">
+        <span class="kicker">Co dostaneš</span>
+        <h2>Všechno, co<br><em>v Klubu najdeš.</em></h2>
       </div>
-      <p class="small muted center mt-2">Platební brána se připravuje. Do spuštění se můžeš zapsat do newsletteru – dáme ti vědět jako prvnímu.</p>
+      <div class="benefits">
+        <div class="benefit"><div class="ico">✉</div><div><h4>Měsíční tipy na míru</h4><p>Každý měsíc e-mail přesně pro váš týden těhotenství nebo věk miminka. Jiný pro prvootce, jiný pro zkušené táty.</p></div></div>
+        <div class="benefit"><div class="ico">✓</div><div><h4>Tahák do kapsy na porodní sál</h4><p>Jedna stránka: kdy jet, co dělat, co říct, na co se ptát. Do mobilu i vytisknout.</p></div></div>
+        <div class="benefit"><div class="ico">☰</div><div><h4>Checklisty a plány</h4><p>Taška do porodnice, prvních 48 hodin doma, rozpis nočních směn, plán na večery s pláčem, karta varovných signálů.</p></div></div>
+        <div class="benefit"><div class="ico">“</div><div><h4>Scénáře rozhovorů</h4><p>Co říct personálu, když nesouhlasíte. Jak mluvit se šéfem o otcovské. Jak nastavit hranice návštěvám. Co říct partnerce ve 3 ráno.</p></div></div>
+        <div class="benefit"><div class="ico">♪</div><div><h4>Audio do sluchátek</h4><p>„Cesta domů z porodnice“, 5 minut zpátky do klidu, usínání po noční směně. Vybrané příběhy z Cage načtené jako podcast.</p></div></div>
+        <div class="benefit"><div class="ico">▶</div><div><h4>Krátká videa do 12 minut</h4><p>Přebalování, koupání, nosítko, montáž autosedačky, masáž zad při porodu.</p></div></div>
+        <div class="benefit"><div class="ico">?</div><div><h4>Živé Q&amp;A jednou měsíčně</h4><p>Online s porodní asistentkou, psychologem nebo zkušeným tátou. Ptát se můžeš i anonymně předem.</p></div></div>
+        <div class="benefit"><div class="ico">★</div><div><h4>Přednostní místo na pánském workshopu</h4><p>Předporodní workshop jen pro chlapy – odborně a v pánském stylu. Členové se hlásí jako první a mají slevu.</p></div></div>
+        <div class="benefit"><div class="ico">🍺</div><div><h4>Setkání tátů u piva</h4><p>Neformální večery s dalšími táty ve tvém kraji. Pozvánky posíláme jen členům, kteří o ně stojí.</p></div></div>
+        <div class="benefit"><div class="ico">1:1</div><div><h4>Sleva na soukromé konzultace</h4><p>Online konzultace s porodní asistentkou, dulou nebo psychologem pro otce.</p></div></div>
+        <div class="benefit"><div class="ico">✍</div><div><h4>Hlubší rozbor dotazníku</h4><p>Podrobný profil tvého typu táty s plánem na první rok.</p></div></div>
+        <div class="benefit"><div class="ico">%</div><div><h4>Roční členství navíc<span class="only">jen ročně</span></h4><p>Vychází na 99 Kč měsíčně a pokryje celé těhotenství i první měsíce s miminkem bez přerušení.</p></div></div>
+      </div>
     </div>
   </section>
 
-  <section id="konzultace" class="dark grain">
+  <section id="registrace" class="surface">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Registrace · 2 minuty</span>
+        <h2>Řekni nám o sobě.<br><em>Tipy pak sedí.</em></h2>
+        <p class="lead">Podle odpovědí ti posíláme e-maily přesně pro tvoji fázi a zveme tě jen na to, co tě zajímá. Nic víc.</p>
+      </div>
+
+      <div class="reg">
+        <div class="reg-card">
+          <form id="reg-form" class="form" novalidate>
+
+            <div class="step">
+              <div class="step-h"><b>1</b><h3>Členství</h3></div>
+              <div class="plans">
+                <label class="plan"><input type="radio" name="plan" value="mesicne"><span class="box"><span class="name" style="display:flex">Měsíčně</span><span class="p" style="display:block">129 Kč<small> / měsíc</small></span><span class="sub">Zrušíš kdykoli</span></span></label>
+                <label class="plan"><input type="radio" name="plan" value="rocne" checked><span class="box"><span class="name" style="display:flex">Ročně <span class="save">−23 %</span></span><span class="p" style="display:block">1 190 Kč<small> / rok</small></span><span class="sub">99 Kč měsíčně · ušetříš 358 Kč</span></span></label>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-h"><b>2</b><h3>O tobě</h3></div>
+              <div class="row2">
+                <div><label for="r-name">Jméno nebo přezdívka <span class="req">*</span></label><input id="r-name" name="jmeno" required autocomplete="given-name" placeholder="Jak ti máme psát"></div>
+                <div><label for="r-email">E-mail <span class="req">*</span></label><input id="r-email" name="email" type="email" required autocomplete="email" placeholder="tvuj@email.cz"></div>
+                <div><label for="r-age">Věk <span class="req">*</span></label>
+                  <select id="r-age" name="vek" required><option value="">Vyber</option><option>18–24</option><option>25–29</option><option>30–34</option><option>35–39</option><option>40–44</option><option>45+</option></select></div>
+                <div><label for="r-region">Kraj</label>
+                  <select id="r-region" name="kraj"><option value="">Nechci uvádět</option><option>Praha</option><option>Středočeský</option><option>Jihočeský</option><option>Plzeňský</option><option>Karlovarský</option><option>Ústecký</option><option>Liberecký</option><option>Královéhradecký</option><option>Pardubický</option><option>Vysočina</option><option>Jihomoravský</option><option>Olomoucký</option><option>Zlínský</option><option>Moravskoslezský</option><option>Mimo ČR</option></select>
+                  <small class="muted">Kvůli workshopům a setkáním poblíž.</small></div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-h"><b>3</b><h3>Jsi táta poprvé?</h3></div>
+              <div class="seg" role="radiogroup" aria-label="Zkušenost s otcovstvím">
+                <label><input type="radio" name="prvootec" value="ano" required><span>Ano, poprvé</span></label>
+                <label><input type="radio" name="prvootec" value="ne"><span>Už mám děti</span></label>
+              </div>
+              <div id="kids-wrap" class="hidden" style="margin-top:14px">
+                <label>Kolik dětí už máš?</label>
+                <div class="seg"><label><input type="radio" name="pocet_deti" value="1"><span>1</span></label><label><input type="radio" name="pocet_deti" value="2"><span>2</span></label><label><input type="radio" name="pocet_deti" value="3"><span>3</span></label><label><input type="radio" name="pocet_deti" value="4+"><span>4 a víc</span></label></div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-h"><b>4</b><h3>Kde zrovna jste?</h3></div>
+              <div class="seg" role="radiogroup" aria-label="Fáze">
+                <label><input type="radio" name="faze" value="planujeme" required><span>Plánujeme / snažíme se</span></label>
+                <label><input type="radio" name="faze" value="tehotenstvi"><span>Čekáme miminko</span></label>
+                <label><input type="radio" name="faze" value="po-porodu"><span>Miminko už je na světě</span></label>
+              </div>
+              <div id="due-wrap" class="hidden" style="margin-top:14px">
+                <label for="r-due">Předpokládaný termín porodu</label>
+                <input id="r-due" name="termin_porodu" type="date">
+              </div>
+              <div id="birth-wrap" class="hidden" style="margin-top:14px">
+                <label for="r-birth">Datum narození miminka</label>
+                <input id="r-birth" name="datum_narozeni" type="date">
+              </div>
+              <div id="phase-out" class="phase-out" aria-live="polite"></div>
+            </div>
+
+            <div class="step">
+              <div class="step-h"><b>5</b><h3>Co tě zajímá?</h3></div>
+              <div class="ticks">
+                <label class="tick"><input type="checkbox" name="zajem" value="tipy-email" checked><span><strong>Tipy a triky každý měsíc do e-mailu</strong><small>Podle týdne těhotenství nebo věku miminka.</small></span></label>
+                <label class="tick"><input type="checkbox" name="zajem" value="workshop"><span><strong>Pánský předporodní workshop</strong><small>Dáme vědět jako prvnímu, až vypíšeme termín ve tvém kraji.</small></span></label>
+                <label class="tick"><input type="checkbox" name="zajem" value="pivo"><span><strong>Občasná setkání s dalšími tatínky u piva</strong><small>Neformálně, pár chlapů, žádné přednášky.</small></span></label>
+                <label class="tick"><input type="checkbox" name="zajem" value="qa"><span><strong>Živé online Q&amp;A s odborníky</strong><small>Připomínka den předem.</small></span></label>
+                <label class="tick"><input type="checkbox" name="zajem" value="konzultace"><span><strong>Soukromá konzultace</strong><small>Ozveme se s nabídkou termínu.</small></span></label>
+                <label class="tick"><input type="checkbox" name="zajem" value="pribeh" id="r-story-on"><span><strong>Mám příběh, který chci sdílet</strong><small>Do Cage, do článku nebo do podcastu – anonymně, nebo pod jménem.</small></span></label>
+              </div>
+              <div id="story-wrap" class="hidden" style="margin-top:14px">
+                <label for="r-story">Pár vět o tvém příběhu (nepovinné)</label>
+                <textarea id="r-story" name="pribeh" maxlength="1500" placeholder="Stačí v kostce, ozveme se ti."></textarea>
+                <div class="seg" style="margin-top:10px"><label><input type="radio" name="pribeh_jak" value="anonymne" checked><span>Anonymně</span></label><label><input type="radio" name="pribeh_jak" value="podepsane"><span>Pod jménem</span></label></div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-h"><b>6</b><h3>Souhlasy</h3></div>
+              <div class="ticks">
+                <label class="tick"><input type="checkbox" name="souhlas_18" required><span><strong>Je mi 18 let nebo víc <span class="req">*</span></strong></span></label>
+                <label class="tick"><input type="checkbox" name="souhlas_gdpr" required><span><strong>Souhlasím se zpracováním údajů <span class="req">*</span></strong><small>Údaje použijeme jen k vedení členství a k přizpůsobení obsahu. Nikomu je neprodáme a souhlas můžeš kdykoli odvolat.</small></span></label>
+                <label class="tick"><input type="checkbox" name="souhlas_marketing"><span><strong>Chci dostávat i novinky a nabídky</strong><small>Workshopy, akce, nové produkty. Nepovinné.</small></span></label>
+              </div>
+            </div>
+
+            <div id="reg-err" class="callout warn hidden" role="alert" style="margin:0 0 16px"></div>
+            <button class="btn btn-dark" type="submit">Pokračovat k platbě</button>
+            <p class="small muted" style="margin-top:12px">Platební brána se připravuje. Po odeslání tě zatím zapíšeme a ozveme se, jakmile spustíme platby.</p>
+          </form>
+
+          <div id="reg-done" class="done-box hidden">
+            <div class="big">Vítej v klubu.</div>
+            <p class="lead" style="margin-inline:auto" id="done-text"></p>
+            <a class="btn btn-dark" href="index.html">Zpět na úvod</a>
+          </div>
+        </div>
+
+        <aside class="summary">
+          <div class="card">
+            <span class="tag premium">Tvoje členství</span>
+            <div class="total" id="sum-price">1 190 Kč</div>
+            <p id="sum-sub">ročně · vychází na 99 Kč měsíčně</p>
+            <ul id="sum-list"><li>Měsíční tipy na míru</li><li>Všechny taháky, checklisty a scénáře</li><li>Audio, videa a živé Q&amp;A</li><li>Přednostní místo na workshopu</li></ul>
+            <p class="small" style="margin:0">Zrušíš kdykoli jedním klikem. Žádné skryté poplatky.</p>
+          </div>
+          <div class="card mt-2" style="background:#fff">
+            <h4>Proč se ptáme?</h4>
+            <p class="small mb-0">Táta ve 12. týdnu řeší něco jiného než táta tři týdny po porodu – a prvootec něco jiného než táta třetího dítěte. Díky odpovědím ti nepošleme nic, co nepotřebuješ.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="konzultace" class="dark">
     <div class="wrap split">
       <div>
         <span class="kicker">Soukromě 1:1</span>
-        <h2>Konzultace s odborníkem</h2>
-        <p class="lead">Někdy nestačí článek. Online konzultace s porodní asistentkou, dulou nebo psychologem, který rozumí otcům. Pro tebe samotného i pro pár.</p>
+        <h2>Konzultace<br><em>s odborníkem.</em></h2>
+        <p class="lead">Online konzultace s porodní asistentkou, dulou nebo psychologem, který rozumí otcům. Pro tebe samotného i pro pár.</p>
         <ul>
           <li><strong>Příprava na porod pro muže</strong> – tvoje role, plán, otázky, strachy</li>
           <li><strong>Po těžkém porodu</strong> – rozhovor o tom, co se stalo</li>
           <li><strong>Když to doma skřípe</strong> – únava, vztek, vztah, peníze</li>
         </ul>
-        <p class="muted small">Konzultace trvá 50 minut, probíhá online a je důvěrná. Členové Klubu mají slevu. Ceník zveřejníme se spuštěním.</p>
+        <p class="small muted">50 minut, online, důvěrně. Členové Klubu mají slevu. Ceník zveřejníme se spuštěním.</p>
         <a class="btn btn-copper" href="mailto:konzultace@pivoapleny.cz?subject=Konzultace">Napsat si o termín</a>
       </div>
       <div class="card">
         <span class="tag premium">Připravujeme</span>
-        <h3>Pánský předporodní kurz</h3>
+        <h3>Pánský předporodní workshop</h3>
         <p>Jeden večer. Jen chlapi. Barber shop atmosféra, dobré pivo (nebo nealko) a vysoká odbornost: porodní asistentka, psycholog a táta, který to má za sebou. Praktický blok s modelem miminka – přebalování, nošení, koupání.</p>
-        <p class="small">Prvních pár termínů spustíme v Praze, až se nás sejde dost. Zapiš se a dáme ti vědět jako prvnímu.</p>
-        <form data-newsletter class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 200px;font:inherit;padding:12px 14px;border-radius:6px;border:0"><button class="btn btn-copper btn-sm">Chci vědět o kurzu</button></form>
-        <div class="form-msg">Jsi na seznamu. Ozveme se, jakmile vypíšeme první termín.</div>
+        <p class="small">Zájem označ v registraci výš – ozveme se, až vypíšeme termín ve tvém kraji.</p>
+        <a class="btn btn-ghost btn-sm" href="#registrace">Chci na workshop</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="narrow">
+      <h2>Časté otázky ke Klubu</h2>
+      <div class="acc">
+        <details><summary>Proč je roční členství levnější?</summary><div class="acc-body"><p>Protože pokryje celé těhotenství i první měsíce s miminkem, kdy je obsah nejcennější. Za rok zaplatíš 1 190 Kč místo 1 548 Kč – ušetříš 358 Kč.</p></div></details>
+        <details><summary>Jak často budou chodit e-maily?</summary><div class="acc-body"><p>Tipy na míru jednou měsíčně podle vaší fáze. K tomu zdarma nedělní newsletter, pokud ho chceš, a pozvánky jen na akce, které sis zaškrtl.</p></div></details>
+        <details><summary>Můžu údaje později změnit?</summary><div class="acc-body"><p>Ano. Termín porodu, datum narození i zájmy změníš v odkazu v každém e-mailu – třeba když se miminko narodí dřív.</p></div></details>
+        <details><summary>Co s mými údaji uděláte?</summary><div class="acc-body"><p>Použijeme je jen k vedení členství a přizpůsobení obsahu. Nikomu je neprodáme a na požádání je smažeme.</p></div></details>
+        <details><summary>Můžu Klub darovat?</summary><div class="acc-body"><p>Ano, roční členství půjde koupit i jako dárkový poukaz – ideální dárek od partnerky nebo kamarádů. Spustíme s platbami.</p></div></details>
       </div>
     </div>
   </section>
@@ -101,12 +270,92 @@
 <footer id="site-footer"></footer>
 <script src="assets/js/main.js"></script>
 <script>
-document.querySelectorAll('[data-todo="platba"]').forEach(a => a.addEventListener("click", e => {
-  e.preventDefault();
-  location.hash = "";
-  const n = document.querySelector("#cenik .small.muted");
-  n.style.color = "#FFC300"; n.scrollIntoView({ behavior: "smooth", block: "center" });
-}));
+(function () {
+  const f = document.getElementById("reg-form");
+  const $ = s => f.querySelector(s);
+  const val = n => (f.querySelector(`[name="${n}"]:checked`) || {}).value;
+  const show = (el, on) => document.getElementById(el).classList.toggle("hidden", !on);
+  const out = document.getElementById("phase-out");
+  const DAY = 864e5;
+
+  function phaseText() {
+    const faze = val("faze");
+    out.classList.remove("show");
+    if (faze === "tehotenstvi" && $("#r-due").value) {
+      const due = new Date($("#r-due").value);
+      const week = Math.floor((280 - (due - new Date()) / DAY) / 7);
+      if (week >= 1 && week <= 42) out.innerHTML = `Jste zhruba ve <b>${week}. týdnu</b> těhotenství. Do porodu zbývá asi ${Math.max(0, Math.round((due - new Date()) / DAY / 7))} týdnů.`;
+      else out.innerHTML = "Zkontroluj prosím termín porodu.";
+      out.classList.add("show");
+    }
+    if (faze === "po-porodu" && $("#r-birth").value) {
+      const w = Math.floor((new Date() - new Date($("#r-birth").value)) / DAY / 7);
+      if (w >= 0) out.innerHTML = w < 9 ? `Miminku je <b>${w} ${w === 1 ? "týden" : w < 5 && w > 1 ? "týdny" : "týdnů"}</b>. Šestinedělí – gratulujeme!` : `Miminku je zhruba <b>${Math.floor(w / 4.35)} měsíců</b>.`;
+      else out.innerHTML = "Datum narození je v budoucnosti?";
+      out.classList.add("show");
+    }
+  }
+
+  function summary() {
+    const y = val("plan") === "rocne";
+    document.getElementById("sum-price").textContent = y ? "1 190 Kč" : "129 Kč";
+    document.getElementById("sum-sub").textContent = y ? "ročně · vychází na 99 Kč měsíčně" : "měsíčně · zrušíš kdykoli";
+    const z = [...f.querySelectorAll('[name="zajem"]:checked')].map(x => x.value);
+    const items = ["Všechny taháky, checklisty a scénáře", "Audio, videa a živé Q&A"];
+    if (z.includes("tipy-email")) items.unshift("Měsíční tipy na míru");
+    if (z.includes("workshop")) items.push("Přednostní místo na workshopu");
+    if (z.includes("pivo")) items.push("Pozvánky na setkání tátů u piva");
+    if (z.includes("konzultace")) items.push("Sleva na konzultaci");
+    document.getElementById("sum-list").innerHTML = items.map(i => `<li>${i}</li>`).join("");
+  }
+
+  f.addEventListener("change", e => {
+    show("kids-wrap", val("prvootec") === "ne");
+    show("due-wrap", val("faze") === "tehotenstvi");
+    show("birth-wrap", val("faze") === "po-porodu");
+    show("story-wrap", $("#r-story-on").checked);
+    phaseText(); summary();
+  });
+  f.addEventListener("input", phaseText);
+
+  f.addEventListener("submit", e => {
+    e.preventDefault();
+    const err = [];
+    if (!$("#r-name").value.trim()) err.push("jméno nebo přezdívku");
+    if (!$("#r-email").checkValidity() || !$("#r-email").value) err.push("platný e-mail");
+    if (!$("#r-age").value) err.push("věk");
+    if (!val("prvootec")) err.push("jestli jsi táta poprvé");
+    if (!val("faze")) err.push("ve které jste fázi");
+    if (val("faze") === "tehotenstvi" && !$("#r-due").value) err.push("termín porodu");
+    if (val("faze") === "po-porodu" && !$("#r-birth").value) err.push("datum narození");
+    if (!$('[name="souhlas_18"]').checked || !$('[name="souhlas_gdpr"]').checked) err.push("povinné souhlasy");
+    const box = document.getElementById("reg-err");
+    if (err.length) { box.textContent = "Ještě prosím vyplň: " + err.join(", ") + "."; box.classList.remove("hidden"); box.scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    box.classList.add("hidden");
+
+    /* Data připravená pro e-mailovou platformu (Ecomail / MailerLite – custom fields) */
+    const data = {
+      plan: val("plan"), jmeno: $("#r-name").value.trim(), email: $("#r-email").value.trim(),
+      vek: $("#r-age").value, kraj: $("#r-region").value,
+      prvootec: val("prvootec") === "ano", pocet_deti: val("prvootec") === "ne" ? (val("pocet_deti") || "neuvedeno") : 0,
+      faze: val("faze"), termin_porodu: $("#r-due").value || null, datum_narozeni: $("#r-birth").value || null,
+      zajmy: [...f.querySelectorAll('[name="zajem"]:checked')].map(x => x.value),
+      pribeh: $("#r-story-on").checked ? { text: $("#r-story").value.trim(), jak: val("pribeh_jak") } : null,
+      souhlas_marketing: $('[name="souhlas_marketing"]').checked,
+      registrovano: new Date().toISOString(),
+    };
+    console.log("Registrace do Klubu (TODO: odeslat na backend):", data);
+    // TODO: fetch("https://…/api/klub", { method: "POST", body: JSON.stringify(data) }) a přesměrovat na platební bránu
+
+    f.classList.add("hidden");
+    document.getElementById("reg-done").classList.remove("hidden");
+    document.getElementById("done-text").textContent =
+      `Díky, ${data.jmeno}! Zapsali jsme tě. Jakmile spustíme platby, pošleme ti na ${data.email} odkaz k dokončení členství a první tipy na míru.`;
+    document.getElementById("reg-done").scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  summary();
+})();
 </script>
 </body>
 </html>

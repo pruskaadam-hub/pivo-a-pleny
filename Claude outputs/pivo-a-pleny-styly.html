@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pivo &amp; Pleny – 4 styly k porovnání</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,600&family=Inter+Tight:wght@400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--n0:#000814;--n1:#001D3D;--n2:#003566;--g1:#FFC300;--g2:#FFD60A;}
+*{box-sizing:border-box}body{margin:0;font-family:"Inter Tight",system-ui,sans-serif;background:#e9edf2;color:var(--n0)}
+.label{position:sticky;top:0;z-index:20;background:var(--n0);color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15px;border-bottom:3px solid var(--g1)}
+.label b{font-size:22px;color:var(--g1);margin-right:10px}
+.label span.desc{opacity:.75;font-size:13px}
+section.v{min-height:100vh;position:relative;overflow:hidden}
+img{display:block;max-width:100%}
+.photo{background:var(--n2) url('https://images.unsplash.com/photo-1542644384-49f9febd8443?auto=format&fit=crop&w=1400&q=70') center/cover}
+.photo2{background:var(--n2) url('https://images.unsplash.com/photo-1637572465898-8f526a6da712?auto=format&fit=crop&w=900&q=70') center/cover}
+.photo3{background:var(--n2) url('https://images.unsplash.com/photo-1650872466823-433d9e461b9d?auto=format&fit=crop&w=900&q=70') center/cover}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.25s}.d3{transition-delay:.4s}.d4{transition-delay:.55s}
+
+/* ========== A · EDITORIAL ========== */
+.A{background:#F7F5F0;color:var(--n0);font-family:"Inter Tight",sans-serif}
+.A nav{display:flex;justify-content:space-between;padding:26px 5vw;font-size:14px;letter-spacing:.04em;border-bottom:1px solid #0008141f}
+.A nav .logo{font-family:Fraunces,serif;font-weight:600;font-size:22px;letter-spacing:0}
+.A nav .logo i{color:#C79A00}
+.A .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;padding:7vh 5vw 4vh;align-items:end}
+.A h1{font-family:Fraunces,serif;font-weight:300;font-size:clamp(52px,8.5vw,138px);line-height:.92;letter-spacing:-.03em;margin:0}
+.A h1 i{font-weight:300;color:var(--n2)}
+.A h1 b{font-weight:600}
+.A .meta{font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:26px;display:flex;gap:18px;align-items:center}
+.A .meta::before{content:"";width:40px;height:1px;background:var(--n0)}
+.A .side p{font-size:19px;line-height:1.55;max-width:34ch}
+.A .side .num{font-family:Fraunces,serif;font-size:88px;line-height:1;color:var(--n2);font-weight:300}
+.A .side .num small{font-size:16px;font-family:"Inter Tight";color:var(--n0);display:block;margin-top:8px;max-width:26ch;line-height:1.4}
+.A .bigphoto{height:56vh;margin:0 5vw;border-radius:2px;position:relative}
+.A .bigphoto::after{content:"Fotografie přes celou šířku · klidná, dokumentární";position:absolute;left:0;bottom:-28px;font-size:12px;color:#5F6F86;letter-spacing:.06em}
+.A .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:70px 5vw 60px;border-top:1px solid var(--n0)}
+.A .cols div{padding:24px 24px 24px 0;border-right:1px solid #0008141f}
+.A .cols div:last-child{border:0}
+.A .cols h3{font-family:Fraunces,serif;font-weight:600;font-size:26px;margin:0 0 8px}
+.A .cols p{margin:0;color:#34465e;line-height:1.55}
+.A .cols span{font-size:12px;letter-spacing:.18em;color:#C79A00;font-weight:600}
+.A .btn{display:inline-block;margin-top:22px;padding:14px 26px;background:var(--n0);color:#fff;text-decoration:none;border-radius:999px;font-weight:600;transition:background .3s}
+.A .btn:hover{background:var(--n2)}
+@media(max-width:800px){.A .grid,.A .cols{grid-template-columns:1fr}}
+
+/* ========== B · TECH / CALM ========== */
+.B{background:radial-gradient(70% 60% at 75% 10%,#0A4A85 0,transparent 60%),radial-gradient(50% 50% at 0% 100%,#003566 0,transparent 60%),var(--n0);color:#fff}
+.B nav{display:flex;justify-content:space-between;align-items:center;padding:20px 5vw}
+.B nav .pill{background:#ffffff12;border:1px solid #ffffff22;backdrop-filter:blur(12px);padding:8px 8px 8px 20px;border-radius:999px;display:flex;gap:26px;align-items:center;font-size:14px}
+.B nav .pill a{color:#cfd8e6;text-decoration:none}
+.B nav .pill .cta{background:var(--g1);color:var(--n0);padding:9px 18px;border-radius:999px;font-weight:700}
+.B .logo{font-weight:800;font-size:19px;display:flex;gap:10px;align-items:center}
+.B .logo i{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--g1),var(--g2));display:inline-block}
+.B .hero{text-align:center;padding:12vh 5vw 6vh;position:relative}
+.B .chip{display:inline-flex;gap:8px;align-items:center;background:#ffffff10;border:1px solid #ffffff22;padding:7px 14px;border-radius:999px;font-size:13px;color:#cfd8e6}
+.B .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g1);box-shadow:0 0 12px var(--g1);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.B h1{font-size:clamp(46px,7.4vw,112px);line-height:.98;letter-spacing:-.045em;font-weight:800;margin:26px auto 22px;max-width:14ch}
+.B h1 span{background:linear-gradient(90deg,var(--g1),var(--g2),#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.B .hero p{color:#b9c6d8;font-size:19px;max-width:52ch;margin:0 auto 34px;line-height:1.55}
+.B .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.B .btns a{padding:15px 26px;border-radius:14px;text-decoration:none;font-weight:700;transition:transform .2s,box-shadow .3s}
+.B .btns a:first-child{background:var(--g1);color:var(--n0);box-shadow:0 10px 40px -10px var(--g1)}
+.B .btns a:last-child{background:#ffffff10;color:#fff;border:1px solid #ffffff25}
+.B .btns a:hover{transform:translateY(-2px)}
+.B .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:0 5vw 8vh;max-width:1200px;margin:0 auto}
+.B .card{background:linear-gradient(180deg,#ffffff12,#ffffff05);border:1px solid #ffffff18;border-radius:22px;padding:26px;backdrop-filter:blur(10px);transition:transform .35s,border-color .35s}
+.B .card:hover{transform:translateY(-6px);border-color:#FFC30066}
+.B .card .ic{width:46px;height:46px;border-radius:14px;background:#FFC3001f;display:grid;place-items:center;margin-bottom:18px}
+.B .card .ic svg{width:24px;height:24px;stroke:var(--g1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.B .card h3{margin:0 0 8px;font-size:20px}
+.B .card p{margin:0;color:#b9c6d8;line-height:1.5;font-size:15px}
+.B .card .big{font-size:52px;font-weight:800;letter-spacing:-.04em;color:var(--g1);line-height:1}
+.B .orb{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,#FFC30033,transparent 65%);top:10%;left:-120px;animation:float 9s ease-in-out infinite;pointer-events:none}
+@keyframes float{50%{transform:translate(60px,40px)}}
+@media(max-width:800px){.B .cards{grid-template-columns:1fr}.B nav .pill a:not(.cta){display:none}}
+
+/* ========== C · CRAFT / BARBER ========== */
+.C{background:#0b1220;color:#EDE7DA;font-family:"Inter Tight",sans-serif;position:relative;isolation:isolate}
+.C::after{content:"";position:absolute;inset:0;z-index:-1;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.C nav{display:flex;justify-content:space-between;align-items:center;padding:22px 5vw;font-size:13px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #EDE7DA22}
+.C .stamp{font-family:Anton,sans-serif;font-size:24px;letter-spacing:.06em;border:2px solid var(--g1);color:var(--g1);padding:4px 12px;transform:rotate(-2deg)}
+.C .wrap{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 140px)}
+.C .txt{padding:8vh 5vw;display:flex;flex-direction:column;justify-content:center}
+.C h1{font-family:Anton,sans-serif;font-weight:400;font-size:clamp(64px,10vw,170px);line-height:.86;text-transform:uppercase;margin:0;letter-spacing:.005em}
+.C h1 .o{-webkit-text-stroke:2px var(--g1);color:transparent}
+.C .txt p{font-size:18px;line-height:1.6;color:#c8c2b6;max-width:40ch;margin:28px 0}
+.C .row{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+.C .btn{background:var(--g1);color:#0b1220;padding:16px 28px;font-family:Anton;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;font-size:18px;clip-path:polygon(0 0,100% 0,96% 100%,0 100%)}
+.C .sig{font-family:Fraunces,serif;font-style:italic;font-size:20px;color:#c8c2b6}
+.C .ph{position:relative}
+.C .ph .duo{position:absolute;inset:0;filter:grayscale(1) contrast(1.15)}
+.C .ph::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,#003566cc,#FFC30055);mix-blend-mode:multiply}
+.C .badge{position:absolute;z-index:2;right:8%;bottom:10%;width:170px;height:170px;border-radius:50%;background:var(--g1);color:#0b1220;display:grid;place-items:center;text-align:center;font-family:Anton;font-size:22px;line-height:1.05;text-transform:uppercase;animation:spin 18s linear infinite}
+.C .badge span{animation:spin 18s linear infinite reverse;display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.C .ticker{border-top:1px solid #EDE7DA22;border-bottom:1px solid #EDE7DA22;white-space:nowrap;overflow:hidden;font-family:Anton;font-size:32px;text-transform:uppercase;padding:14px 0;color:#EDE7DA}
+.C .ticker div{display:inline-block;animation:tick 25s linear infinite}
+.C .ticker em{color:var(--g1);font-style:normal;margin:0 24px}
+@keyframes tick{to{transform:translateX(-50%)}}
+@media(max-width:800px){.C .wrap{grid-template-columns:1fr}.C .ph{min-height:50vh}}
+
+/* ========== D · BOLD / HRAVÝ ========== */
+.D{background:var(--g1);color:var(--n0);font-family:"Space Grotesk",sans-serif}
+.D nav{display:flex;justify-content:space-between;align-items:center;padding:20px 5vw;font-weight:700}
+.D nav .logo{font-family:"Archivo Black";font-size:22px;background:var(--n0);color:var(--g1);padding:6px 12px;transform:rotate(-1.5deg)}
+.D nav a{color:var(--n0);text-decoration:none;margin-left:22px;border-bottom:3px solid var(--n0)}
+.D .hero{padding:6vh 5vw 4vh;position:relative}
+.D h1{font-family:"Archivo Black",sans-serif;font-size:clamp(56px,11vw,190px);line-height:.86;margin:0;letter-spacing:-.04em;text-transform:uppercase}
+.D h1 .hl{background:var(--n0);color:var(--g2);padding:0 .12em;display:inline-block;transform:rotate(-1deg)}
+.D .sticker{position:absolute;background:#fff;border:3px solid var(--n0);box-shadow:6px 6px 0 var(--n0);padding:12px 16px;font-weight:700;font-size:16px;border-radius:14px;max-width:220px;transition:transform .2s}
+.D .sticker:hover{transform:rotate(0) scale(1.05)!important}
+.D .s1{right:7vw;top:6vh;transform:rotate(6deg)}
+.D .s2{right:22vw;bottom:-2vh;transform:rotate(-5deg);background:var(--n1);color:#fff}
+.D .s3{right:4vw;bottom:8vh;transform:rotate(-8deg);border-radius:50%;width:150px;height:150px;display:grid;place-items:center;text-align:center;background:var(--g2)}
+.D .blocks{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;padding:5vh 5vw 8vh}
+.D .blk{border:3px solid var(--n0);background:#fff;box-shadow:8px 8px 0 var(--n0);padding:24px;transition:transform .15s,box-shadow .15s;border-radius:6px}
+.D .blk:hover{transform:translate(-3px,-3px);box-shadow:11px 11px 0 var(--n0)}
+.D .blk.dark{background:var(--n1);color:#fff}
+.D .blk.ph{padding:0;min-height:260px}
+.D .blk h3{font-family:"Archivo Black";font-size:26px;margin:0 0 8px;text-transform:uppercase}
+.D .blk .n{font-family:"Archivo Black";font-size:80px;line-height:.9;color:var(--g1)}
+@media(max-width:800px){.D .blocks{grid-template-columns:1fr}.D .sticker{position:static;display:inline-block;margin:10px 10px 0 0}}
+.end{padding:60px 5vw;text-align:center;background:var(--n0);color:#fff}
+.end h2{font-size:32px;margin:0 0 10px}
+.end p{color:#b9c6d8;max-width:60ch;margin:0 auto}
+</style>
+</head>
+<body>
+
+<!-- E -->
+<div class="label"><div><b>E</b> Swiss / osobní – podle adampruska.cz</div><span class="desc">Helvetica s utaženým prokladem, světle šedé plochy, černobílá fotka, jediný výrazný akcent (zlatá místo červené), oblá tlačítka se šipkou, plovoucí lišta</span></div>
+<section class="v E">
+  <div class="E-hero">
+    <div class="E-txt">
+      <div class="E-brand"><span class="E-logo">p&amp;p.</span>Pivo &amp; Pleny</div>
+      <h1 class="reveal">Taky to<br><span>prožíváš.</span></h1>
+      <p class="reveal d1">Čekáš dítě, nebo ho právě držíš v náručí? Praktické návody, fakta místo mýtů a místo, kde nemusíš hrát silnýho.</p>
+      <a class="E-btn reveal d2" href="#">Začni průvodcem <i>→</i></a>
+      <small class="reveal d3">Zdarma · Anonymně · Bez kázání</small>
+    </div>
+    <div class="E-ph"><div class="E-img photo2"></div><div class="E-menu"><b>CS</b><span>Menu +</span></div></div>
+  </div>
+  <div class="E-strip">
+    <div class="reveal"><strong>1 z 10</strong><span>otců má depresi v těhotenství nebo v 1. roce</span></div>
+    <div class="reveal d1"><strong>13 %</strong><span>budoucích otců se silně bojí porodu</span></div>
+    <div class="reveal d2"><strong>20</strong><span>mýtů, které rozebíráme s fakty</span></div>
+    <div class="reveal d3 E-cta">Cage – řekni to anonymně <i>→</i></div>
+  </div>
+  <div class="E-sec">
+    <h2 class="reveal">S čím ti<br><span>pomůžeme?</span></h2>
+    <div class="E-cards">
+      <div class="E-card reveal d1"><div class="E-ic">◔</div><h3>Čekáme</h3><p>Trimestr po trimestru: peníze, kurzy, otcovská a strach „budu dobrý táta?“.</p><div class="E-chips"><span>Taška</span><span>Otcovská</span><span>Kurzy</span></div></div>
+      <div class="E-card reveal d2"><div class="E-ic">◑</div><h3>Rodíme</h3><p>Kdy jet, co dělat na sále, jak mluvit s personálem a co když se plán otočí.</p><div class="E-chips"><span>Na sále</span><span>Císař</span><span>Trauma</span></div></div>
+      <div class="E-card reveal d3"><div class="E-ic">●</div><h3>Jsme doma</h3><p>Noční směny, pláč, vztah, sex – a taky to, jak se máš ty.</p><div class="E-chips"><span>Spánek</span><span>Vztek</span><span>Pomoc</span></div></div>
+    </div>
+  </div>
+  <div class="E-float"><span class="E-logo sm">p&amp;p.</span><span>Nemusíš na to být <b>sám.</b></span><a href="#">Klub 99 Kč <i>→</i></a></div>
+</section>
+<style>
+.E{background:#fff;color:#111;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;min-height:auto;padding-bottom:110px}
+.E-hero{display:grid;grid-template-columns:1fr 1fr;min-height:92vh;background:#E3E6EA}
+.E-txt{padding:4vh 5vw 6vh;display:flex;flex-direction:column;justify-content:center;position:relative}
+.E-brand{position:absolute;top:28px;left:5vw;display:flex;gap:10px;align-items:center;font-size:14px;font-weight:500}
+.E-logo{width:38px;height:38px;border-radius:50%;background:#000814;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;letter-spacing:-.04em}
+.E-logo.sm{width:30px;height:30px;font-size:10px}
+.E h1{font-size:clamp(48px,6.6vw,104px);font-weight:500;letter-spacing:-.07em;line-height:.95;margin:0 0 26px}
+.E h1 span,.E h2 span{color:#E0A800}
+.E-txt p{font-size:18px;line-height:1.5;max-width:38ch;color:#333;margin:0 0 30px}
+.E-btn{align-self:flex-start;background:#000814;color:#fff;text-decoration:none;padding:10px 10px 10px 24px;border-radius:999px;display:inline-flex;gap:18px;align-items:center;font-weight:500;transition:background .3s}
+.E-btn i,.E-float a i,.E-cta i{font-style:normal;width:34px;height:34px;border-radius:50%;background:#FFC300;color:#000814;display:grid;place-items:center;transition:transform .3s}
+.E-btn:hover{background:#003566}.E-btn:hover i{transform:rotate(-45deg)}
+.E-txt small{margin-top:14px;color:#606164;font-size:13px}
+.E-ph{position:relative;overflow:hidden}
+.E-img{position:absolute;inset:0;filter:grayscale(1) contrast(1.1);transition:transform 6s ease}
+.E-ph:hover .E-img{transform:scale(1.05)}
+.E-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#E3E6EA 0,transparent 18%),radial-gradient(60% 50% at 90% 10%,#FFC30055,transparent 70%)}
+.E-menu{position:absolute;z-index:2;top:22px;right:24px;display:flex;gap:8px}
+.E-menu b,.E-menu span{background:#ffffffd0;backdrop-filter:blur(8px);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:500}
+.E-menu b{background:#000814;color:#fff}
+.E-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#d7d8da;border-bottom:1px solid #d7d8da}
+.E-strip>div{background:#fff;padding:34px 28px}
+.E-strip strong{display:block;font-size:46px;font-weight:500;letter-spacing:-.06em;line-height:1}
+.E-strip span{color:#606164;font-size:14px;display:block;margin-top:8px;max-width:22ch}
+.E-cta{background:#FFC300!important;display:flex;align-items:center;justify-content:space-between;font-weight:500;font-size:17px;gap:10px;cursor:pointer}
+.E-cta i{background:#000814;color:#FFC300}
+.E-sec{padding:12vh 5vw 4vh}
+.E h2{font-size:clamp(38px,4.6vw,64px);font-weight:500;letter-spacing:-.06em;line-height:1;margin:0 0 40px}
+.E-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.E-card{background:#F1F2F3;border-radius:22px;padding:30px;transition:transform .35s,background .35s}
+.E-card:hover{transform:translateY(-6px);background:#E9ECF0}
+.E-ic{width:44px;height:44px;border-radius:12px;background:#fff;display:grid;place-items:center;color:#E0A800;font-size:20px;margin-bottom:26px}
+.E-card h3{font-size:28px;font-weight:500;letter-spacing:-.04em;margin:0 0 12px}
+.E-card p{color:#444;line-height:1.55;margin:0 0 20px}
+.E-chips{display:flex;flex-wrap:wrap;gap:6px}.E-chips span{border:1px solid #cfd2d6;border-radius:999px;padding:5px 12px;font-size:12px;background:#fff}
+.E-float{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:min(820px,92%);background:#fff;border-radius:999px;box-shadow:0 20px 50px -20px #0008144d;padding:8px 8px 8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:15px}
+.E-float a{background:#000814;color:#fff;text-decoration:none;border-radius:999px;padding:8px 8px 8px 20px;display:flex;gap:12px;align-items:center;font-weight:500;white-space:nowrap}
+@media(max-width:800px){.E-hero,.E-cards{grid-template-columns:1fr}.E-ph{min-height:55vh}.E-strip{grid-template-columns:1fr 1fr}.E-float>span:nth-child(2){display:none}}
+</style>
+
+<!-- A -->
+<div class="label"><div><b>A</b> Editorial / magazín</div><span class="desc">Světlý, klidný, velká patková typografie, hodně vzduchu, fotky přes celou šířku</span></div>
+<section class="v A">
+  <nav><span class="logo">Pivo <i>&amp;</i> Pleny</span><span>Průvodce · Mýty · Cage · Dotazník · Klub</span></nav>
+  <div class="grid">
+    <div>
+      <div class="meta reveal">Vydání 01 · Těhotenství, porod, otcovství</div>
+      <h1 class="reveal d1">Taky to <i>prožíváš.</i><br><b>A je to v&nbsp;pořádku.</b></h1>
+    </div>
+    <div class="side reveal d2">
+      <div class="num">1 z 10<small>otců má v těhotenství partnerky nebo v prvním roce po porodu depresi.</small></div>
+      <p>Praktické návody, fakta místo mýtů a prostor pro to, co jinde nahlas neřekneš.</p>
+      <a class="btn" href="#">Začni průvodcem →</a>
+    </div>
+  </div>
+  <div class="bigphoto photo reveal d3"></div>
+  <div class="cols reveal d4">
+    <div><span>01 — ČEKÁME</span><h3>Těhotenství</h3><p>Strach o peníze, ultrazvuky a otázka „budu dobrý táta?“.</p></div>
+    <div style="padding-left:24px"><span>02 — RODÍME</span><h3>Porod</h3><p>Kdy jet, co dělat na sále a co když se plán otočí.</p></div>
+    <div style="padding-left:24px"><span>03 — JSME DOMA</span><h3>Po porodu</h3><p>Noci, pláč, vztah – a taky ty.</p></div>
+  </div>
+</section>
+
+<!-- B -->
+<div class="label"><div><b>B</b> Tech / klidná aplikace</div><span class="desc">Tmavý gradient, zaoblené „skleněné“ karty, obří bezpatkové písmo, jemné animace (styl Headspace, Calm, Linear)</span></div>
+<section class="v B">
+  <div class="orb"></div>
+  <nav><span class="logo"><i></i>Pivo &amp; Pleny</span><div class="pill"><a href="#">Průvodce</a><a href="#">Mýty</a><a href="#">Cage</a><a href="#">Dotazník</a><a class="cta" href="#">Klub 99 Kč</a></div></nav>
+  <div class="hero">
+    <span class="chip reveal">Pro tátu: před porodem, u porodu i po něm</span>
+    <h1 class="reveal d1">Taky to prožíváš. <span>A je v pořádku o tom mluvit.</span></h1>
+    <p class="reveal d2">Praktické návody, fakta místo mýtů a anonymní prostor pro to, co jinde nahlas neřekneš.</p>
+    <div class="btns reveal d3"><a href="#">Začni průvodcem</a><a href="#">Jaký jsem táta? →</a></div>
+  </div>
+  <div class="cards">
+    <div class="card reveal d2"><div class="big">1 z 10</div><p style="margin-top:10px">otců má depresi v těhotenství partnerky nebo v prvním roce.</p></div>
+    <div class="card reveal d3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 5h14M5 19h14M8 5v14M12 5v14M16 5v14"/></svg></div><h3>Cage</h3><p>Anonymní zpovědnice. Napiš, co nemůžeš říct nahlas.</p></div>
+    <div class="card reveal d4"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></div><h3>Jaký jsem táta?</h3><p>12 situací, 5 typů. Silné stránky a slepá místa.</p></div>
+  </div>
+</section>
+
+<!-- C -->
+<div class="label"><div><b>C</b> Moderní barber / craft</div><span class="desc">Tmavý, matný, grain textura, obří úzké písmo, duotónové fotky, razítka a běžící pás (styl prémiových barbershopů a craft pivovarů)</span></div>
+<section class="v C">
+  <nav><span class="stamp">PIVO &amp; PLENY</span><span>Průvodce · Mýty · Cage · Klub</span></nav>
+  <div class="wrap">
+    <div class="txt">
+      <h1 class="reveal">Taky to<br><span class="o">prožíváš.</span></h1>
+      <p class="reveal d1">Pro chlapy, kteří čekají dítě nebo ho právě drží v náručí. Prakticky, s fakty a bez machismu.</p>
+      <div class="row reveal d2"><a class="btn" href="#">Začni tady</a><span class="sig">— klub tátů, est. 2026</span></div>
+    </div>
+    <div class="ph"><div class="duo photo2"></div><div class="badge"><span>Táta.<br>Parťák.<br>Člověk.</span></div></div>
+  </div>
+  <div class="ticker"><div>Strach je normální <em>✦</em> Spánek je směna <em>✦</em> Říct si o pomoc je síla <em>✦</em> 1 z 10 otců <em>✦</em> Strach je normální <em>✦</em> Spánek je směna <em>✦</em> Říct si o pomoc je síla <em>✦</em> 1 z 10 otců <em>✦</em></div></div>
+</section>
+
+<!-- D -->
+<div class="label"><div><b>D</b> Odvážný / hravý</div><span class="desc">Zlatý podklad, obří tučné písmo, „nálepky“, tvrdé stíny a rámečky (styl Oatly, Liquid Death, Gumroad)</span></div>
+<section class="v D">
+  <nav><span class="logo">PIVO &amp; PLENY</span><div><a href="#">Průvodce</a><a href="#">Mýty</a><a href="#">Cage</a><a href="#">Klub</a></div></nav>
+  <div class="hero">
+    <h1 class="reveal">Taky to<br><span class="hl">prožíváš.</span><br>Mluv o tom.</h1>
+    <div class="sticker s1">„Bál jsem se, že omdlím vyčerpáním.“<br><small>— Jarda, Radio Wave</small></div>
+    <div class="sticker s2">Anonymní Cage →</div>
+    <div class="sticker s3">1 z 10<br>otců</div>
+  </div>
+  <div class="blocks">
+    <div class="blk ph photo3 reveal d1"></div>
+    <div class="blk dark reveal d2"><div class="n">20</div><h3>Mýtů</h3><p>„Deprese je ženská věc.“ Není.</p></div>
+    <div class="blk reveal d3"><h3>Jaký jsem táta?</h3><p>Architekt, Parťák, Strážce… 3 minuty a víš.</p><p style="font-weight:700">Spustit →</p></div>
+  </div>
+</section>
+
+<div class="end"><h2>Který styl je nejblíž?</h2><p>Klidně napiš i kombinaci, třeba „typografie z A, karty z B, ticker z C“. Fotky jsou zatím z Unsplash, jen pro představu.</p></div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

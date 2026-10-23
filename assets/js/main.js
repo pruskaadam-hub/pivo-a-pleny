@@ -31,7 +31,7 @@
             <a href="cage.html"${cur("cage.html")}>Cage</a>
             <a href="dotaznik.html"${cur("dotaznik.html")}>Dotazník</a>
           </nav>
-          <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Klub 99 Kč</a>
+          <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Do Klubu</a>
           <button class="menu-btn" aria-expanded="false" aria-controls="overlay">Menu <span>+</span></button>
         </div>
       </div>`;
@@ -61,7 +61,7 @@
   if (!document.body.hasAttribute("data-no-float")) {
     const fb = document.createElement("div");
     fb.className = "floatbar";
-    fb.innerHTML = `${MARK}<span class="txt">Nemusíš na to být <b>sám.</b></span><a class="btn btn-dark btn-sm" href="klub.html">Klub 99 Kč</a>`;
+    fb.innerHTML = `${MARK}<span class="txt">Nemusíš na to být <b>sám.</b></span><a class="btn btn-dark btn-sm" href="klub.html">Klub od 99 Kč</a>`;
     document.body.appendChild(fb);
     const onS = () => fb.classList.toggle("show", scrollY > innerHeight * .8 && innerHeight + scrollY < document.body.scrollHeight - 260);
     addEventListener("scroll", onS, { passive: true }); onS();
