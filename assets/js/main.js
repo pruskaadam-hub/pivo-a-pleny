@@ -39,7 +39,27 @@ window.PP = (function () {
   ];
   const links = arr => arr.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join("");
 
-  let LOGGED = false; try { LOGGED = !!JSON.parse(localStorage.getItem("pp-member-auth") || "null"); } catch (e) {}
+  /* Přihlášení: ikonky v záhlaví podle stavu (Přihlásit / Můj účet + Odhlásit) */
+  const AUTH_KEY = "pp-member-auth";
+  const session = () => { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || "null"); } catch (e) { return null; } };
+  const ICON_USER = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>';
+  const ICON_OUT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 8l4 4-4 4"/><path d="M19 12H9"/></svg>';
+  function renderAcct() {
+    const slot = document.getElementById("acct-slot"); if (!slot) return;
+    const s = session();
+    slot.innerHTML = s
+      ? `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Můj účet" title="Můj účet">${ICON_USER}</a><button type="button" class="acct-btn" id="acct-out" aria-label="Odhlásit se" title="Odhlásit se">${ICON_OUT}</button>`
+      : `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Přihlásit se nebo registrovat" title="Přihlásit se / registrovat">${ICON_USER}<span>Přihlásit</span></a>`;
+    const out = document.getElementById("acct-out");
+    if (out) out.onclick = async () => {
+      const C = window.PP_CONFIG || {}, ses = session();
+      try { if (ses && ses.access_token && C.supabaseUrl) await fetch(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: "POST", headers: { apikey: C.supabaseKey, Authorization: "Bearer " + ses.access_token } }); } catch (e) {}
+      try { localStorage.removeItem(AUTH_KEY); } catch (e) {}
+      location.href = here === "clen.html" ? "clen.html" : location.href;
+    };
+  }
+  window.PPAuth = { refresh: () => renderAcct() };
+  addEventListener("storage", e => { if (e.key === AUTH_KEY) renderAcct(); });
   const header = document.getElementById("site-header");
   if (header) {
     header.className = "site-header";
@@ -54,7 +74,7 @@ window.PP = (function () {
             <a href="cage.html"${cur("cage.html")}>Cage</a>
             <a href="dotaznik.html"${cur("dotaznik.html")}>Dotazník</a>
           </nav>
-          <a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="${LOGGED ? "Můj účet" : "Přihlásit se nebo registrovat"}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg><span>${LOGGED ? "Můj účet" : "Přihlásit"}</span></a>
+          <span class="acct-slot" id="acct-slot"></span>
           <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Do Klubu</a>
           <button class="menu-btn" aria-expanded="false" aria-controls="overlay" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
         </div>
@@ -70,6 +90,7 @@ window.PP = (function () {
         </div>
       </div>`;
     header.after(ov);
+    renderAcct();
     const btn = header.querySelector(".menu-btn");
     const toggle = open => {
       document.documentElement.classList.toggle("menu-open", open);

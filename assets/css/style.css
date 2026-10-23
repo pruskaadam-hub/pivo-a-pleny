@@ -110,7 +110,9 @@ h1 em, h2 em, h1 .serif, h2 .serif { font-style: normal; color: var(--gold-text)
 .menu-open .burger i:nth-child(1) { top: 6px; transform: rotate(45deg); }
 .menu-open .burger i:nth-child(2) { opacity: 0; }
 .menu-open .burger i:nth-child(3) { top: 6px; transform: rotate(-45deg); }
-.acct-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; font-size: .95rem; padding: 8px 12px; border-radius: var(--r); color: inherit; }
+.acct-slot { display: inline-flex; gap: 2px; align-items: center; }
+.acct-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: inherit; font-weight: 600; font-size: .95rem; padding: 10px; border-radius: var(--r); color: inherit; background: none; border: 0; cursor: pointer; }
+.acct-btn span { padding-right: 4px; }
 .acct-btn:hover, .acct-btn[aria-current="page"] { background: var(--surface); }
 .acct-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
 @media (max-width: 640px) { .acct-btn span { display: none; } .acct-btn { padding: 8px; } }

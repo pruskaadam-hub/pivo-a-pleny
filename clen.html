@@ -38,7 +38,7 @@
 <body>
 <header id="site-header"></header>
 <main>
-  <section class="page-hero grain">
+  <section class="page-hero grain" id="z-hero">
     <div class="wrap">
       <div class="breadcrumb"><a href="index.html">Úvod</a> / Můj účet</div>
       <span class="kicker">Můj účet</span>
@@ -70,6 +70,7 @@
   const steps = n => `<ol class="steps3"><li class="${n === 1 ? "on" : ""}"><strong>Účet zdarma</strong><br>dotazník, Cage, newsletter, ukázky</li><li class="${n === 2 ? "on" : ""}"><strong>Člen Klubu</strong><br>celý rozbor, tipy na míru, audia, Q&amp;A</li><li class="${n === 3 ? "on" : ""}"><strong>Akce a konzultace</strong><br>workshopy, setkání, konzultace 1:1</li></ol>`;
 
   function loginForm(msg) {
+    document.getElementById("z-hero").classList.remove("hidden"); if (window.PPAuth) PPAuth.refresh();
     zone.innerHTML = steps(0) + `
       <form class="login-card" id="z-login">
         <h2>Přihlášení a registrace</h2>
@@ -121,11 +122,11 @@
   }
 
   const head = d => `<div class="z-head"><div><span class="kicker">Přihlášen jako ${esc(d.email)}</span><h2 style="margin:6px 0 0">${d.name ? "Ahoj, " + esc(d.name) + "." : "Ahoj."}</h2></div>
-      <div>${d.member ? badge(d) : ""} <button class="btn btn-ghost btn-sm" id="z-out" type="button">Odhlásit</button></div></div>`;
+      <div>${d.member ? badge(d) : ""}</div></div>`;
   const badge = d => d.admin ? `<span class="z-status active">Zakladatel · plný přístup</span>`
     : d.level >= 1 ? `<span class="z-status active">${esc(d.tier_name || "Klub")}${d.comp ? " zdarma" : d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : ""}</span>`
     : d.status === "pending" ? `<span class="z-status pending">Členství čeká na platbu</span>` : `<span class="z-status">Účet zdarma</span>`;
-  function bindOut() { const b = document.getElementById("z-out"); if (b) b.onclick = async () => { await sb.auth.signOut(); loginForm(); }; }
+  function bindOut() { document.getElementById("z-hero").classList.add("hidden"); if (window.PPAuth) PPAuth.refresh(); }
 
   function rozbor(d) {
     const r = d.rozbor, t = d.quiz_type;
