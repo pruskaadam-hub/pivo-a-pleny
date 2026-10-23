@@ -6,7 +6,7 @@
 <title>Jaký jsem táta? Dotazník pro budoucí a čerstvé otce | Pivo &amp; Pleny</title>
 <meta name="description" content="12 situací z reálného života. Zjisti, jaký typ otce a partnera jsi – Architekt, Parťák, Živitel, Hravý táta nebo Strážce – a co s tím.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
@@ -175,7 +175,7 @@ function result() {
     <h4 class="mt-2">Co s tím tento týden</h4><ul>${T.tips.map(x => `<li>${x}</li>`).join("")}</ul>
     <div class="callout calm mt-2"><h4>Chceš tipy přesně pro typ ${T.name}?</h4>
       <p>Pošleme ti 4 krátké e-maily napsané pro tvůj typ + každou neděli 3 rady. Zdarma.</p>
-      <form data-newsletter class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 220px;font:inherit;padding:12px 14px;border-radius:6px;border:1px solid #bfd2c9"><button class="btn btn-dark btn-sm">Poslat</button></form>
+      <form data-newsletter class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 220px;font:inherit;padding:12px 14px;border-radius:6px;border:1px solid #B9CBE0"><button class="btn btn-dark btn-sm">Poslat</button></form>
       <div class="form-msg">Hotovo. První e-mail pro typ ${T.name} ti dorazí do pár minut.</div></div>
     <div class="flex mt-2"><button class="btn btn-ghost btn-sm" id="again">Zkusit znovu</button><a class="btn btn-copper btn-sm" href="klub.html">Hlubší rozbor v Klubu ★</a></div>`;
   box.querySelector("form[data-newsletter]").addEventListener("submit", e => { e.preventDefault(); e.target.style.display = "none"; box.querySelector(".form-msg").classList.add("show"); });

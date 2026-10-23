@@ -1,18 +1,12 @@
 /* PIVO & PLENY — sdílená hlavička, patička a drobné interakce */
 (function () {
   const LOGO = `
-<svg viewBox="0 0 120 120" aria-hidden="true">
-  <circle cx="60" cy="60" r="56" fill="none" stroke="#b8743d" stroke-width="3"/>
-  <circle cx="60" cy="60" r="48" fill="none" stroke="#b8743d" stroke-width="1" stroke-dasharray="2 4"/>
-  <!-- půllitr -->
-  <path d="M38 44h28v36a6 6 0 0 1-6 6H44a6 6 0 0 1-6-6z" fill="none" stroke="#f3ece0" stroke-width="3.2" stroke-linejoin="round"/>
-  <path d="M66 52h6a7 7 0 0 1 0 14h-6" fill="none" stroke="#f3ece0" stroke-width="3.2"/>
-  <path d="M36 44c0-6 5-9 9-8 2-5 10-6 13-2 4-3 11-1 11 5" fill="none" stroke="#d39255" stroke-width="3.2" stroke-linecap="round"/>
-  <line x1="46" y1="54" x2="46" y2="76" stroke="#f3ece0" stroke-width="2" opacity=".5"/>
-  <line x1="58" y1="54" x2="58" y2="76" stroke="#f3ece0" stroke-width="2" opacity=".5"/>
-  <!-- spínací špendlík -->
-  <path d="M74 84l14-14" stroke="#d39255" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="72" cy="86" r="4" fill="none" stroke="#d39255" stroke-width="2.5"/>
+<svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 24h24v26a5 5 0 0 1-5 5H21a5 5 0 0 1-5-5z" stroke="#FFC300" stroke-width="3.4"/>
+  <path d="M40 30h5a6 6 0 0 1 0 12h-5" stroke="#FFC300" stroke-width="3.4"/>
+  <path d="M13 25c0-5 4-8 8-7 2-5 9-5 11-1 4-3 10-1 10 4" stroke="#FFD60A" stroke-width="3.4"/>
+  <path d="M24 31v17M32 31v17" stroke="#FFC300" stroke-width="2" opacity=".55"/>
+  <path d="M10 8l6 6M54 8l-6 6M32 4v7" stroke="#FFD60A" stroke-width="2.4"/>
 </svg>`;
 
   const NAV = [
@@ -36,27 +30,30 @@
   ];
 
   const here = location.pathname.split("/").pop() || "index.html";
-  const navHtml = NAV.map(item => {
-    if (item.sub) {
-      const active = item.sub.some(s => s.href === here);
-      return `<div class="has-sub"><button type="button" ${active ? 'style="color:#d39255"' : ""}>${item.label}</button><div class="sub">${
-        item.sub.map(s => `<a href="${s.href}" ${s.href === here ? 'aria-current="page"' : ""}>${s.label}</a>`).join("")
+  const item = it => {
+    if (it.sub) {
+      const active = it.sub.some(s => s.href === here);
+      return `<div class="has-sub"><button type="button" ${active ? 'style="color:#FFC300"' : ""}>${it.label}</button><div class="sub">${
+        it.sub.map(s => `<a href="${s.href}" ${s.href === here ? 'aria-current="page"' : ""}>${s.label}</a>`).join("")
       }</div></div>`;
     }
-    return `<a href="${item.href}" ${item.href === here ? 'aria-current="page"' : ""}>${item.label}</a>`;
-  }).join("");
+    return `<a href="${it.href}" ${it.href === here ? 'aria-current="page"' : ""}>${it.label}</a>`;
+  };
+  const left = NAV.slice(0, 3).map(item).join(""), right = NAV.slice(3).map(item).join("");
 
   const header = document.getElementById("site-header");
   if (header) {
     header.className = "site-header";
     header.innerHTML = `
       <div class="wrap">
+        <nav class="nav" id="nav" aria-label="Hlavní navigace">
+          <div class="nav-left">${left}</div>
+          <div class="nav-right">${right}
+            <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Klub ★ 99 Kč</a></div>
+        </nav>
         <a class="brand" href="index.html" aria-label="Pivo &amp; Pleny – domů">${LOGO}
           <span class="brand-name">Pivo &amp; Pleny<small>Táta. Parťák. Člověk.</small></span></a>
         <button class="menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-        <nav class="nav" id="nav" aria-label="Hlavní navigace">${navHtml}
-          <a class="btn btn-copper btn-sm btn-nav" href="klub.html" style="color:#141414">Klub ★ 99 Kč</a>
-        </nav>
       </div>
       <div class="stripe"></div>`;
     const t = header.querySelector(".menu-toggle"), n = header.querySelector(".nav");
@@ -74,7 +71,7 @@
       <div class="wrap">
         <div class="cols">
           <div>
-            <a class="brand" href="index.html" style="color:#f3ece0;margin-bottom:16px">${LOGO}<span class="brand-name">Pivo &amp; Pleny</span></a>
+            <a class="brand" href="index.html" style="margin-bottom:16px;flex-direction:row;text-align:left">${LOGO}<span class="brand-name">Pivo &amp; Pleny</span></a>
             <p>Web pro muže, kteří čekají dítě, právě se jim narodilo – nebo to celé zpracovávají. Prakticky, bez keců a bez mýtů.</p>
             <p class="small">Obsah je informativní a nenahrazuje lékaře, porodní asistentku ani psychologa.</p>
           </div>
@@ -102,7 +99,7 @@
         </div>
         <div class="bottom">
           <span>© ${new Date().getFullYear()} Pivo &amp; Pleny. Psáno chlapy pro chlapy – s respektem k ženám.</span>
-          <span>V krizi volej <strong style="color:#f3ece0">116 123</strong> (nonstop, zdarma) nebo <strong style="color:#f3ece0">112</strong>.</span>
+          <span>V krizi volej <strong style="color:#F1F4F8">116 123</strong> (nonstop, zdarma) nebo <strong style="color:#F1F4F8">112</strong>.</span>
         </div>
       </div>`;
   }
