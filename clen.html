@@ -8,7 +8,7 @@
 <meta name="description" content="Přihlášení a registrace do Pivo &amp; Pleny. Účet je zdarma, členství v Klubu odemyká celý obsah.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=202610240030">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <style>
   .zone { max-width: 860px; }
@@ -55,9 +55,9 @@
 </main>
 <footer id="site-footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/media.js"></script>
+<script src="assets/js/config.js?v=202610240030"></script>
+<script src="assets/js/main.js?v=202610240030"></script>
+<script src="assets/js/media.js?v=202610240030"></script>
 <script>
 (async function () {
   const C = window.PP_CONFIG;
@@ -122,11 +122,14 @@
   }
 
   const head = d => `<div class="z-head"><div><span class="kicker">Přihlášen jako ${esc(d.email)}</span><h2 style="margin:6px 0 0">${d.name ? "Ahoj, " + esc(d.name) + "." : "Ahoj."}</h2></div>
-      <div>${d.member ? badge(d) : ""}</div></div>`;
+      <div class="flex" style="gap:8px;align-items:center">${d.member ? badge(d) : ""}<button class="btn btn-ghost btn-sm" id="z-out" type="button">Odhlásit</button></div></div>`;
   const badge = d => d.admin ? `<span class="z-status active">Zakladatel · plný přístup</span>`
     : d.level >= 1 ? `<span class="z-status active">${esc(d.tier_name || "Klub")}${d.comp ? " zdarma" : d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : ""}</span>`
     : d.status === "pending" ? `<span class="z-status pending">Členství čeká na platbu</span>` : `<span class="z-status">Účet zdarma</span>`;
-  function bindOut() { document.getElementById("z-hero").classList.add("hidden"); if (window.PPAuth) PPAuth.refresh(); }
+  function bindOut() {
+    document.getElementById("z-hero").classList.add("hidden"); if (window.PPAuth) PPAuth.refresh();
+    const b = document.getElementById("z-out"); if (b) b.onclick = async () => { await sb.auth.signOut(); if (window.PPAuth) PPAuth.refresh(); loginForm(); };
+  }
 
   function rozbor(d) {
     const r = d.rozbor, t = d.quiz_type;
