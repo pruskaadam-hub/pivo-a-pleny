@@ -109,11 +109,14 @@
       new Function(app.js)();
     } catch (x) {
       busy = false;
+      $("login").hidden = false; $("setpw").hidden = true;
       $("err").textContent = x.message === "noaccess" ? "Tenhle účet nemá přístup do administrace." : "Administraci se nepodařilo otevřít. Zkus obnovit stránku.";
     }
   }
 
+  let asked = false;
   function askPassword(session) {
+    if (asked) return; asked = true;
     $("login").hidden = true; $("setpw").hidden = false;
     $("setpw-who").textContent = session.user.email;
     $("setpw").onsubmit = async e => {
@@ -122,9 +125,18 @@
       if (a.length < 12) return $("err2").textContent = "Heslo musí mít aspoň 12 znaků.";
       if (a !== b) return $("err2").textContent = "Hesla se neshodují.";
       $("err2").textContent = "Ukládám…";
+      // Session z odkazu držíme i v paměti – kdyby ji mezitím smazala jiná záložka nebo prohlížeč
+      const cur = (await sb.auth.getSession()).data.session;
+      if (!cur && session.refresh_token) await sb.auth.setSession({ access_token: session.access_token, refresh_token: session.refresh_token });
       const { error } = await sb.auth.updateUser({ password: a });
-      if (error) return $("err2").textContent = "Heslo se nepodařilo uložit: " + error.message;
-      openApp(session);
+      if (error) {
+        $("err2").innerHTML = /session/i.test(error.message)
+          ? 'Platnost odkazu vypršela. Vrať se na <a href="./">přihlášení</a>, napiš svůj e-mail a klikni na „Zapomněl jsem heslo“ – pošleme nový odkaz.'
+          : "Heslo se nepodařilo uložit: " + error.message;
+        return;
+      }
+      const fresh = (await sb.auth.getSession()).data.session || session;
+      openApp(fresh);
     };
   }
 
