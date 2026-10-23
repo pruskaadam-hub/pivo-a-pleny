@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jaký jsem táta? Dotazník pro budoucí a čerstvé otce | Pivo &amp; Pleny</title>
+<meta name="description" content="12 situací z reálného života. Zjisti, jaký typ otce a partnera jsi – Architekt, Parťák, Živitel, Hravý táta nebo Strážce – a co s tím.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <section class="page-hero grain">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Úvod</a> / Jaký jsem táta?</div>
+      <span class="kicker">Dotazník · 3 minuty</span>
+      <h1>Jaký jsem táta?</h1>
+      <p class="lead">12 situací, na které dřív nebo později narazíš. Odpovídej podle toho, co bys <em>opravdu</em> udělal, ne co by se „mělo“. Na konci dostaneš svůj typ, silné stránky, slepá místa a konkrétní tipy.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="narrow">
+      <div class="quiz" id="quiz">
+        <div class="quiz-progress"><span id="qbar"></span></div>
+        <div id="qbox"></div>
+      </div>
+      <p class="small muted center mt-2">Dotazník je orientační a slouží k zamyšlení. Není to psychologický test ani diagnóza. Odpovědi se nikam neodesílají.</p>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <div class="section-head center"><span class="kicker">Šest podob táty</span><h2>Typy, které v dotazníku najdeš</h2>
+        <p class="lead" style="margin-inline:auto">Nikdo není jen jeden typ. Většina chlapů je mix dvou až tří – a typ se mění podle toho, jak jsi vyspalý a pod jakým jsi tlakem.</p></div>
+      <div class="grid g3 archetypes">
+        <div class="card"><span class="tag">A</span><h3>Architekt</h3><p>Plánuje, čte, porovnává kočárky v tabulce. Dává rodině pocit jistoty. Slepé místo: když se plán rozpadne (a u porodu se rozpadne), může ho to rozhodit.</p></div>
+        <div class="card"><span class="tag">P</span><h3>Parťák</h3><p>Týmový hráč. Bere noční směny, čte partnerku z očí. Slepé místo: zapomíná na sebe, dokud nepadne.</p></div>
+        <div class="card"><span class="tag">Ž</span><h3>Živitel</h3><p>Lásku ukazuje prací a jistotou. Cítí tlak zabezpečit rodinu. Slepé místo: může mu utéct prvních pár měsíců, které se už nevrátí.</p></div>
+        <div class="card"><span class="tag">H</span><h3>Hravý táta</h3><p>Nosí, zpívá, blbne, uklidní dítě humorem. Slepé místo: neviditelná rutina (prádlo, nákupy, objednávky k doktorovi) zůstává na partnerce.</p></div>
+        <div class="card"><span class="tag">S</span><h3>Strážce</h3><p>Chrání, hlídá, vidí rizika. Slepé místo: úzkost, která ho nenechá spát, a sklon všechno kontrolovat.</p></div>
+        <div class="card" style="background:var(--ink);color:var(--cream)"><span class="tag premium">Stav, ne typ</span><h3 style="color:var(--cream)">Na rezervu</h3><p>Nejede to. Málo spánku, hodně tlaku, krátká zápalka. Tohle není povaha, ale signál. Dotazník ho pozná podle posledních otázek a ukáže, co dál.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/js/main.js"></script>
+<script>
+const Q = [
+  { q: "Dozvěděli jste se, že budete rodiče. Co uděláš jako první (kromě objetí)?", o: [
+    ["Založím si tabulku: termíny, rozpočet, co koupit.", "A"], ["Zeptám se jí, jak se cítí a co teď potřebuje.", "P"],
+    ["Začnu počítat, jestli nám vyjdou peníze, a zvažuju přivýdělek.", "Z"], ["Vymýšlím jména a kupuju první malý dres.", "H"],
+    ["Googlím, na co si dát v těhotenství pozor.", "S"] ] },
+  { q: "Prenatální kurz je v sobotu ráno. Ty…", o: [
+    ["Mám ho dávno vybraný a zaplacený, s poznámkami.", "A"], ["Jdu, protože je to pro ni důležité – a nakonec mě to baví.", "P"],
+    ["Jdu, ale v pauze vyřizuju pracovní maily.", "Z"], ["Jdu a jsem ten, kdo se na kurzu nejvíc směje.", "H"],
+    ["Jdu a ptám se lektorky hlavně na komplikace.", "S"] ] },
+  { q: "Kupujete kočárek. Jak to probíhá?", o: [
+    ["Mám srovnání 8 modelů podle hmotnosti a skládání.", "A"], ["Vybere ho ona, já zjistím, jestli se vejde do kufru.", "P"],
+    ["Hlavně ať to vydrží – kupuju kvalitu, i když je to dražší.", "Z"], ["Vybírám ten, se kterým to půjde nejlíp do lesa.", "H"],
+    ["Rozhoduje bezpečnost: brzdy, testy, recenze.", "S"] ] },
+  { q: "38. týden, je 2 ráno a ona tě budí: „Asi to začíná.“", o: [
+    ["Spouštím připravený plán: stopky na kontrakce, taška, trasa.", "A"], ["Vstanu, uvařím čaj a sedím s ní, dokud to nebude jasné.", "P"],
+    ["Ještě rychle napíšu šéfovi, že zítra nedorazím.", "Z"], ["Pustím playlist a snažím se ji rozesmát.", "H"],
+    ["Rovnou volám porodnici, ať nic nepodceníme.", "S"] ] },
+  { q: "Na sále se porod komplikuje a personál začne jednat rychle. Co děláš?", o: [
+    ["Ptám se, jaký je nový plán a co bude dál.", "A"], ["Držím ji, dívám se jí do očí a mluvím klidně.", "P"],
+    ["Snažím se nepřekážet a nechat to na profících.", "Z"], ["Snažím se ji odvést od strachu – dýcháme spolu.", "H"],
+    ["Mám sevřený žaludek a hlídám každý pohyb doktora.", "S"] ] },
+  { q: "První noc doma. Miminko pláče.", o: [
+    ["Jedu podle checklistu: hlad, plena, teplo, říhnutí.", "A"], ["Vezmu si ho, ať se ona aspoň na chvíli vyspí.", "P"],
+    ["Ráno jdu do práce, tak doufám, že to ona zvládne.", "Z"], ["Nosím ho po bytě a broukám mu.", "H"],
+    ["Kontroluju teplotu a dech – co když je to něco vážného?", "S"] ] },
+  { q: "Přijde tchyně na „krátkou“ návštěvu. Po třech hodinách…", o: [
+    ["Měli jsme domluvená pravidla návštěv, takže to neřeším.", "A"], ["Vidím, že je partnerka unavená, a jemně návštěvu ukončím.", "P"],
+    ["Jsem rád, že je pomoc, a jdu aspoň dodělat práci.", "Z"], ["Vytáhnu karty a z návštěvy je nakonec večírek.", "H"],
+    ["Hlídám, jestli si myje ruce a nedýchá na malého.", "S"] ] },
+  { q: "Šéf ti nabídne povýšení s víc hodinami, dítěti jsou 2 měsíce.", o: [
+    ["Spočítám hodiny, peníze a dopad a udělám si plán.", "A"], ["Řeknu, že to musím probrat doma.", "P"],
+    ["Beru. Teď je potřeba peněz víc než kdy jindy.", "Z"], ["Zeptám se, jestli to jde aspoň s home officem.", "H"],
+    ["Bojím se, že když odmítnu, příště nedostanu nic.", "S"] ] },
+  { q: "Sobota dopoledne s dítětem jen pro tebe. Co děláte?", o: [
+    ["Máme program: trh, procházka, spánek v kočárku.", "A"], ["Hlavně ať si ona odpočine – zbytek vymyslím.", "P"],
+    ["Beru ho s sebou do železářství a po cestě vyřídím věci.", "Z"], ["Válíme se na koberci, děláme kraviny.", "H"],
+    ["Zůstaneme radši doma, venku je moc lidí a bacilů.", "S"] ] },
+  { q: "Partnerka ti řekne: „Připadám si na všechno sama.“", o: [
+    ["Navrhnu rozpis úkolů, ať je to spravedlivé.", "A"], ["Sednu si a poslouchám. Řešení až potom.", "P"],
+    ["Bolí to – vždyť makám, aby nám nic nechybělo.", "Z"], ["Pokusím se ji rozveselit a vzít ji někam ven.", "H"],
+    ["Začnu se bát, že to mezi námi nevydrží.", "S"] ] },
+  { q: "Co tě na otcovství nejvíc baví (nebo bude bavit)?", o: [
+    ["Když věci fungují a jsou připravené.", "A"], ["Že jsme v tom spolu jako tým.", "P"],
+    ["Že vím, že je rodina zajištěná.", "Z"], ["Hra, smích, první slova a blbiny.", "H"],
+    ["Že je dítě v bezpečí a v pohodě.", "S"] ] },
+  { q: "Co tě na otcovství nejvíc děsí?", o: [
+    ["Chaos a ztráta kontroly.", "A"], ["Že nebudu stačit tomu, co partnerka potřebuje.", "P"],
+    ["Že je neuživím.", "Z"], ["Že ze mě bude nudný dospělák.", "H"],
+    ["Že se dítěti nebo partnerce něco stane.", "S"] ] },
+];
+const W = [
+  { q: "Jak často se teď cítíš vyčerpaný tak, že těžko funguješ?", o: ["Skoro nikdy", "Občas", "Často", "Skoro pořád"] },
+  { q: "Jak často ti v poslední době „bouchají saze“ – vztek, podrážděnost, výbuchy?", o: ["Skoro nikdy", "Občas", "Často", "Skoro pořád"] },
+  { q: "Utíkáš od toho všeho do práce, mobilu nebo k alkoholu víc než dřív?", o: ["Ne", "Trochu", "Docela dost", "Hodně"] },
+];
+const TYPES = {
+  A: { name: "Architekt", line: "Plán je tvoje láska. A rodina se na tebe může spolehnout.",
+    good: ["Dáváš rodině pocit jistoty a řádu.", "Myslíš na věci dopředu – taška, autosedačka, otcovská.", "V krizi máš tendenci hledat řešení, ne viníka."],
+    watch: ["Porod a miminko plán nedodržují. Pružnost je dovednost, ne selhání.", "Partnerka občas nepotřebuje řešení, ale tvoje ucho.", "Kontrola může být maskovaná úzkost."],
+    tips: ["Udělej plán A, B i C (včetně císaře) – a pak ho pusť z hlavy.", "Jednou týdně se zeptej: „Co bych měl přestat dělat?“", "Přečti si <a href='stres.html'>Stres a vztek</a> – hlavně část o ztrátě kontroly."] },
+  P: { name: "Parťák", line: "Týmový hráč, na kterého je spoleh ve tři ráno.",
+    good: ["Čteš potřeby partnerky a dítěte.", "Péči bereš jako společnou práci, ne „pomáhání“.", "Umíš poslouchat."],
+    watch: ["Zapomínáš na sebe – spánek, pohyb, kamarády.", "Svoje strachy schováváš, „protože ona je na tom hůř“.", "Vyhoření přichází potichu."],
+    tips: ["Naplánuj si 2 hodiny týdně jen pro sebe a dodrž je.", "Řekni jí aspoň jednu věc, která tě trápí – ona to chce vědět.", "Projdi si <a href='zvyky.html'>10 zvyků</a>, hlavně č. 3 a 7."] },
+  Z: { name: "Živitel", line: "Lásku ukazuješ tím, že rodině nic nechybí.",
+    good: ["Bereš odpovědnost vážně.", "Myslíš na dlouhodobou jistotu rodiny.", "Jsi spolehlivý a vytrvalý."],
+    watch: ["Tlak na zabezpečení může přerůst v úzkost a vyhoření.", "Prvních pár měsíců se nevrací – a vazba se buduje péčí.", "Partnerka může tvoji dřinu číst jako nepřítomnost."],
+    tips: ["Vyber si plnou otcovskou (14 dní). Doma jsi teď důležitější než v práci.", "Převezmi jeden pevný rituál – koupání, večerní uspávání.", "Mluv o penězích nahlas, s čísly – tlak se dělí ve dvou líp."] },
+  H: { name: "Hravý táta", line: "S tebou je doma veselo. A dítě to miluje.",
+    good: ["Hrou a kontaktem buduješ vazbu – u tátů funguje nejlíp.", "Humorem odlehčuješ napětí.", "Dítě s tebou zkouší nové věci."],
+    watch: ["Neviditelná práce (prádlo, objednávky, nákupy) může zůstávat na ní.", "Humor není vždy to, co partnerka potřebuje.", "Rutinu bereš jako nudu – ale je to základ."],
+    tips: ["Převezmi jednu „nudnou“ oblast úplně – od plánování po provedení.", "Zeptej se jí: „Chceš teď rozesmát, nebo vyslechnout?“", "Mrkni do <a href='pruvodce.html#po-porodu'>Průvodce po porodu</a>."] },
+  S: { name: "Strážce", line: "Chráníš, co je tvoje. Jen nezapomeň dýchat.",
+    good: ["Vidíš rizika, která ostatní přehlédnou.", "Bezpečí rodiny je pro tebe priorita číslo jedna.", "Jsi pozorný a starostlivý."],
+    watch: ["Úzkost tě může držet vzhůru i když dítě spí.", "Nadměrná kontrola unavuje tebe i okolí.", "Strach z porodu je častý (asi 13 % otců) – nenes ho sám."],
+    tips: ["Napiš si 3 největší strachy a probírej je s porodní asistentkou nebo lékařem.", "Nauč se jednu dechovou techniku (viz <a href='stres.html'>Stres</a>).", "Pokud úzkost trvá, ozvi se odborníkovi – <a href='pomoc.html'>kontakty</a>."] },
+};
+let i = 0, ans = [], well = [];
+const box = document.getElementById("qbox"), bar = document.getElementById("qbar");
+const total = Q.length + W.length;
+function render() {
+  bar.style.width = (i / total * 100) + "%";
+  if (i < Q.length) {
+    const it = Q[i];
+    const opts = it.o.map((o, k) => ({ o, k })).sort(() => Math.random() - .5);
+    box.innerHTML = `<div class="quiz-step">SITUACE ${i + 1} / ${Q.length}</div><div class="quiz-q">${it.q}</div>
+      <div class="quiz-opts">${opts.map(x => `<button data-t="${x.o[1]}">${x.o[0]}</button>`).join("")}</div>
+      <div class="quiz-nav">${i ? '<button class="btn btn-ghost btn-sm" id="back">← Zpět</button>' : "<span></span>"}</div>`;
+  } else if (i < total) {
+    const it = W[i - Q.length];
+    box.innerHTML = `<div class="quiz-step">A TEĎ O TOBĚ · ${i - Q.length + 1} / ${W.length}</div><div class="quiz-q">${it.q}</div>
+      <div class="quiz-opts">${it.o.map((o, k) => `<button data-w="${k}">${o}</button>`).join("")}</div>
+      <div class="quiz-nav"><button class="btn btn-ghost btn-sm" id="back">← Zpět</button></div>`;
+  } else return result();
+}
+box.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.id === "back") { i--; if (i >= Q.length) well.pop(); else ans.pop(); return render(); }
+  if (b.id === "again") { i = 0; ans = []; well = []; return render(); }
+  if (b.dataset.t) ans.push(b.dataset.t);
+  if (b.dataset.w !== undefined) well.push(+b.dataset.w);
+  if (b.dataset.t || b.dataset.w !== undefined) { i++; render(); }
+});
+function result() {
+  bar.style.width = "100%";
+  const score = { A: 0, P: 0, Z: 0, H: 0, S: 0 };
+  ans.forEach(t => score[t]++);
+  const sorted = Object.entries(score).sort((a, b) => b[1] - a[1]);
+  const [top, second] = sorted;
+  const T = TYPES[top[0]];
+  const wsum = well.reduce((a, b) => a + b, 0);
+  const tired = wsum >= 5 || well.some(v => v === 3);
+  box.innerHTML = `
+    <div class="quiz-step">TVŮJ TYP</div>
+    <div class="result-type">${T.name}</div>
+    <p class="lead mt-2">${T.line}${second[1] >= 3 ? ` S výraznou příměsí typu <strong>${TYPES[second[0]].name}</strong>.` : ""}</p>
+    <div class="bars">${sorted.map(([k, v]) => `<div class="bar"><span>${TYPES[k].name}</span><span class="track"><span style="width:${v / Q.length * 100}%"></span></span><span>${Math.round(v / Q.length * 100)} %</span></div>`).join("")}</div>
+    ${tired ? `<div class="callout warn"><h4>Jedeš na rezervu</h4><p>Tvoje odpovědi naznačují hodně únavy, vzteku nebo útěku od situace. To není selhání – je to signál, že potřebuješ ubrat a říct si o pomoc. U mužů se vyčerpání a deprese často maskují právě podrážděností, prací a alkoholem.</p><p class="mb-0"><a class="btn btn-dark btn-sm" href="pomoc.html">Kde hledat pomoc</a> <a class="btn btn-ghost btn-sm" href="spanek.html">Spánek</a> <a class="btn btn-ghost btn-sm" href="stres.html">Stres a vztek</a></p></div>` : ""}
+    <div class="grid g2 mt-2">
+      <div><h4>V čem jsi silný</h4><ul>${T.good.map(x => `<li>${x}</li>`).join("")}</ul></div>
+      <div><h4>Na co si dát pozor</h4><ul>${T.watch.map(x => `<li>${x}</li>`).join("")}</ul></div>
+    </div>
+    <h4 class="mt-2">Co s tím tento týden</h4><ul>${T.tips.map(x => `<li>${x}</li>`).join("")}</ul>
+    <div class="callout calm mt-2"><h4>Chceš tipy přesně pro typ ${T.name}?</h4>
+      <p>Pošleme ti 4 krátké e-maily napsané pro tvůj typ + každou neděli 3 rady. Zdarma.</p>
+      <form data-newsletter class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 220px;font:inherit;padding:12px 14px;border-radius:6px;border:1px solid #bfd2c9"><button class="btn btn-dark btn-sm">Poslat</button></form>
+      <div class="form-msg">Hotovo. První e-mail pro typ ${T.name} ti dorazí do pár minut.</div></div>
+    <div class="flex mt-2"><button class="btn btn-ghost btn-sm" id="again">Zkusit znovu</button><a class="btn btn-copper btn-sm" href="klub.html">Hlubší rozbor v Klubu ★</a></div>`;
+  box.querySelector("form[data-newsletter]").addEventListener("submit", e => { e.preventDefault(); e.target.style.display = "none"; box.querySelector(".form-msg").classList.add("show"); });
+  document.getElementById("quiz").scrollIntoView({ behavior: "smooth" });
+}
+render();
+</script>
+</body>
+</html>

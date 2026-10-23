@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cage – anonymní zpovědnice pro otce | Pivo &amp; Pleny</title>
+<meta name="description" content="Cage je anonymní veřejná zpovědnice pro muže: strach, vztek, únava, porod, vztah. Terapie sdílením – bez jmen a bez soudů.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body class="dark" style="background:#141414">
+<header id="site-header"></header>
+<main>
+  <section class="page-hero cage-hero">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Úvod</a> / Cage</div>
+      <span class="kicker">Cage · terapie sdílením</span>
+      <h1>Řekni to tady.<br><span class="serif" style="color:#d39255">Nikdo neví, že jsi to ty.</span></h1>
+      <p class="lead">Vztek ve tři ráno. Strach, že ji ztratíš na sále. Pocit, že dítě nemiluješ „jak bys měl“. Stesk po starém životě. Cage je místo, kde to můžeš napsat – anonymně, bez soudů. A přečíst si, že v tom nejsi sám.</p>
+      <div class="hero-actions"><a class="btn btn-copper" href="#napsat">Napsat zpověď</a><a class="btn btn-ghost" href="#zed">Číst zeď</a></div>
+    </div>
+  </section>
+
+  <section style="padding-top:40px">
+    <div class="wrap">
+      <div class="grid g3">
+        <div class="card"><div class="icon">1</div><h4>Anonymně</h4><p class="small">Nechceme jméno ani e-mail. Neukládáme IP adresu k příspěvku. Nepiš do textu jména, místa ani nic, podle čeho by tě někdo poznal.</p></div>
+        <div class="card"><div class="icon">2</div><h4>Moderovaně</h4><p class="small">Každý příspěvek si přečte člověk. Nezveřejníme nic, co uráží, ponižuje ženy či kohokoli jiného, nebo co by mohlo někomu ublížit.</p></div>
+        <div class="card"><div class="icon">3</div><h4>Bez soudů</h4><p class="small">Reagovat jde jen podporou: „Mám to stejně“, „Držím palce“, „Díky, že to píšeš“. Žádné komentáře, žádné hejty.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="zed" style="padding-top:20px">
+    <div class="wrap">
+      <div class="flex" style="justify-content:space-between;margin-bottom:24px">
+        <h2 class="mb-0">Zeď</h2>
+        <div class="filters mb-0" data-filters="#wall" style="margin:0">
+          <button class="active" data-f="all">Vše</button>
+          <button data-f="porod">Porod</button>
+          <button data-f="psychika">Hlava</button>
+          <button data-f="vztah">Vztah</button>
+          <button data-f="otcovstvi">Otcovství</button>
+        </div>
+      </div>
+      <p class="small muted">Než začnou chodit vaše příběhy, zeď otevíráme skutečnými výpověďmi otců, které už byly zveřejněné v médiích a výzkumech – vždy s odkazem na zdroj.</p>
+      <div class="confessions" id="wall"></div>
+    </div>
+  </section>
+
+  <section id="napsat" style="background:#1f1d1b">
+    <div class="wrap split" style="align-items:start">
+      <div>
+        <span class="kicker">Tvoje zpověď</span>
+        <h2>Co nosíš v sobě?</h2>
+        <p class="lead" style="color:#d8cfc1">Nemusí to být dlouhé. Nemusí to být hezky napsané. Stačí, když to bude pravda.</p>
+        <p class="muted">Inspirace, pokud nevíš, jak začít:</p>
+        <ul class="muted">
+          <li>Nejvíc jsem se bál, když…</li>
+          <li>Nikomu jsem neřekl, že…</li>
+          <li>Na porod vzpomínám tak, že…</li>
+          <li>Od narození se mi změnilo…</li>
+          <li>Kdyby se mě někdo zeptal, jak se mám, řekl bych…</li>
+        </ul>
+        <div class="callout warn" style="color:#141414">
+          <h4>Jde ti o život nebo o bezpečí dítěte?</h4>
+          <p class="mb-0">Cage není krizová linka. Volej hned <strong>116 123</strong> (Linka první psychické pomoci, nonstop) nebo <strong>112</strong>. <a href="pomoc.html">Další kontakty →</a></p>
+        </div>
+      </div>
+      <div>
+        <form class="form" id="cage-form">
+          <div>
+            <label for="c-cat">Téma</label>
+            <select id="c-cat" required>
+              <option value="porod">Porod</option>
+              <option value="psychika">Hlava (strach, únava, vztek)</option>
+              <option value="vztah">Vztah a sex</option>
+              <option value="otcovstvi">Otcovství a dítě</option>
+            </select>
+          </div>
+          <div>
+            <label for="c-phase">Kde jsi teď</label>
+            <select id="c-phase">
+              <option>Čekáme</option><option>Těsně po porodu</option><option>Dítě do 1 roku</option><option>Dítě starší</option>
+            </select>
+          </div>
+          <div>
+            <label for="c-text">Tvoje zpověď</label>
+            <textarea id="c-text" maxlength="1500" required placeholder="Piš, jak to cítíš…"></textarea>
+            <div class="small muted"><span id="c-count">0</span> / 1500</div>
+          </div>
+          <label class="check" style="text-transform:none;letter-spacing:0;font-family:var(--f-body)"><input type="checkbox" required> Souhlasím s anonymním zveřejněním po moderaci a beru na vědomí, že redakce může text zkrátit nebo upravit kvůli anonymitě.</label>
+          <button class="btn btn-copper" type="submit">Odeslat do Cage</button>
+          <div class="form-msg" id="cage-msg">Díky, že ses svěřil. Tvoje zpověď teď čeká na moderaci a do pár dní se objeví na zdi. Už jen tím, žes to napsal, jsi udělal hodně.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/js/main.js"></script>
+<script>
+/* Úvodní obsah zdi: skutečné, veřejně publikované výpovědi otců se zdrojem.
+   TODO: napojit na backend (např. Supabase / Airtable / Netlify Forms) s moderací. */
+const SEED = [
+  { cat: "porod", phase: "Porod", text: "Nad ránem jsem se reálně bál, že omdlím vyčerpáním. A překvapila mě ta její fyzická síla.", src: "Jarda pro Radio Wave (2023)", url: "https://wave.rozhlas.cz/ohromila-me-ta-fyzicka-sila-malem-jsem-omdlel-vycerpanim-jak-prozivaji-porod-8919978" },
+  { cat: "psychika", phase: "Po porodu", text: "Mám tendenci dělat tu typickou mužskou věc – schovávám to, dokud to už nejde.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
+  { cat: "porod", phase: "Porod", text: "Přišlo mi, že jsem součástí nějakého pravěkého rituálu a moje žena je jeho centrem. A byla krásná, fyzicky krásná.", src: "Dominik pro Radio Wave (2023)", url: "https://wave.rozhlas.cz/ohromila-me-ta-fyzicka-sila-malem-jsem-omdlel-vycerpanim-jak-prozivaji-porod-8919978" },
+  { cat: "psychika", phase: "Po porodu", text: "Nakonec jsem prostě nemohl fungovat. Nebyl jsem sám sebou.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
+  { cat: "otcovstvi psychika", phase: "Po porodu", text: "Bral jsem si to osobně – jako že selhávám. Moje žena poporodní depresi nezažila, já ano.", src: "David Levine, pediatr, přes Flowee", url: "https://www.flowee.cz/civilizace/poporodni-depresi-zaziva-az-ctvrtina-muzu-vetsina-z-nich-jen-tise-trpi" },
+  { cat: "porod", phase: "Porod", text: "Porodní asistentka se zajímala o partnerku… ale ne o mě.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
+  { cat: "porod otcovstvi", phase: "Porod", text: "Byl jsem v euforii a usmíval se jako v transu.", src: "Petr, Liga otevřených mužů", url: "https://ilom.cz/kdyz-rodi-muz/" },
+  { cat: "psychika", phase: "Čekáme", text: "Vždycky si uvědomuju, že partnerka je na tom mnohem hůř, takže se s tím prostě nějak vyrovnávám.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
+  { cat: "vztah porod", phase: "Porod", text: "Viděl jsem, co musela zvládnout.", src: "Vladimír, Liga otevřených mužů", url: "https://ilom.cz/kdyz-rodi-muz/" },
+  { cat: "psychika", phase: "Obecně", text: "Vždycky je tu strach, že když se otevřeš, ti chlapi se vysmějí.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
+];
+const LABEL = { porod: "Porod", psychika: "Hlava", vztah: "Vztah", otcovstvi: "Otcovství" };
+const wall = document.getElementById("wall");
+let reacts = {}; try { reacts = JSON.parse(localStorage.getItem("pp-cage-reacts") || "{}"); } catch (e) {}
+wall.innerHTML = SEED.map((c, i) => `
+  <article class="confession" data-cat="${c.cat}">
+    <div class="meta"><span>${LABEL[c.cat.split(" ")[0]]} · ${c.phase}</span><span>Z veřejného zdroje</span></div>
+    <p>„${c.text}“</p>
+    <div class="src">${c.src} · <a href="${c.url}" target="_blank" rel="noopener">zdroj</a></div>
+    <div class="reactions">${["Mám to stejně", "Držím palce", "Díky, žes to napsal"].map((r, j) =>
+      `<button type="button" data-k="${i}-${j}" class="${reacts[i + "-" + j] ? "on" : ""}">${r}</button>`).join("")}</div>
+  </article>`).join("");
+wall.addEventListener("click", e => {
+  const b = e.target.closest(".reactions button"); if (!b) return;
+  b.classList.toggle("on"); reacts[b.dataset.k] = b.classList.contains("on");
+  try { localStorage.setItem("pp-cage-reacts", JSON.stringify(reacts)); } catch (e) {}
+});
+const ta = document.getElementById("c-text"), cnt = document.getElementById("c-count");
+ta.addEventListener("input", () => cnt.textContent = ta.value.length);
+document.getElementById("cage-form").addEventListener("submit", e => {
+  e.preventDefault();
+  [...e.target.querySelectorAll(":scope > :not(#cage-msg)")].forEach(el => el.style.display = "none");
+  document.getElementById("cage-msg").classList.add("show");
+});
+</script>
+</body>
+</html>
