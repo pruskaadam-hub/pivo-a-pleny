@@ -125,9 +125,9 @@
   <section id="registrace" class="surface">
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">Registrace · 2 minuty</span>
+        <span class="kicker">Členství v Klubu · 2 minuty</span>
         <h2>Řekni nám o sobě.<br><em>Tipy pak sedí.</em></h2>
-        <p class="lead">Podle odpovědí ti posíláme e-maily přesně pro tvoji fázi a zveme tě jen na to, co tě zajímá. Nic víc.</p>
+        <p class="lead">Podle odpovědí ti posíláme e-maily přesně pro tvoji fázi a zveme tě jen na to, co tě zajímá. Účet ti založíme automaticky – přihlásíš se pak jen e-mailem. <a href="clen.html">Už máš účet? Přihlas se.</a></p>
       </div>
 
       <div class="reg">
@@ -432,6 +432,9 @@
   });
 
   summary();
+
+  /* Přihlášený účet → předvyplnit e-mail */
+  try { const ses = JSON.parse(localStorage.getItem("pp-member-auth") || "null"); const em = ses && ses.user && ses.user.email; if (em && !$("#r-email").value) $("#r-email").value = em; } catch (e) {}
 
   /* Výsledek dotazníku → registrace (celý rozbor je v Klubu) */
   const QT = { A: "Architekt", P: "Parťák", Z: "Živitel", H: "Hravý táta", S: "Strážce" };

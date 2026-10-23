@@ -35,10 +35,11 @@ window.PP = (function () {
     ["stres.html", "Stres a vztek"], ["pomoc.html", "Pomoc sobě i okolí"],
   ];
   const MORE = [
-    ["blog.html", "Blog"], ["zeny-o-muzich.html", "Ženy o mužích"], ["faq.html", "Časté otázky"], ["o-nas.html", "O nás"], ["clen.html", "Členská zóna"],
+    ["blog.html", "Blog"], ["zeny-o-muzich.html", "Ženy o mužích"], ["faq.html", "Časté otázky"], ["o-nas.html", "O nás"], ["clen.html", "Můj účet"],
   ];
   const links = arr => arr.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join("");
 
+  let LOGGED = false; try { LOGGED = !!JSON.parse(localStorage.getItem("pp-member-auth") || "null"); } catch (e) {}
   const header = document.getElementById("site-header");
   if (header) {
     header.className = "site-header";
@@ -53,8 +54,9 @@ window.PP = (function () {
             <a href="cage.html"${cur("cage.html")}>Cage</a>
             <a href="dotaznik.html"${cur("dotaznik.html")}>Dotazník</a>
           </nav>
+          <a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="${LOGGED ? "Můj účet" : "Přihlásit se nebo registrovat"}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg><span>${LOGGED ? "Můj účet" : "Přihlásit"}</span></a>
           <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Do Klubu</a>
-          <button class="menu-btn" aria-expanded="false" aria-controls="overlay">Menu <span>+</span></button>
+          <button class="menu-btn" aria-expanded="false" aria-controls="overlay" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
         </div>
       </div>`;
     const ov = document.createElement("div");
