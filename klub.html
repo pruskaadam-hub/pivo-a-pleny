@@ -202,8 +202,8 @@
             </div>
 
             <div id="reg-err" class="callout warn hidden" role="alert" style="margin:0 0 16px"></div>
-            <button class="btn btn-dark" type="submit">Pokračovat k platbě</button>
-            <p class="small muted" style="margin-top:12px">Platební brána se připravuje. Po odeslání tě zatím zapíšeme a ozveme se, jakmile spustíme platby.</p>
+            <button class="btn btn-dark" type="submit" id="reg-btn">Pokračovat k platbě</button>
+            <p class="small muted" style="margin-top:12px" id="reg-note">Platební brána se připravuje. Po odeslání tě zatím zapíšeme a ozveme se, jakmile spustíme platby.</p>
           </form>
 
           <div id="reg-done" class="done-box hidden">
@@ -242,7 +242,13 @@
           <li><strong>Když to doma skřípe</strong> – únava, vztek, vztah, peníze</li>
         </ul>
         <p><strong style="color:#fff">50 minut: 1 490 Kč</strong> · <strong style="color:#fff">balíček 3 konzultací: 3 590 Kč</strong> (ušetříš 880 Kč). Online a důvěrně.</p>
-        <a class="btn btn-copper" href="mailto:konzultace@pivoapleny.cz?subject=Konzultace">Napsat si o termín</a>
+        <form id="cons-form" class="hidden" style="display:grid;gap:10px;max-width:440px;margin:0 0 14px">
+          <label for="cons-email" style="color:#fff">Tvůj e-mail</label>
+          <input id="cons-email" type="email" required autocomplete="email" placeholder="tvuj@email.cz" style="font:inherit;padding:12px 14px;border-radius:12px;border:0">
+          <div class="flex"><button class="btn btn-copper" type="submit" data-product="konzultace-1">Koupit 1 konzultaci · 1 490 Kč</button><button class="btn btn-ghost" type="submit" data-product="konzultace-3" style="color:#fff">3 konzultace · 3 590 Kč</button></div>
+          <p class="small" id="cons-msg" role="alert" style="margin:0;color:#C6CFDB">Po zaplacení se ti do 2 pracovních dnů ozveme s nabídkou termínů.</p>
+        </form>
+        <a class="btn btn-copper" id="cons-mail" href="mailto:konzultace@pivoapleny.cz?subject=Konzultace">Napsat si o termín</a>
       </div>
       <div class="card">
         <span class="tag premium">Připravujeme</span>
@@ -268,6 +274,7 @@
   </section>
 </main>
 <footer id="site-footer"></footer>
+<script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
 (function () {
@@ -344,17 +351,64 @@
       souhlas_marketing: $('[name="souhlas_marketing"]').checked,
       registrovano: new Date().toISOString(),
     };
-    console.log("Registrace do Klubu (TODO: odeslat na backend):", data);
-    // TODO: fetch("https://…/api/klub", { method: "POST", body: JSON.stringify(data) }) a přesměrovat na platební bránu
-
-    f.classList.add("hidden");
-    document.getElementById("reg-done").classList.remove("hidden");
-    document.getElementById("done-text").textContent =
-      `Díky, ${data.jmeno}! Zapsali jsme tě. Jakmile spustíme platby, pošleme ti na ${data.email} odkaz k dokončení členství a první tipy na míru.`;
-    document.getElementById("reg-done").scrollIntoView({ behavior: "smooth", block: "center" });
+    const btn = document.getElementById("reg-btn");
+    btn.disabled = true; btn.textContent = PP.payments ? "Přesměrovávám na platbu…" : "Odesílám…";
+    (async () => {
+      try {
+        let memberId = null;
+        if (PP.live) memberId = await PP.rpc("register_member", { p: { ...data, souhlas_gdpr: true } });
+        if (PP.payments && memberId) {
+          const { url } = await PP.fn("create-checkout", { product: "klub-" + data.plan, member_id: memberId });
+          location.href = url; return;
+        }
+        f.classList.add("hidden");
+        document.getElementById("reg-done").classList.remove("hidden");
+        document.getElementById("done-text").textContent =
+          `Díky, ${data.jmeno}! Zapsali jsme tě. Jakmile spustíme platby, pošleme ti na ${data.email} odkaz k dokončení členství a první tipy na míru.`;
+        document.getElementById("reg-done").scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch (x) {
+        btn.disabled = false; btn.textContent = "Pokračovat k platbě";
+        box.textContent = x.code === "already_member"
+          ? "S tímhle e-mailem už členství máš. Pokud ti něco nefunguje, napiš nám na klub@pivoapleny.cz."
+          : "Něco se pokazilo a registraci se nepodařilo odeslat. Zkus to prosím za chvíli znovu.";
+        box.classList.remove("hidden"); box.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    })();
   });
 
   summary();
+
+  /* Platby: návrat ze Stripe a konzultace */
+  if (PP.payments) {
+    document.getElementById("reg-note").textContent = "Platba proběhne bezpečně přes Stripe (karta, Apple Pay, Google Pay). Členství zrušíš kdykoli.";
+    document.getElementById("cons-form").classList.remove("hidden");
+    document.getElementById("cons-mail").textContent = "Mám dotaz";
+  } else {
+    document.getElementById("reg-btn").textContent = "Zapsat se do Klubu";
+  }
+  const q = new URLSearchParams(location.search);
+  if (q.get("platba") === "ok") {
+    const isKlub = (q.get("produkt") || "").startsWith("klub");
+    f.classList.add("hidden");
+    document.getElementById("reg-done").classList.remove("hidden");
+    document.getElementById("done-text").textContent = isKlub
+      ? "Platba prošla a jsi členem. Do pár minut ti přijde potvrzení e-mailem a brzy první tipy na míru."
+      : "Platba prošla, díky! Do 2 pracovních dnů se ti ozveme s nabídkou termínů konzultace.";
+    setTimeout(() => document.getElementById("reg-done").scrollIntoView({ behavior: "smooth", block: "center" }), 300);
+  } else if (q.get("platba") === "zruseno") {
+    const b = document.getElementById("reg-err"); b.textContent = "Platba nebyla dokončena. Můžeš to zkusit znovu – údaje už máme uložené."; b.classList.remove("hidden");
+  }
+  const cf = document.getElementById("cons-form");
+  cf.addEventListener("submit", async e => {
+    e.preventDefault();
+    const em = document.getElementById("cons-email"), msg = document.getElementById("cons-msg");
+    if (!em.checkValidity()) { em.reportValidity(); return; }
+    const product = (e.submitter && e.submitter.dataset.product) || "konzultace-1";
+    cf.querySelectorAll("button").forEach(b => b.disabled = true);
+    msg.textContent = "Přesměrovávám na platbu…";
+    try { const { url } = await PP.fn("create-checkout", { product, email: em.value.trim() }); location.href = url; }
+    catch (x) { cf.querySelectorAll("button").forEach(b => b.disabled = false); msg.textContent = "Platbu se nepodařilo spustit. Zkus to prosím znovu, nebo nám napiš."; }
+  });
 })();
 </script>
 </body>

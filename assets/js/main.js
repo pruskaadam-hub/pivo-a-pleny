@@ -1,4 +1,26 @@
 /* PIVO & PLENY — sdílená hlavička, menu, plovoucí lišta, patička a interakce */
+/* Backend (Supabase): PP.rpc() volá veřejné databázové funkce, PP.fn() Edge Functions */
+window.PP = (function () {
+  const C = window.PP_CONFIG || {};
+  const live = !!(C.supabaseUrl && C.supabaseKey);
+  const headers = () => {
+    const h = { apikey: C.supabaseKey, "Content-Type": "application/json" };
+    if (/^eyJ/.test(C.supabaseKey || "")) h.Authorization = "Bearer " + C.supabaseKey;
+    return h;
+  };
+  async function call(url, body) {
+    const r = await fetch(url, { method: "POST", headers: headers(), body: JSON.stringify(body || {}) });
+    const t = await r.text(); let d = null; try { d = t ? JSON.parse(t) : null; } catch (e) { d = t; }
+    if (!r.ok) { const e = new Error((d && (d.message || d.error)) || r.statusText); e.code = d && (d.message || d.error); throw e; }
+    return d;
+  }
+  return {
+    live, payments: live && !!C.payments,
+    rpc: (fn, args) => call(`${C.supabaseUrl}/rest/v1/rpc/${fn}`, args),
+    fn: (name, body) => call(`${C.supabaseUrl}/functions/v1/${name}`, body),
+  };
+})();
+
 (function () {
   const here = location.pathname.split("/").pop() || "index.html";
   const cur = h => (h === here ? ' aria-current="page"' : "");
@@ -96,15 +118,30 @@
       </div>`;
   }
 
-  /* Newsletter – zatím bez backendu (napojit na Ecomail / MailerLite) */
+  /* Newsletter → Supabase (tabulka newsletter) */
   document.querySelectorAll("form[data-newsletter]").forEach(f => {
-    f.addEventListener("submit", e => {
+    f.addEventListener("submit", async e => {
       e.preventDefault();
       const msg = f.parentElement.querySelector(".form-msg");
-      f.style.display = "none";
-      if (msg) msg.classList.add("show");
+      const email = f.querySelector('input[type="email"]');
+      const btn = f.querySelector("button");
+      if (email && !email.checkValidity()) { email.reportValidity(); return; }
+      if (btn) btn.disabled = true;
+      try {
+        if (PP.live && email) await PP.rpc("subscribe_newsletter", { p_email: email.value.trim(), p_source: here.replace(".html", "") });
+        f.style.display = "none";
+        if (msg) msg.classList.add("show");
+      } catch (err) {
+        if (btn) btn.disabled = false;
+        alertBox(f, "Přihlášení se nepovedlo. Zkontroluj e-mail a zkus to prosím znovu.");
+      }
     });
   });
+  function alertBox(form, text) {
+    let el = form.querySelector(".form-err");
+    if (!el) { el = document.createElement("p"); el.className = "form-err small"; el.setAttribute("role", "alert"); el.style.cssText = "color:var(--red);margin:8px 0 0;flex-basis:100%"; form.appendChild(el); }
+    el.textContent = text;
+  }
 
   /* Klikací checklisty – ukládá se jen v prohlížeči */
   document.querySelectorAll(".checklist.interactive").forEach((ul, i) => {

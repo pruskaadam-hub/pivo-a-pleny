@@ -100,10 +100,11 @@
   </section>
 </main>
 <footer id="site-footer"></footer>
+<script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
 /* Úvodní obsah zdi: skutečné, veřejně publikované výpovědi otců se zdrojem.
-   TODO: napojit na backend (např. Supabase / Airtable / Netlify Forms) s moderací. */
+   Nové zpovědi jdou do Supabase (tabulka confessions) a po schválení v administraci se zobrazí nahoře. */
 const SEED = [
   { cat: "porod", phase: "Porod", text: "Nad ránem jsem se reálně bál, že omdlím vyčerpáním. A překvapila mě ta její fyzická síla.", src: "Jarda pro Radio Wave (2023)", url: "https://wave.rozhlas.cz/ohromila-me-ta-fyzicka-sila-malem-jsem-omdlel-vycerpanim-jak-prozivaji-porod-8919978" },
   { cat: "psychika", phase: "Po porodu", text: "Mám tendenci dělat tu typickou mužskou věc – schovávám to, dokud to už nejde.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
@@ -117,27 +118,57 @@ const SEED = [
   { cat: "psychika", phase: "Obecně", text: "Vždycky je tu strach, že když se otevřeš, ti chlapi se vysmějí.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
 ];
 const LABEL = { porod: "Porod", psychika: "Hlava", vztah: "Vztah", otcovstvi: "Otcovství" };
+const RX = ["Mám to stejně", "Držím palce", "Díky, žes to napsal"];
+const esc = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const wall = document.getElementById("wall");
 let reacts = {}; try { reacts = JSON.parse(localStorage.getItem("pp-cage-reacts") || "{}"); } catch (e) {}
-wall.innerHTML = SEED.map((c, i) => `
+const btns = (key, counts) => `<div class="reactions">${RX.map((r, j) =>
+  `<button type="button" data-k="${key}-${j}" class="${reacts[key + "-" + j] ? "on" : ""}">${r}${counts ? ` <b data-n>${counts[j] || ""}</b>` : ""}</button>`).join("")}</div>`;
+const seedHtml = SEED.map((c, i) => `
   <article class="confession" data-cat="${c.cat}">
     <div class="meta"><span>${LABEL[c.cat.split(" ")[0]]} · ${c.phase}</span><span>Z veřejného zdroje</span></div>
     <p>„${c.text}“</p>
     <div class="src">${c.src} · <a href="${c.url}" target="_blank" rel="noopener">zdroj</a></div>
-    <div class="reactions">${["Mám to stejně", "Držím palce", "Díky, žes to napsal"].map((r, j) =>
-      `<button type="button" data-k="${i}-${j}" class="${reacts[i + "-" + j] ? "on" : ""}">${r}</button>`).join("")}</div>
+    ${btns(i)}
   </article>`).join("");
+wall.innerHTML = seedHtml;
+/* Schválené zpovědi z databáze jdou na začátek zdi */
+if (PP.live) PP.rpc("cage_wall", { p_limit: 60 }).then(rows => {
+  if (!rows || !rows.length) return;
+  wall.innerHTML = rows.map(c => `
+  <article class="confession" data-cat="${esc(c.category)}">
+    <div class="meta"><span>${LABEL[c.category] || ""}${c.phase ? " · " + esc(c.phase) : ""}</span><span>Anonymně</span></div>
+    <p>„${esc(c.body)}“</p>
+    ${btns("db" + c.id, c.reacts)}
+  </article>`).join("") + seedHtml;
+}).catch(() => {});
 wall.addEventListener("click", e => {
   const b = e.target.closest(".reactions button"); if (!b) return;
-  b.classList.toggle("on"); reacts[b.dataset.k] = b.classList.contains("on");
+  b.classList.toggle("on"); const on = b.classList.contains("on"); reacts[b.dataset.k] = on;
   try { localStorage.setItem("pp-cage-reacts", JSON.stringify(reacts)); } catch (e) {}
+  const m = b.dataset.k.match(/^db(\d+)-(\d)$/);
+  if (m && PP.live) {
+    const n = b.querySelector("[data-n]"); if (n) n.textContent = Math.max((+n.textContent || 0) + (on ? 1 : -1), 0) || "";
+    PP.rpc("cage_react", { p_id: +m[1], p_kind: +m[2], p_delta: on ? 1 : -1 }).catch(() => {});
+  }
 });
 const ta = document.getElementById("c-text"), cnt = document.getElementById("c-count");
 ta.addEventListener("input", () => cnt.textContent = ta.value.length);
-document.getElementById("cage-form").addEventListener("submit", e => {
+document.getElementById("cage-form").addEventListener("submit", async e => {
   e.preventDefault();
-  [...e.target.querySelectorAll(":scope > :not(#cage-msg)")].forEach(el => el.style.display = "none");
-  document.getElementById("cage-msg").classList.add("show");
+  const form = e.target, btn = form.querySelector("button[type=submit]");
+  if (ta.value.trim().length < 20) { ta.setCustomValidity("Napiš prosím aspoň pár vět (min. 20 znaků)."); ta.reportValidity(); ta.setCustomValidity(""); return; }
+  btn.disabled = true;
+  try {
+    if (PP.live) await PP.rpc("submit_confession", { p_category: document.getElementById("c-cat").value, p_phase: document.getElementById("c-phase").value, p_body: ta.value.trim() });
+    [...form.querySelectorAll(":scope > :not(#cage-msg)")].forEach(el => el.style.display = "none");
+    document.getElementById("cage-msg").classList.add("show");
+  } catch (x) {
+    btn.disabled = false;
+    let er = form.querySelector(".form-err");
+    if (!er) { er = document.createElement("p"); er.className = "form-err small"; er.setAttribute("role", "alert"); er.style.color = "var(--red)"; btn.after(er); }
+    er.textContent = "Odeslání se nepovedlo. Zkus to prosím za chvíli znovu – text máš pořád v políčku.";
+  }
 });
 </script>
 </body>

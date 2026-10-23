@@ -28,6 +28,7 @@ const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+  if (!Deno.env.get("STRIPE_SECRET_KEY")) return json({ error: "payments_not_configured" }, 503);
   try {
     const { product, member_id, email } = await req.json();
     const p = PRODUCTS[product];

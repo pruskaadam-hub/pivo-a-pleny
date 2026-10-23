@@ -27,6 +27,7 @@
   .card-login input { width: 100%; font: inherit; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface); margin-bottom: 16px; }
   .card-login input:focus { outline: none; border-color: var(--ink); background: #fff; }
   .card-login .btn { width: 100%; justify-content: space-between; margin-top: 8px; }
+  .card-login .fine a { color: var(--ink); }
   .err { color: var(--red); font-size: .9rem; min-height: 1.4em; margin: 6px 0 0; }
   .fine { color: var(--muted); font-size: .85rem; margin-top: 18px; }
   @media (max-width: 860px) { .login { grid-template-columns: 1fr; gap: 30px; padding-top: 70px; } }
@@ -47,19 +48,32 @@
         <div><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></svg>Náklady a rozpočet</div>
         <div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Registrace členů</div>
       </div>
-      <p class="fine">Přístup jen pro zakladatele. Obsah administrace je zašifrovaný a otevře se jen se správným heslem.</p>
+      <p class="fine">Přístup jen pro zakladatele. Přihlášení hlídá Supabase a obsah administrace se odemkne až po ověření účtu.</p>
     </div>
-    <form class="card-login" id="login" autocomplete="on">
-      <div class="ico">↗</div>
-      <h2>Vítej zpátky.</h2>
-      <label for="email">E-mail správce</label>
-      <input id="email" name="email" type="email" autocomplete="username" required>
-      <label for="pw">Heslo</label>
-      <input id="pw" name="password" type="password" autocomplete="current-password" required>
-      <button class="btn btn-dark" type="submit">Přihlásit se</button>
-      <p class="err" id="err" role="alert"></p>
-      <p class="fine">Přístup je určen pouze zakladatelům. Veřejná registrace není dostupná.</p>
-    </form>
+    <div class="card-login">
+      <form id="login" autocomplete="on">
+        <div class="ico">↗</div>
+        <h2>Vítej zpátky.</h2>
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" autocomplete="username" required>
+        <label for="pw">Heslo</label>
+        <input id="pw" name="password" type="password" autocomplete="current-password" required>
+        <button class="btn btn-dark" type="submit">Přihlásit se</button>
+        <p class="err" id="err" role="alert"></p>
+        <p class="fine"><a href="#" id="forgot">Zapomněl jsem heslo</a> · Přístup mají jen zakladatelé, veřejná registrace není.</p>
+      </form>
+      <form id="setpw" hidden>
+        <div class="ico">✦</div>
+        <h2>Nastav si heslo.</h2>
+        <p class="fine" id="setpw-who" style="margin:-10px 0 18px"></p>
+        <label for="pw1">Nové heslo (aspoň 12 znaků)</label>
+        <input id="pw1" type="password" autocomplete="new-password" minlength="12" required>
+        <label for="pw2">Heslo znovu</label>
+        <input id="pw2" type="password" autocomplete="new-password" minlength="12" required>
+        <button class="btn btn-dark" type="submit">Uložit a pokračovat</button>
+        <p class="err" id="err2" role="alert"></p>
+      </form>
+    </div>
   </div>
 </div>
 <div id="app" hidden></div>
@@ -67,42 +81,73 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../assets/js/config.js"></script>
 <script>
 (async function () {
+  const C = window.PP_CONFIG;
+  const sb = supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: true, detectSessionInUrl: true, flowType: "implicit" } });
+  const $ = id => document.getElementById(id);
   const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-  const enc = await fetch("app.enc.json", { cache: "no-store" }).then(r => r.json());
-  async function keyFrom(pw) {
-    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
-    return crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
-  }
-  async function open(key) {
-    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, key, b64(enc.ct));
-    const app = JSON.parse(new TextDecoder().decode(plain));
-    const st = document.createElement("style"); st.textContent = app.css; document.head.appendChild(st);
-    document.getElementById("gate").remove();
-    const el = document.getElementById("app"); el.innerHTML = app.html; el.hidden = false;
-    new Function(app.js)();
-  }
-  try {
-    const saved = sessionStorage.getItem("pp-admin-key");
-    if (saved) {
-      const key = await crypto.subtle.importKey("raw", b64(saved), { name: "AES-GCM" }, true, ["decrypt"]);
-      return await open(key);
-    }
-  } catch (e) { try { sessionStorage.removeItem("pp-admin-key"); } catch (e2) {} }
-  try { document.getElementById("email").value = localStorage.getItem("pp-admin-email") || ""; } catch (e) {}
-  document.getElementById("login").addEventListener("submit", async e => {
-    e.preventDefault();
-    const err = document.getElementById("err"); err.textContent = "Ověřuji…";
+  const urlType = new URLSearchParams(location.hash.slice(1)).get("type"); // invite | recovery
+  let busy = false;
+
+  async function openApp(session) {
+    if (busy) return; busy = true;
     try {
-      const key = await keyFrom(document.getElementById("pw").value);
-      await open(key);
-      const raw = new Uint8Array(await crypto.subtle.exportKey("raw", key));
-      try {
-        sessionStorage.setItem("pp-admin-key", btoa(String.fromCharCode(...raw)));
-        localStorage.setItem("pp-admin-email", document.getElementById("email").value);
-      } catch (e2) {}
-    } catch (x) { err.textContent = "Nesprávné heslo."; }
+      const { data: sec, error } = await sb.from("admin_secrets").select("value").eq("name", "bundle_key").maybeSingle();
+      if (error || !sec) { await sb.auth.signOut(); throw new Error("noaccess"); }
+      const enc = await fetch("app.enc.json", { cache: "no-store" }).then(r => r.json());
+      const key = await crypto.subtle.importKey("raw", b64(sec.value), { name: "AES-GCM" }, false, ["decrypt"]);
+      const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, key, b64(enc.ct));
+      const app = JSON.parse(new TextDecoder().decode(plain));
+      window.PPA = { sb, user: session.user };
+      const st = document.createElement("style"); st.textContent = app.css; document.head.appendChild(st);
+      $("gate").remove();
+      const el = $("app"); el.innerHTML = app.html; el.hidden = false;
+      if (location.hash.includes("access_token")) history.replaceState(null, "", location.pathname);
+      new Function(app.js)();
+    } catch (x) {
+      busy = false;
+      $("err").textContent = x.message === "noaccess" ? "Tenhle účet nemá přístup do administrace." : "Administraci se nepodařilo otevřít. Zkus obnovit stránku.";
+    }
+  }
+
+  function askPassword(session) {
+    $("login").hidden = true; $("setpw").hidden = false;
+    $("setpw-who").textContent = session.user.email;
+    $("setpw").onsubmit = async e => {
+      e.preventDefault();
+      const a = $("pw1").value, b = $("pw2").value;
+      if (a.length < 12) return $("err2").textContent = "Heslo musí mít aspoň 12 znaků.";
+      if (a !== b) return $("err2").textContent = "Hesla se neshodují.";
+      $("err2").textContent = "Ukládám…";
+      const { error } = await sb.auth.updateUser({ password: a });
+      if (error) return $("err2").textContent = "Heslo se nepodařilo uložit: " + error.message;
+      openApp(session);
+    };
+  }
+
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) (urlType === "invite" || urlType === "recovery") ? askPassword(session) : openApp(session);
+  sb.auth.onAuthStateChange((ev, s) => { if (ev === "PASSWORD_RECOVERY" && s) askPassword(s); });
+
+  try { $("email").value = localStorage.getItem("pp-admin-email") || ""; } catch (e) {}
+  $("login").addEventListener("submit", async e => {
+    e.preventDefault();
+    $("err").textContent = "Ověřuji…";
+    const email = $("email").value.trim();
+    const { data, error } = await sb.auth.signInWithPassword({ email, password: $("pw").value });
+    if (error) return $("err").textContent = "Nesprávný e-mail nebo heslo.";
+    try { localStorage.setItem("pp-admin-email", email); } catch (e2) {}
+    openApp(data.session);
+  });
+  $("forgot").addEventListener("click", async e => {
+    e.preventDefault();
+    const email = $("email").value.trim();
+    if (!email) return $("err").textContent = "Napiš nahoru svůj e-mail a klikni znovu.";
+    await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    $("err").textContent = "Pokud účet existuje, poslali jsme ti odkaz pro nastavení hesla.";
   });
 })();
 </script>

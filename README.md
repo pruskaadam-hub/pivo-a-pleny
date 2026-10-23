@@ -55,3 +55,18 @@ ADMIN_PASSWORD='heslo' node tools/encrypt-admin.mjs
 ```
 
 Pozor: jde o šifrování obsahu ve statickém webu, ne o serverové přihlášení. Pro skutečná data členů bude potřeba backend.
+
+## Backend (Supabase)
+
+Projekt `pivo-a-pleny` (EU). Web volá jen veřejné databázové funkce s klíčem `anon` z `assets/js/config.js`; tabulky jsou zavřené pravidly RLS a vidí je jen zakladatelé (tabulka `admins`).
+
+| Co | Kde |
+| --- | --- |
+| Schéma, RLS, funkce | `supabase/migrations/` (spustit v SQL Editoru, je opakovatelné) |
+| Newsletter | `subscribe_newsletter()` → tabulka `newsletter` |
+| Registrace do Klubu | `register_member()` → `members` |
+| Cage | `submit_confession()`, `cage_wall()`, `cage_react()` → `confessions` |
+| Platby | Edge Functions `create-checkout` a `stripe-webhook` → `orders`, stav v `members` |
+| Administrace | `admin/` – přihlášení přes Supabase Auth, aplikace se odemkne klíčem z `admin_secrets` |
+
+Platby se na webu zapnou přepínačem `payments: true` v `assets/js/config.js`, až budou v Supabase (Edge Functions → Secrets) nastavené `STRIPE_SECRET_KEY` a `STRIPE_WEBHOOK_SECRET`.
