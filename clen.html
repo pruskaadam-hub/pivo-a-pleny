@@ -95,7 +95,7 @@
         ${d.quiz_type ? `<p class="mb-0">Tvůj výsledek dotazníku máme uložený: <strong>${QT[d.quiz_type]}</strong>. Celý rozbor se ti ukáže po aktivaci.</p>` : ""}</div>`;
     } else {
       const r = d.rozbor, t = d.quiz_type;
-      zone.innerHTML = head(`<span class="z-status active">Člen Klubu${d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : ""}</span>`) +
+      zone.innerHTML = head(`<span class="z-status active">${d.admin ? "Zakladatel · plný přístup" : d.comp ? "Člen Klubu zdarma" : "Člen Klubu" + (d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : "")}</span>`) +
         (t && r ? `
         <span class="kicker" style="display:block">Tvůj rozbor</span>
         <div class="result-type">${QT[t]}</div>
