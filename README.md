@@ -17,7 +17,6 @@ Statický web (HTML + CSS + vanilla JS), bez build kroku. Funguje na GitHub Page
 | `myty.html` | Bořiči mýtů (20 mýtů se zdroji) |
 | `cage.html` | Cage – anonymní zpovědnice |
 | `dotaznik.html` | Dotazník Jaký jsem táta? (5 typů + stav „Na rezervu“) |
-| `zeny-o-muzich.html` | Ženy o mužích |
 | `faq.html` | Časté otázky |
 | `blog.html` + `clanek-*.html` | Blog |
 | `klub.html` | Placený Klub (99 Kč/měs), konzultace, pánský předporodní kurz |

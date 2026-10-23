@@ -27,16 +27,14 @@ window.PP = (function () {
   const MARK = '<span class="mark">p<b>&amp;</b>p.</span>';
 
   const BIG = [
-    ["index.html", "Úvod"], ["pruvodce.html", "Průvodce"], ["myty.html", "Bořiči mýtů"],
+    ["index.html", "Úvod"], ["pruvodce.html", "Průvodce"], ["blog.html", "Blog"], ["myty.html", "Bořiči mýtů"],
     ["cage.html", "Cage"], ["dotaznik.html", "Jaký jsem táta?"], ["klub.html", "Klub ★"],
   ];
   const GUIDE = [
     ["pruvodce.html", "Praktické návody"], ["zvyky.html", "10 zvyků"], ["spanek.html", "Spánkový deficit"],
     ["stres.html", "Stres a vztek"], ["pomoc.html", "Pomoc sobě i okolí"],
   ];
-  const MORE = [
-    ["blog.html", "Blog"], ["zeny-o-muzich.html", "Ženy o mužích"], ["faq.html", "Časté otázky"], ["o-nas.html", "O nás"], ["clen.html", "Můj účet"],
-  ];
+  const MORE = [["faq.html", "Časté otázky"], ["o-nas.html", "O nás"]];
   const links = arr => arr.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join("");
 
   /* Přihlášení: ikonky v záhlaví podle stavu (Přihlásit / Můj účet + Odhlásit) */
@@ -50,13 +48,17 @@ window.PP = (function () {
     slot.innerHTML = s
       ? `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Můj účet" title="Můj účet">${ICON_USER}</a><button type="button" class="acct-btn" id="acct-out" aria-label="Odhlásit se" title="Odhlásit se">${ICON_OUT}</button>`
       : `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Přihlásit se nebo registrovat" title="Přihlásit se / registrovat">${ICON_USER}<span>Přihlásit</span></a>`;
-    const out = document.getElementById("acct-out");
-    if (out) out.onclick = async () => {
-      const C = window.PP_CONFIG || {}, ses = session();
-      try { if (ses && ses.access_token && C.supabaseUrl) await fetch(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: "POST", headers: { apikey: C.supabaseKey, Authorization: "Bearer " + ses.access_token } }); } catch (e) {}
-      try { localStorage.removeItem(AUTH_KEY); } catch (e) {}
-      location.href = here === "clen.html" ? "clen.html" : location.href;
-    };
+    const ma = document.getElementById("menu-acct");
+    if (ma) ma.innerHTML = s
+      ? `<a href="clen.html"${cur("clen.html")}>Můj účet</a><a href="#" data-logout>Odhlásit se</a>`
+      : `<a href="clen.html"${cur("clen.html")}>Přihlásit / registrovat</a>`;
+    document.querySelectorAll("#acct-out, [data-logout]").forEach(b => b.onclick = async e => { e.preventDefault(); await logout(); });
+  }
+  async function logout() {
+    const C = window.PP_CONFIG || {}, ses = session();
+    try { if (ses && ses.access_token && C.supabaseUrl) await fetch(`${C.supabaseUrl}/auth/v1/logout?scope=local`, { method: "POST", headers: { apikey: C.supabaseKey, Authorization: "Bearer " + ses.access_token } }); } catch (e) {}
+    try { localStorage.removeItem(AUTH_KEY); } catch (e) {}
+    location.href = here === "clen.html" ? "clen.html" : location.href.split("#")[0];
   }
   window.PPAuth = { refresh: () => renderAcct() };
   addEventListener("storage", e => { if (e.key === AUTH_KEY) renderAcct(); });
@@ -84,8 +86,8 @@ window.PP = (function () {
     ov.innerHTML = `
       <div class="wrap cols">
         <nav class="big" aria-label="Hlavní navigace">${links(BIG)}</nav>
-        <div class="list"><h4>Průvodce</h4>${links(GUIDE)}</div>
-        <div class="list"><h4>Víc</h4>${links(MORE)}
+        <div class="list"><h4>V průvodci</h4>${links(GUIDE)}</div>
+        <div class="list"><h4>Účet a info</h4><div id="menu-acct"></div>${links(MORE)}<a href="mailto:ahoj@pivoapleny.cz">Napsat nám</a>
           <div class="sos-mini">Když je toho moc<strong>116 123</strong>Linka první psychické pomoci, nonstop a zdarma.</div>
         </div>
       </div>`;
@@ -124,14 +126,13 @@ window.PP = (function () {
             <p>Web pro chlapy, kteří čekají dítě, právě se jim narodilo – nebo to celé zpracovávají. Prakticky, s fakty a s respektem k ženám.</p>
             <p class="small muted">Obsah je informativní a nenahrazuje lékaře, porodní asistentku ani psychologa.</p>
           </div>
-          <div><h4>Průvodce</h4><ul>${GUIDE.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}</ul></div>
+          <div><h4>Průvodce a blog</h4><ul>${GUIDE.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="blog.html">Blog</a></li></ul></div>
           <div><h4>Komunita</h4><ul>
             <li><a href="cage.html">Cage – zpovědnice</a></li><li><a href="myty.html">Bořiči mýtů</a></li>
-            <li><a href="dotaznik.html">Jaký jsem táta?</a></li><li><a href="zeny-o-muzich.html">Ženy o mužích</a></li><li><a href="blog.html">Blog</a></li>
+            <li><a href="dotaznik.html">Jaký jsem táta?</a></li><li><a href="klub.html">Klub ★</a></li><li><a href="klub.html#konzultace">Konzultace</a></li>
           </ul></div>
-          <div><h4>Pivo &amp; Pleny</h4><ul>
-            <li><a href="klub.html">Klub ★</a></li><li><a href="klub.html#konzultace">Konzultace</a></li>
-            <li><a href="faq.html">FAQ</a></li><li><a href="o-nas.html">O nás</a></li><li><a href="mailto:ahoj@pivoapleny.cz">ahoj@pivoapleny.cz</a></li>
+          <div><h4>Účet a info</h4><ul>
+            <li><a href="clen.html">Můj účet</a></li><li><a href="faq.html">Časté otázky</a></li><li><a href="o-nas.html">O nás</a></li><li><a href="mailto:ahoj@pivoapleny.cz">ahoj@pivoapleny.cz</a></li>
           </ul></div>
         </div>
         <div class="bottom">
