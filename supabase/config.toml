@@ -1,0 +1,6 @@
+# Web volá funkce s veřejným (publishable) klíčem, Stripe bez klíče → JWT kontrolu vypínáme.
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
