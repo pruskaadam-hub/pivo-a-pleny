@@ -35,7 +35,7 @@ window.PP = (function () {
     ["stres.html", "Stres a vztek"], ["pomoc.html", "Pomoc sobě i okolí"],
   ];
   const MORE = [
-    ["blog.html", "Blog"], ["zeny-o-muzich.html", "Ženy o mužích"], ["faq.html", "Časté otázky"], ["o-nas.html", "O nás"],
+    ["blog.html", "Blog"], ["zeny-o-muzich.html", "Ženy o mužích"], ["faq.html", "Časté otázky"], ["o-nas.html", "O nás"], ["clen.html", "Členská zóna"],
   ];
   const links = arr => arr.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join("");
 

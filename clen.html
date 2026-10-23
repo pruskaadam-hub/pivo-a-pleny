@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Členská zóna | Pivo &amp; Pleny</title>
+<meta name="description" content="Členská zóna Klubu Pivo &amp; Pleny – celý rozbor dotazníku, tipy na míru a obsah jen pro členy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<style>
+  .zone { max-width: 860px; }
+  .login-card { background: #fff; border: 2px solid var(--ink); border-radius: var(--r-card); box-shadow: var(--pop); padding: clamp(24px, 4vw, 40px); max-width: 520px; }
+  .login-card input { width: 100%; font: inherit; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface); margin: 6px 0 14px; }
+  .login-card input:focus { outline: none; border-color: var(--ink); background: #fff; }
+  .z-msg { min-height: 1.4em; margin: 10px 0 0; }
+  .z-msg.err { color: var(--red); }
+  .z-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .z-status { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: .8rem; font-weight: 700; background: var(--surface-2); }
+  .z-status.active { background: #D7F5DF; color: #0B6B2B; }
+  .z-status.pending { background: #FFF3C4; color: #7A5B00; }
+  .plan12 { display: grid; gap: 12px; padding: 0; list-style: none; }
+  .plan12 li { background: var(--surface); border-radius: 16px; padding: 14px 18px; display: grid; grid-template-columns: 110px 1fr; gap: 14px; }
+  .plan12 b { font-family: var(--f-loud); text-transform: uppercase; font-weight: 400; letter-spacing: -.02em; }
+  @media (max-width: 600px) { .plan12 li { grid-template-columns: 1fr; gap: 4px; } }
+</style>
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <section class="page-hero grain">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Úvod</a> / <a href="klub.html">Klub</a> / Členská zóna</div>
+      <span class="kicker">Členská zóna</span>
+      <h1>Jen pro členy Klubu.</h1>
+      <p class="lead">Celý rozbor dotazníku Jaký jsem táta?, plán na prvních 12 týdnů a další obsah Klubu. Přihlášení bez hesla – pošleme ti odkaz na e-mail.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap zone" id="zone">
+      <p class="muted">Načítám…</p>
+    </div>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+(async function () {
+  const C = window.PP_CONFIG;
+  const sb = supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: true, detectSessionInUrl: true, flowType: "implicit", storageKey: "pp-member-auth" } });
+  const zone = document.getElementById("zone");
+  const QT = { A: "Architekt", P: "Parťák", Z: "Živitel", H: "Hravý táta", S: "Strážce" };
+  const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const list = arr => `<ul>${(arr || []).map(x => `<li>${x}</li>`).join("")}</ul>`; // obsah rozboru píšeme my, smí obsahovat odkazy
+
+  function loginForm(msg) {
+    zone.innerHTML = `
+      <form class="login-card" id="z-login">
+        <h2>Přihlášení do Klubu</h2>
+        <p>Napiš e-mail, se kterým ses registroval. Pošleme ti odkaz, kterým se přihlásíš – bez hesla.</p>
+        <label for="z-email"><strong>E-mail</strong></label>
+        <input id="z-email" type="email" required autocomplete="email" placeholder="tvuj@email.cz">
+        <button class="btn btn-dark" type="submit">Poslat přihlašovací odkaz</button>
+        <p class="z-msg ${msg && msg.err ? "err" : ""}" id="z-msg" role="status">${msg ? esc(msg.text) : ""}</p>
+        <p class="small muted mb-0">Ještě nejsi v Klubu? <a href="klub.html#registrace">Zapsat se</a> · Typ táty zjistíš zdarma v <a href="dotaznik.html">dotazníku</a>.</p>
+      </form>`;
+    document.getElementById("z-login").addEventListener("submit", async e => {
+      e.preventDefault();
+      const em = document.getElementById("z-email"), out = document.getElementById("z-msg");
+      if (!em.checkValidity()) { em.reportValidity(); return; }
+      out.className = "z-msg"; out.textContent = "Posílám…";
+      const { error } = await sb.auth.signInWithOtp({ email: em.value.trim(), options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: true } });
+      if (error) { out.className = "z-msg err"; out.textContent = /rate|limit|seconds/i.test(error.message) ? "Odkaz jsme ti posílali před chvílí. Zkus to prosím za pár minut." : "Odkaz se nepodařilo poslat. Zkus to prosím znovu."; return; }
+      out.textContent = "Hotovo. Mrkni do e-mailu (i do spamu) a klikni na odkaz. Otevře se tady.";
+    });
+  }
+
+  async function home(session) {
+    let d;
+    try { const r = await sb.rpc("member_home"); if (r.error) throw r.error; d = r.data; }
+    catch (x) { return loginForm({ err: true, text: "Přihlášení vypršelo. Pošli si prosím nový odkaz." }); }
+    const head = st => `<div class="z-head"><div><span class="kicker">Přihlášen jako ${esc(d.email)}</span><h2 style="margin:6px 0 0">${d.name ? "Ahoj, " + esc(d.name) + "." : "Ahoj."}</h2></div>
+      <div>${st || ""} <button class="btn btn-ghost btn-sm" id="z-out" type="button">Odhlásit</button></div></div>`;
+    if (!d.member) {
+      zone.innerHTML = head() + `<div class="callout"><h4>S tímhle e-mailem u nás zatím registraci nemáme.</h4><p>Zapiš se do Klubu – a pokud jsi vyplnil dotazník, výsledek k registraci rovnou připojíme.</p><a class="btn btn-dark" href="klub.html#registrace">Zapsat se do Klubu</a></div>`;
+    } else if (d.status !== "active") {
+      zone.innerHTML = head(`<span class="z-status pending">${d.status === "past_due" ? "Platba neprošla" : "Čeká na platbu"}</span>`) + `
+        <div class="callout warn"><h4>Tvoje registrace je u nás, členství zatím není aktivní.</h4>
+        <p>${d.status === "past_due" ? "Poslední platba neprošla. Jakmile ji obnovíš, obsah se ti zase odemkne." : "Platby spouštíme už brzy. Jakmile bude členství zaplacené, odemkne se ti tady celý obsah Klubu."}</p>
+        ${d.quiz_type ? `<p class="mb-0">Tvůj výsledek dotazníku máme uložený: <strong>${QT[d.quiz_type]}</strong>. Celý rozbor se ti ukáže po aktivaci.</p>` : ""}</div>`;
+    } else {
+      const r = d.rozbor, t = d.quiz_type;
+      zone.innerHTML = head(`<span class="z-status active">Člen Klubu${d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : ""}</span>`) +
+        (t && r ? `
+        <span class="kicker" style="display:block">Tvůj rozbor</span>
+        <div class="result-type">${QT[t]}</div>
+        ${d.quiz_profile ? `<div class="bars">${Object.entries(d.quiz_profile).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div class="bar"><span>${QT[k] || k}</span><span class="track"><span style="width:${Math.min(v / 12 * 100, 100)}%"></span></span><span>${Math.round(v / 12 * 100)} %</span></div>`).join("")}</div>` : ""}
+        <div class="grid g2 mt-2"><div><h3>V čem jsi silný</h3>${list(r.good)}</div><div><h3>Na co si dát pozor</h3>${list(r.watch)}</div></div>
+        <h3 class="mt-2">Co s tím tento týden</h3>${list(r.tips)}
+        <h3 class="mt-2">Jak ladíš s partnerkou</h3>${list(r.partner)}
+        <h3 class="mt-2">Plán na prvních 12 týdnů po porodu</h3>
+        <ol class="plan12">${(r.plan || []).map(([a, b]) => `<li><b>${esc(a)}</b><span>${b}</span></li>`).join("")}</ol>
+        <div class="flex mt-2"><a class="btn btn-ghost btn-sm" href="dotaznik.html">Udělat dotazník znovu</a></div>` :
+        `<div class="callout calm"><h4>Rozbor tvého typu táty</h4><p>Zatím u tebe nemáme výsledek dotazníku. Vyplň ho – za 3 minuty tu uvidíš celý rozbor a plán na prvních 12 týdnů.</p><a class="btn btn-dark" href="dotaznik.html">Vyplnit dotazník</a></div>`) +
+        `<div class="callout mt-3"><h4>Co dalšího v Klubu chystáme</h4><p class="mb-0">Tipy na míru podle tvého týdne, audia Táta za 5 minut, taháky a pozvánky na Q&amp;A a setkání u piva přidáváme sem a do e-mailu postupně.</p></div>`;
+      // čerstvý výsledek z dotazníku → uložit
+      try {
+        const q = JSON.parse(sessionStorage.getItem("pp-quiz") || "null");
+        if (q && QT[q.typ] && (q.typ !== t || JSON.stringify(q.profil) !== JSON.stringify(d.quiz_profile))) {
+          const n = document.createElement("div"); n.className = "quiz-banner";
+          n.innerHTML = `<span>Nový výsledek dotazníku: <b>${QT[q.typ]}</b></span><button class="btn btn-dark btn-sm" type="button">Uložit a zobrazit rozbor</button>`;
+          zone.prepend(n);
+          n.querySelector("button").onclick = async () => { const s = await sb.rpc("member_save_quiz", { p_typ: q.typ, p_profil: q.profil }); if (!s.error) { sessionStorage.removeItem("pp-quiz"); home(session); } };
+        }
+      } catch (e) {}
+    }
+    document.getElementById("z-out").onclick = async () => { await sb.auth.signOut(); loginForm(); };
+  }
+
+  const { data: { session } } = await sb.auth.getSession();
+  if (location.hash.includes("error_code")) { history.replaceState(null, "", location.pathname); return loginForm({ err: true, text: "Odkaz už neplatí. Pošli si prosím nový." }); }
+  session ? home(session) : loginForm();
+  sb.auth.onAuthStateChange((ev, s) => { if (ev === "SIGNED_IN" && s && !session) setTimeout(() => home(s), 0); });
+})();
+</script>
+</body>
+</html>

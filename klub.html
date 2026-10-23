@@ -80,7 +80,7 @@
         <span class="kicker">Klub Pivo &amp; Pleny</span>
         <h1>Za cenu tří<br><span class="loud hl">piv měsíčně.</span></h1>
         <p class="lead">Tipy na míru podle toho, kde zrovna jste. Taháky do kapsy, audio, živé Q&amp;A s odborníky – a parta tátů, se kterými se dá potkat na workshopu i u piva.</p>
-        <div class="hero-actions"><a class="btn btn-dark" href="#registrace">Chci do Klubu</a><a class="btn btn-ghost" href="#co-dostanes">Co dostanu?</a></div>
+        <div class="hero-actions"><a class="btn btn-dark" href="#registrace">Chci do Klubu</a><a class="btn btn-ghost" href="#co-dostanes">Co dostanu?</a><a class="btn btn-ghost" href="clen.html">Už jsem člen · Přihlásit</a></div>
       </div>
       <div class="plans" aria-hidden="true">
         <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p">290 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
@@ -392,7 +392,7 @@
   } catch (e) {}
   if (QUIZ) {
     const qb = document.getElementById("quiz-banner");
-    qb.innerHTML = `<span>Tvůj typ: <b>${QT[QUIZ.typ]}</b></span><span class="small">Celý rozbor ti pošleme po registraci do Klubu.</span>`;
+    qb.innerHTML = `<span>Tvůj typ: <b>${QT[QUIZ.typ]}</b></span><span class="small">Výsledek připojíme k registraci. Celý rozbor pak najdeš v <a href="clen.html">Členské zóně</a>.</span>`;
     qb.classList.remove("hidden");
   }
 

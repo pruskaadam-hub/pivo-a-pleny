@@ -106,27 +106,12 @@ const W = [
   { q: "Jak často ti v poslední době „bouchají saze“ – vztek, podrážděnost, výbuchy?", o: ["Skoro nikdy", "Občas", "Často", "Skoro pořád"] },
   { q: "Utíkáš od toho všeho do práce, mobilu nebo k alkoholu víc než dřív?", o: ["Ne", "Trochu", "Docela dost", "Hodně"] },
 ];
-const TYPES = {
-  A: { name: "Architekt", line: "Plán je tvoje láska. A rodina se na tebe může spolehnout.",
-    good: ["Dáváš rodině pocit jistoty a řádu.", "Myslíš na věci dopředu – taška, autosedačka, otcovská.", "V krizi máš tendenci hledat řešení, ne viníka."],
-    watch: ["Porod a miminko plán nedodržují. Pružnost je dovednost, ne selhání.", "Partnerka občas nepotřebuje řešení, ale tvoje ucho.", "Kontrola může být maskovaná úzkost."],
-    tips: ["Udělej plán A, B i C (včetně císaře) – a pak ho pusť z hlavy.", "Jednou týdně se zeptej: „Co bych měl přestat dělat?“", "Přečti si <a href='stres.html'>Stres a vztek</a> – hlavně část o ztrátě kontroly."] },
-  P: { name: "Parťák", line: "Týmový hráč, na kterého je spoleh ve tři ráno.",
-    good: ["Čteš potřeby partnerky a dítěte.", "Péči bereš jako společnou práci, ne „pomáhání“.", "Umíš poslouchat."],
-    watch: ["Zapomínáš na sebe – spánek, pohyb, kamarády.", "Svoje strachy schováváš, „protože ona je na tom hůř“.", "Vyhoření přichází potichu."],
-    tips: ["Naplánuj si 2 hodiny týdně jen pro sebe a dodrž je.", "Řekni jí aspoň jednu věc, která tě trápí – ona to chce vědět.", "Projdi si <a href='zvyky.html'>10 zvyků</a>, hlavně č. 3 a 7."] },
-  Z: { name: "Živitel", line: "Lásku ukazuješ tím, že rodině nic nechybí.",
-    good: ["Bereš odpovědnost vážně.", "Myslíš na dlouhodobou jistotu rodiny.", "Jsi spolehlivý a vytrvalý."],
-    watch: ["Tlak na zabezpečení může přerůst v úzkost a vyhoření.", "Prvních pár měsíců se nevrací – a vazba se buduje péčí.", "Partnerka může tvoji dřinu číst jako nepřítomnost."],
-    tips: ["Vyber si plnou otcovskou (14 dní). Doma jsi teď důležitější než v práci.", "Převezmi jeden pevný rituál – koupání, večerní uspávání.", "Mluv o penězích nahlas, s čísly – tlak se dělí ve dvou líp."] },
-  H: { name: "Hravý táta", line: "S tebou je doma veselo. A dítě to miluje.",
-    good: ["Hrou a kontaktem buduješ vazbu – u tátů funguje nejlíp.", "Humorem odlehčuješ napětí.", "Dítě s tebou zkouší nové věci."],
-    watch: ["Neviditelná práce (prádlo, objednávky, nákupy) může zůstávat na ní.", "Humor není vždy to, co partnerka potřebuje.", "Rutinu bereš jako nudu – ale je to základ."],
-    tips: ["Převezmi jednu „nudnou“ oblast úplně – od plánování po provedení.", "Zeptej se jí: „Chceš teď rozesmát, nebo vyslechnout?“", "Mrkni do <a href='pruvodce.html#po-porodu'>Průvodce po porodu</a>."] },
-  S: { name: "Strážce", line: "Chráníš, co je tvoje. Jen nezapomeň dýchat.",
-    good: ["Vidíš rizika, která ostatní přehlédnou.", "Bezpečí rodiny je pro tebe priorita číslo jedna.", "Jsi pozorný a starostlivý."],
-    watch: ["Úzkost tě může držet vzhůru i když dítě spí.", "Nadměrná kontrola unavuje tebe i okolí.", "Strach z porodu je častý (asi 13 % otců) – nenes ho sám."],
-    tips: ["Napiš si 3 největší strachy a probírej je s porodní asistentkou nebo lékařem.", "Nauč se jednu dechovou techniku (viz <a href='stres.html'>Stres</a>).", "Pokud úzkost trvá, ozvi se odborníkovi – <a href='pomoc.html'>kontakty</a>."] },
+const TYPES = { /* celý rozbor je v Členské zóně (Supabase), tady jen typ a ukázka */
+  A: { name: "Architekt", line: "Plán je tvoje láska. A rodina se na tebe může spolehnout.", teaser: "Dáváš rodině pocit jistoty a řádu." },
+  P: { name: "Parťák", line: "Týmový hráč, na kterého je spoleh ve tři ráno.", teaser: "Čteš potřeby partnerky a dítěte." },
+  Z: { name: "Živitel", line: "Lásku ukazuješ tím, že rodině nic nechybí.", teaser: "Bereš odpovědnost vážně." },
+  H: { name: "Hravý táta", line: "S tebou je doma veselo. A dítě to miluje.", teaser: "Hrou a kontaktem buduješ vazbu – u tátů funguje nejlíp." },
+  S: { name: "Strážce", line: "Chráníš, co je tvoje. Jen nezapomeň dýchat.", teaser: "Vidíš rizika, která ostatní přehlédnou." },
 };
 let i = 0, ans = [], well = [];
 const box = document.getElementById("qbox"), bar = document.getElementById("qbar");
@@ -171,7 +156,7 @@ function result() {
     ${tired ? `<div class="callout warn"><h4>Jedeš na rezervu</h4><p>Tvoje odpovědi naznačují hodně únavy, vzteku nebo útěku od situace. To není selhání – je to signál, že potřebuješ ubrat a říct si o pomoc. U mužů se vyčerpání a deprese často maskují právě podrážděností, prací a alkoholem.</p><p class="mb-0"><a class="btn btn-dark btn-sm" href="pomoc.html">Kde hledat pomoc</a> <a class="btn btn-ghost btn-sm" href="spanek.html">Spánek</a> <a class="btn btn-ghost btn-sm" href="stres.html">Stres a vztek</a></p></div>` : ""}
     <div class="paywall mt-2">
       <div class="paywall-preview" aria-hidden="true">
-        <h4>V čem jsi silný</h4><ul><li>${T.good[0]}</li><li class="fake">██████ ████████ ███ ██████████ ████</li><li class="fake">████ ██████ █████████ ██ ███████</li></ul>
+        <h4>V čem jsi silný</h4><ul><li>${T.teaser}</li><li class="fake">██████ ████████ ███ ██████████ ████</li><li class="fake">████ ██████ █████████ ██ ███████</li></ul>
         <h4>Na co si dát pozor</h4><ul><li class="fake">██████████ ███ █████ ████████ ███████</li><li class="fake">█████ ██████ ███████████ ████</li></ul>
       </div>
       <div class="paywall-box">
@@ -185,7 +170,7 @@ function result() {
           <li>Měsíční tipy na míru, audia Táta za 5 minut, Q&amp;A a setkání u piva</li>
         </ul>
         <a class="btn btn-dark" href="klub.html?typ=${top[0]}&amp;profil=${sorted.map(([k, v]) => k + v).join("")}#registrace">Chci celý rozbor · Klub od 225 Kč</a>
-        <p class="small muted mt-1 mb-0">Výsledek si pamatujeme. Po registraci do Klubu ti celý rozbor pošleme e-mailem.</p>
+        <p class="small muted mt-1 mb-0">Výsledek si pamatujeme a připojíme ho k registraci. Celý rozbor pak najdeš v Členské zóně. Už jsi člen? <a href="clen.html">Přihlas se</a> a výsledek si ulož.</p>
       </div>
     </div>
     <div class="callout calm mt-2"><h4>Zatím jen typ do e-mailu?</h4>
