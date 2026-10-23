@@ -61,7 +61,7 @@
   if (!document.body.hasAttribute("data-no-float")) {
     const fb = document.createElement("div");
     fb.className = "floatbar";
-    fb.innerHTML = `${MARK}<span class="txt">Nemusíš na to být <b>sám.</b></span><a class="btn btn-dark btn-sm" href="klub.html">Klub od 99 Kč</a>`;
+    fb.innerHTML = `${MARK}<span class="txt">Nemusíš na to být <b>sám.</b></span><a class="btn btn-dark btn-sm" href="klub.html">Klub od 225 Kč</a>`;
     document.body.appendChild(fb);
     const onS = () => fb.classList.toggle("show", scrollY > innerHeight * .8 && innerHeight + scrollY < document.body.scrollHeight - 260);
     addEventListener("scroll", onS, { passive: true }); onS();

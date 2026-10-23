@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administrace | Pivo &amp; Pleny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<style>
+  body { background: var(--surface-2); }
+  .login { min-height: 100vh; display: grid; grid-template-columns: 1.1fr .9fr; gap: 60px; align-items: center; width: min(1180px, 100% - 40px); margin: 0 auto; padding: 40px 0; }
+  .back { position: absolute; top: 26px; left: 28px; font-size: .9rem; text-decoration: none; color: var(--muted); }
+  .back:hover { color: var(--ink); }
+  .login .brand { margin-bottom: 40px; }
+  .login h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); margin-bottom: 18px; }
+  .login h1 em { color: var(--gold-text); font-style: normal; }
+  .login .feat { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 30px 0 22px; max-width: 520px; }
+  .login .feat div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; font-weight: 600; font-size: .95rem; display: flex; gap: 10px; align-items: center; }
+  .login .feat svg { width: 20px; height: 20px; stroke: var(--gold-text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .card-login { background: #fff; border-radius: 28px; padding: clamp(28px, 4vw, 44px); box-shadow: 0 30px 70px -40px rgba(0, 8, 20, .45); }
+  .card-login .ico { width: 48px; height: 48px; border-radius: 50%; background: #FFF3C4; display: grid; place-items: center; margin-bottom: 26px; color: var(--gold-text); font-size: 1.3rem; }
+  .card-login h2 { font-size: 2rem; margin-bottom: 24px; }
+  .card-login label { font-weight: 600; font-size: .9rem; display: block; margin-bottom: 6px; }
+  .card-login input { width: 100%; font: inherit; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface); margin-bottom: 16px; }
+  .card-login input:focus { outline: none; border-color: var(--ink); background: #fff; }
+  .card-login .btn { width: 100%; justify-content: space-between; margin-top: 8px; }
+  .err { color: var(--red); font-size: .9rem; min-height: 1.4em; margin: 6px 0 0; }
+  .fine { color: var(--muted); font-size: .85rem; margin-top: 18px; }
+  @media (max-width: 860px) { .login { grid-template-columns: 1fr; gap: 30px; padding-top: 70px; } }
+</style>
+</head>
+<body data-no-float>
+<div id="gate">
+  <a class="back" href="../index.html">← Zpět na web</a>
+  <div class="login">
+    <div>
+      <a class="brand" href="../index.html"><span class="mark">p<b>&amp;</b>p.</span><span class="brand-name">Pivo &amp; Pleny<small>Táta. Parťák. Člověk.</small></span></a>
+      <span class="kicker">Soukromá administrace</span>
+      <h1>Celý byznys<br><em>na jednom místě.</em></h1>
+      <p class="lead">Finanční model, tarify, náklady a registrace. Prostor pro zakladatele.</p>
+      <div class="feat">
+        <div><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>Finanční model</div>
+        <div><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Tarify a služby</div>
+        <div><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/></svg>Náklady a rozpočet</div>
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Registrace členů</div>
+      </div>
+      <p class="fine">Přístup jen pro zakladatele. Obsah administrace je zašifrovaný a otevře se jen se správným heslem.</p>
+    </div>
+    <form class="card-login" id="login" autocomplete="on">
+      <div class="ico">↗</div>
+      <h2>Vítej zpátky.</h2>
+      <label for="email">E-mail správce</label>
+      <input id="email" name="email" type="email" autocomplete="username" required>
+      <label for="pw">Heslo</label>
+      <input id="pw" name="password" type="password" autocomplete="current-password" required>
+      <button class="btn btn-dark" type="submit">Přihlásit se</button>
+      <p class="err" id="err" role="alert"></p>
+      <p class="fine">Přístup je určen pouze zakladatelům. Veřejná registrace není dostupná.</p>
+    </form>
+  </div>
+</div>
+<div id="app" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+<script>
+(async function () {
+  const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const enc = await fetch("app.enc.json", { cache: "no-store" }).then(r => r.json());
+  async function keyFrom(pw) {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(enc.salt), iterations: enc.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+  }
+  async function open(key) {
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, key, b64(enc.ct));
+    const app = JSON.parse(new TextDecoder().decode(plain));
+    const st = document.createElement("style"); st.textContent = app.css; document.head.appendChild(st);
+    document.getElementById("gate").remove();
+    const el = document.getElementById("app"); el.innerHTML = app.html; el.hidden = false;
+    new Function(app.js)();
+  }
+  try {
+    const saved = sessionStorage.getItem("pp-admin-key");
+    if (saved) {
+      const key = await crypto.subtle.importKey("raw", b64(saved), { name: "AES-GCM" }, true, ["decrypt"]);
+      return await open(key);
+    }
+  } catch (e) { try { sessionStorage.removeItem("pp-admin-key"); } catch (e2) {} }
+  try { document.getElementById("email").value = localStorage.getItem("pp-admin-email") || ""; } catch (e) {}
+  document.getElementById("login").addEventListener("submit", async e => {
+    e.preventDefault();
+    const err = document.getElementById("err"); err.textContent = "Ověřuji…";
+    try {
+      const key = await keyFrom(document.getElementById("pw").value);
+      await open(key);
+      const raw = new Uint8Array(await crypto.subtle.exportKey("raw", key));
+      try {
+        sessionStorage.setItem("pp-admin-key", btoa(String.fromCharCode(...raw)));
+        localStorage.setItem("pp-admin-email", document.getElementById("email").value);
+      } catch (e2) {}
+    } catch (x) { err.textContent = "Nesprávné heslo."; }
+  });
+})();
+</script>
+</body>
+</html>

@@ -44,3 +44,14 @@ Podklady a zdroje: `docs/reserse.md`.
 python3 -m http.server 8000
 # otevři http://localhost:8000
 ```
+
+## Administrace
+
+`/admin/` – přihlašovací stránka a zašifrovaná administrace (finanční model, tarify, náklady).
+Čitelný zdroj je v `admin-src/` (na GitHub se nenahrává). Po úpravě zašifruj znovu:
+
+```bash
+ADMIN_PASSWORD='heslo' node tools/encrypt-admin.mjs
+```
+
+Pozor: jde o šifrování obsahu ve statickém webu, ne o serverové přihlášení. Pro skutečná data členů bude potřeba backend.

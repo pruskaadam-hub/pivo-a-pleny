@@ -5,3 +5,5 @@ dist/
 *.docx
 ~$*
 *.xlsx
+admin-src/
+Claude outputs/
