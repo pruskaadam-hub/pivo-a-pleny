@@ -475,3 +475,15 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .site-header, .floatbar { color: var(--ink); }
 .cage-hero .serif, .cage-hero em, .dark-page h1 em, .dark-page h2 em { color: var(--gold); }
 .brand .mark { display: flex; align-items: center; justify-content: center; }
+
+/* Paywall – dotazník */
+.paywall { position: relative; border: 2px solid var(--ink); border-radius: var(--r-card); overflow: hidden; background: #fff; box-shadow: var(--pop); }
+.paywall-preview { padding: 24px 26px 0; filter: blur(3px); opacity: .55; user-select: none; pointer-events: none; max-height: 210px; overflow: hidden; }
+.paywall-preview li.fake { color: var(--muted); letter-spacing: -.1em; }
+.paywall-box { position: relative; margin-top: -90px; padding: 90px 26px 26px; background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 90px); }
+.paywall-box h3 { margin: 10px 0 12px; }
+.ticks-list { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 8px; }
+.ticks-list li { padding-left: 28px; position: relative; }
+.ticks-list li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); color: var(--ink); font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
+.quiz-banner { display: flex; gap: 14px; align-items: center; background: var(--gold); border: 2px solid var(--ink); border-radius: var(--r-card); padding: 14px 18px; margin: 0 0 22px; box-shadow: 4px 4px 0 var(--ink); }
+.quiz-banner b { font-family: var(--f-loud); text-transform: uppercase; letter-spacing: -.02em; }

@@ -169,16 +169,31 @@ function result() {
     <p class="lead mt-2">${T.line}${second[1] >= 3 ? ` S výraznou příměsí typu <strong>${TYPES[second[0]].name}</strong>.` : ""}</p>
     <div class="bars">${sorted.map(([k, v]) => `<div class="bar"><span>${TYPES[k].name}</span><span class="track"><span style="width:${v / Q.length * 100}%"></span></span><span>${Math.round(v / Q.length * 100)} %</span></div>`).join("")}</div>
     ${tired ? `<div class="callout warn"><h4>Jedeš na rezervu</h4><p>Tvoje odpovědi naznačují hodně únavy, vzteku nebo útěku od situace. To není selhání – je to signál, že potřebuješ ubrat a říct si o pomoc. U mužů se vyčerpání a deprese často maskují právě podrážděností, prací a alkoholem.</p><p class="mb-0"><a class="btn btn-dark btn-sm" href="pomoc.html">Kde hledat pomoc</a> <a class="btn btn-ghost btn-sm" href="spanek.html">Spánek</a> <a class="btn btn-ghost btn-sm" href="stres.html">Stres a vztek</a></p></div>` : ""}
-    <div class="grid g2 mt-2">
-      <div><h4>V čem jsi silný</h4><ul>${T.good.map(x => `<li>${x}</li>`).join("")}</ul></div>
-      <div><h4>Na co si dát pozor</h4><ul>${T.watch.map(x => `<li>${x}</li>`).join("")}</ul></div>
+    <div class="paywall mt-2">
+      <div class="paywall-preview" aria-hidden="true">
+        <h4>V čem jsi silný</h4><ul><li>${T.good[0]}</li><li class="fake">██████ ████████ ███ ██████████ ████</li><li class="fake">████ ██████ █████████ ██ ███████</li></ul>
+        <h4>Na co si dát pozor</h4><ul><li class="fake">██████████ ███ █████ ████████ ███████</li><li class="fake">█████ ██████ ███████████ ████</li></ul>
+      </div>
+      <div class="paywall-box">
+        <span class="tag premium">Celý rozbor v Klubu</span>
+        <h3>Odemkni celý profil typu ${T.name}</h3>
+        <ul class="ticks-list">
+          <li>V čem jsi silný a na co si dát pozor – celý rozbor</li>
+          <li>Co s tím konkrétně tento týden</li>
+          <li>Jak tvůj typ ladí s partnerkou a kde se nejčastěji míjíte</li>
+          <li>Plán na prvních 12 týdnů po porodu pro tvůj typ</li>
+          <li>Měsíční tipy na míru, audia Táta za 5 minut, Q&amp;A a setkání u piva</li>
+        </ul>
+        <a class="btn btn-dark" href="klub.html?typ=${top[0]}&amp;profil=${sorted.map(([k, v]) => k + v).join("")}#registrace">Chci celý rozbor · Klub od 225 Kč</a>
+        <p class="small muted mt-1 mb-0">Výsledek si pamatujeme. Po registraci do Klubu ti celý rozbor pošleme e-mailem.</p>
+      </div>
     </div>
-    <h4 class="mt-2">Co s tím tento týden</h4><ul>${T.tips.map(x => `<li>${x}</li>`).join("")}</ul>
-    <div class="callout calm mt-2"><h4>Chceš tipy přesně pro typ ${T.name}?</h4>
-      <p>Pošleme ti 4 krátké e-maily napsané pro tvůj typ + každou neděli 3 rady. Zdarma.</p>
-      <form data-newsletter-quiz class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 220px;font:inherit;padding:12px 14px;border-radius:6px;border:1px solid #B9CBE0"><button class="btn btn-dark btn-sm">Poslat</button></form>
-      <div class="form-msg">Hotovo. Jsi na seznamu. Tipy pro typ ${T.name} ti začneme posílat, jakmile spustíme newsletter.</div></div>
-    <div class="flex mt-2"><button class="btn btn-ghost btn-sm" id="again">Zkusit znovu</button><a class="btn btn-copper btn-sm" href="klub.html">Hlubší rozbor v Klubu ★</a></div>`;
+    <div class="callout calm mt-2"><h4>Zatím jen typ do e-mailu?</h4>
+      <p>Pošleme ti tvůj typ a každou neděli 3 rady. Zdarma, bez rozboru.</p>
+      <form data-newsletter-quiz class="flex"><input type="email" required placeholder="tvuj@email.cz" style="flex:1 1 220px;font:inherit;padding:12px 14px;border-radius:6px;border:1px solid #B9CBE0"><button class="btn btn-ghost btn-sm">Poslat</button></form>
+      <div class="form-msg">Hotovo. Jsi na seznamu. Až spustíme newsletter, ozveme se.</div></div>
+    <div class="flex mt-2"><button class="btn btn-ghost btn-sm" id="again">Zkusit znovu</button></div>`;
+  try { sessionStorage.setItem("pp-quiz", JSON.stringify({ typ: top[0], profil: score, at: Date.now() })); } catch (e) {}
   box.querySelector("form[data-newsletter-quiz]").addEventListener("submit", async e => {
     e.preventDefault();
     const f = e.target, em = f.querySelector("input");

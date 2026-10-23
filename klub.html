@@ -106,7 +106,7 @@
         <div class="benefit"><div class="ico">★</div><div><h4>Přednostní místo na pánském workshopu</h4><p>Předporodní workshop jen pro chlapy – odborně a v pánském stylu. Členové se hlásí jako první a mají slevu.</p></div></div>
         <div class="benefit"><div class="ico">🍺</div><div><h4>Setkání tátů u piva</h4><p>Neformální večery s dalšími táty ve tvém kraji. Pozvánky posíláme jen členům, kteří o ně stojí.</p></div></div>
         <div class="benefit"><div class="ico">1:1</div><div><h4>Sleva na soukromé konzultace</h4><p>Online konzultace s porodní asistentkou, dulou nebo psychologem pro otce.</p></div></div>
-        <div class="benefit"><div class="ico">✍</div><div><h4>Hlubší rozbor dotazníku</h4><p>Podrobný profil tvého typu táty s plánem na první rok.</p></div></div>
+        <div class="benefit"><div class="ico">✍</div><div><h4>Celý rozbor dotazníku Jaký jsem táta?</h4><p>Typ zjistíš zdarma. V Klubu dostaneš celý profil: silné stránky, na co si dát pozor, jak ladíš s partnerkou a plán na prvních 12 týdnů po porodu.</p></div></div>
         <div class="benefit"><div class="ico">%</div><div><h4>Roční členství navíc<span class="only">jen ročně</span></h4><p>Vychází na 225 Kč měsíčně a pokryje celé těhotenství i první měsíce s miminkem bez přerušení.</p></div></div>
       </div>
     </div>
@@ -122,6 +122,7 @@
 
       <div class="reg">
         <div class="reg-card">
+          <div id="quiz-banner" class="quiz-banner hidden"></div>
           <form id="reg-form" class="form" novalidate>
 
             <div class="step">
@@ -349,6 +350,7 @@
       zajmy: [...f.querySelectorAll('[name="zajem"]:checked')].map(x => x.value),
       pribeh: $("#r-story-on").checked ? { text: $("#r-story").value.trim(), jak: val("pribeh_jak") } : null,
       souhlas_marketing: $('[name="souhlas_marketing"]').checked,
+      dotaznik: QUIZ,
       registrovano: new Date().toISOString(),
     };
     const btn = document.getElementById("reg-btn");
@@ -377,6 +379,22 @@
   });
 
   summary();
+
+  /* Výsledek dotazníku → registrace (celý rozbor je v Klubu) */
+  const QT = { A: "Architekt", P: "Parťák", Z: "Živitel", H: "Hravý táta", S: "Strážce" };
+  let QUIZ = null;
+  try {
+    const u = new URLSearchParams(location.search), t = u.get("typ");
+    if (t && QT[t]) {
+      const prof = {}; (u.get("profil") || "").replace(/([APZHS])(\d+)/g, (_, k, v) => prof[k] = +v);
+      QUIZ = { typ: t, profil: prof };
+    } else { const ss = JSON.parse(sessionStorage.getItem("pp-quiz") || "null"); if (ss && QT[ss.typ]) QUIZ = { typ: ss.typ, profil: ss.profil }; }
+  } catch (e) {}
+  if (QUIZ) {
+    const qb = document.getElementById("quiz-banner");
+    qb.innerHTML = `<span>Tvůj typ: <b>${QT[QUIZ.typ]}</b></span><span class="small">Celý rozbor ti pošleme po registraci do Klubu.</span>`;
+    qb.classList.remove("hidden");
+  }
 
   /* Platby: návrat ze Stripe a konzultace */
   if (PP.payments) {
