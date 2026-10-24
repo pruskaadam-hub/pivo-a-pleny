@@ -8,6 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css?v=202610241311">
+<style>
+  .team { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 24px 0 8px; }
+  .member { background: #fff; border: 2px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 var(--ink); padding: 24px 22px 20px; }
+  .member .avatar { width: 72px; height: 72px; border-radius: 50%; background: var(--ink); color: var(--gold); display: grid; place-items: center; font-family: var(--f-loud); font-size: 1.6rem; letter-spacing: -.02em; margin-bottom: 16px; box-shadow: 4px 4px 0 var(--gold); }
+  .member h3 { margin: 0 0 6px; font-size: 1.35rem; }
+  .member .role { display: inline-block; background: var(--gold); color: var(--ink); font-size: .78rem; font-weight: 700; padding: 4px 11px; border-radius: 999px; margin-bottom: 12px; }
+  .prose .member p { margin: 0; font-size: .98rem; }
+  .member.hiring { grid-column: 1 / -1; display: flex; gap: 20px; align-items: center; background: var(--surface); border-style: dashed; box-shadow: none; }
+  .member.hiring .avatar { flex: none; margin: 0; background: #fff; color: var(--ink); border: 2px dashed var(--ink); box-shadow: none; }
+  @media (max-width: 640px) { .team { grid-template-columns: 1fr; } .member.hiring { flex-direction: column; align-items: flex-start; } }
+</style>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -45,8 +56,29 @@
         <li>Příběhy v Honest Cage moderujeme a zbavujeme všeho, podle čeho by šlo autora poznat.</li>
       </ul>
 
-      <h2>Kdo za tím stojí</h2>
-      <p>Pivo &amp; Pleny dělají tátové, kteří si tím sami prošli, ve spolupráci s porodními asistentkami, dulami a psychology. <em>(Medailonky týmu a odborných garantů doplníme.)</em></p>
+      <h2 id="tym">Náš tým</h2>
+      <p>Za Pivem &amp; Plenami stojí dva pohledy na stejnou věc: táta, který si tím sám prošel, a porodní asistentka, která u porodů každý den vidí, co muži prožívají.</p>
+      <div class="team">
+        <article class="member">
+          <div class="avatar" aria-hidden="true">AP</div>
+          <h3>Adam Pruška</h3>
+          <span class="role">Zakladatel</span>
+          <p>Pivo &amp; Pleny jsem založil v době, kdy jsem se sám stával otcem a řešil vlastní existenční krizi. Vyrůstal jsem v ženském kolektivu a přišlo mi, že se o roli muže kolem těhotenství a porodu mluví jen málokdy.</p>
+        </article>
+        <article class="member">
+          <div class="avatar" aria-hidden="true">EŘ</div>
+          <h3>Eliška Řezáčová</h3>
+          <span class="role">Zakladatelka · porodní asistentka</span>
+          <p>Doba, kdy muži nemohli do porodnice ani vkročit, je pryč. Chci, aby se necítili jen jako továrna na peníze, ale mohli celé těhotenství prožívat společně s rodinou – a taky trochu po svém.</p>
+        </article>
+        <article class="member hiring">
+          <div class="avatar" aria-hidden="true">+</div>
+          <div>
+            <h3>Hledáme odborníky</h3>
+            <p>Psycholog, dula, laktační poradkyně, fyzioterapeut nebo táta s příběhem, který chce pomáhat dalším? Přidej se k nám jako odborný garant. <a href="mailto:spoluprace@pivoapleny.cz">spoluprace@pivoapleny.cz</a></p>
+          </div>
+        </article>
+      </div>
 
       <h2>Spolupráce</h2>
       <p>Jsi porodní asistentka, dula, psycholog, porodnice, zaměstnavatel nebo značka, která to s táty myslí vážně? Ozvi se na <a href="mailto:spoluprace@pivoapleny.cz">spoluprace@pivoapleny.cz</a>.</p>
