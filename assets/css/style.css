@@ -435,7 +435,9 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .sticker:hover { transform: rotate(0) scale(1.04) !important; }
 .sticker.s1 { left: 12%; bottom: 14%; transform: rotate(-4deg); }
 a.sticker { color: var(--ink); text-decoration: none; }
-.sticker.s1.c-porod { background: #FFF3C9; } .sticker.s1.c-myslenky { background: #E4EBF6; } .sticker.s1.c-vztahy { background: #F8E6E1; } .sticker.s1.c-otcovstvi { background: #E3F1E5; }
+.sticker.cta-st { display: flex; align-items: center; gap: 12px; background: var(--gold); }
+.sticker.cta-st i { width: 0; height: 0; flex: none; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent var(--ink); transition: transform .2s; }
+.sticker.cta-st:hover i { transform: translateX(3px); }
 .sticker.s2 { right: 7%; top: 12%; transform: rotate(7deg); width: 138px; height: 138px; border-radius: 50%; display: grid; place-items: center; text-align: center; background: var(--gold); font-family: var(--f-loud); font-size: 1.5rem; line-height: .95; text-transform: uppercase; }
 .sticker.s2 small { font-family: var(--f-body); text-transform: none; color: var(--ink); font-size: .72rem; font-weight: 600; }
 .sticker.s3 { right: 9%; bottom: 30%; transform: rotate(-6deg); background: var(--ink); color: #fff; text-decoration: none; }
@@ -459,6 +461,10 @@ a.sticker { color: var(--ink); text-decoration: none; }
 .stat-strip > :hover { transform: rotate(0) translateY(-3px); box-shadow: 6px 6px 0 var(--ink); }
 .stat-strip strong { display: block; font-size: clamp(2.4rem, 4vw, 3.4rem); font-weight: 600; letter-spacing: -.07em; line-height: 1; }
 .stat-strip span { display: block; color: #3b4656; font-size: .92rem; margin-top: 10px; max-width: 24ch; }
+.stat-strip .quote { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transform: rotate(.7deg); }
+.stat-strip .quote p { margin: 0; font-size: 1.08rem; font-weight: 600; line-height: 1.35; letter-spacing: -.02em; }
+.stat-strip .quote small { font-size: .78rem; font-weight: 600; color: #3b4656; }
+.stat-strip .quote.c-porod { background: #FFF3C9; } .stat-strip .quote.c-myslenky { background: #E4EBF6; } .stat-strip .quote.c-vztahy { background: #F8E6E1; } .stat-strip .quote.c-otcovstvi { background: #E3F1E5; }
 .stat-strip .cta { background: var(--gold); display: flex; align-items: center; justify-content: space-between; gap: 14px; font-weight: 600; font-size: 1.2rem; letter-spacing: -.03em; transform: rotate(.7deg); }
 .stat-strip .cta::before { background: rgba(255, 255, 255, .7); }
 .stat-strip .cta:hover { background: var(--gold-2); }
