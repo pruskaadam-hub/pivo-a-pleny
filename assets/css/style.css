@@ -545,3 +545,58 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .xopen h2 + p strong:first-child { color: var(--gold-text); }
 .pt-pill { display: inline-block; background: var(--gold); color: var(--ink); font-weight: 700; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin: 6px 6px 0 0; }
 .xopen .pt-h { background: var(--ink); color: #fff; display: inline-block; padding: 6px 14px; border-radius: 12px; }
+
+/* PDF kapitoly na hlavičkovém papíře */
+#print-doc { display: none; }
+@media print {
+  @page { size: A4; margin: 12mm 14mm; }
+  body.print-doc-on > *:not(#print-doc) { display: none !important; }
+  body.print-doc-on { background: #fff !important; }
+  body.print-doc-on #print-doc { display: block; font-family: "Inter Tight", Arial, sans-serif; color: #000814; font-size: 10.5pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #print-doc .pd-head { position: fixed; top: 0; left: 0; right: 0; height: 18mm; display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5pt solid #FFC300; background: #fff; }
+  #print-doc .pd-foot { position: fixed; bottom: 0; left: 0; right: 0; height: 9mm; display: flex; justify-content: space-between; align-items: center; border-top: 0.75pt solid #D7D9DD; font-size: 7.5pt; color: #5C6470; background: #fff; }
+  #print-doc .pd-space-h { height: 22mm; } #print-doc .pd-space-f { height: 12mm; }
+  #print-doc .pd-frame { width: 100%; border-collapse: collapse; } #print-doc .pd-frame td { padding: 0; }
+  #print-doc .pd-logo { display: flex; gap: 10px; align-items: center; }
+  #print-doc .pd-logo small, #print-doc .pd-meta small { display: block; font-size: 8pt; color: #5C6470; font-weight: 400; }
+  #print-doc .pd-logo strong { font-size: 13pt; }
+  #print-doc .pd-mark { width: 13mm; height: 13mm; border-radius: 50%; background: #000814; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 9pt; white-space: nowrap; letter-spacing: -.02em; }
+  #print-doc .pd-mark b { color: #FFC300; }
+  #print-doc .pd-meta { text-align: right; font-size: 9pt; }
+  #print-doc .pd-title { display: flex; gap: 14px; align-items: center; margin: 0 0 6mm; padding: 5mm 6mm; background: #001D3D; color: #fff; border-radius: 4mm; }
+  #print-doc .pd-title h1 { margin: 0; font-family: "Archivo Black", "Arial Black", sans-serif; font-size: 22pt; letter-spacing: -.02em; color: #fff; text-transform: uppercase; }
+  #print-doc .pd-title p { margin: 2mm 0 0; color: #DDE3EA; font-size: 10pt; }
+  #print-doc .pd-num { font-family: "Archivo Black", "Arial Black", sans-serif; font-size: 30pt; background: #FFC300; color: #000814; padding: 2mm 4mm 0; border-radius: 3mm; line-height: 1; }
+  #print-doc h2 { font-size: 14pt; margin: 6mm 0 2mm; break-after: avoid; }
+  #print-doc h3 { font-size: 12pt; margin: 5mm 0 2mm; break-after: avoid; }
+  #print-doc h4 { font-size: 11pt; margin: 3mm 0 1mm; }
+  #print-doc .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; } #print-doc .grid.g2 { grid-template-columns: 1fr 1fr; }
+  #print-doc .card, #print-doc .callout { border: 0.75pt solid #D7D9DD; border-radius: 3mm; padding: 3mm 4mm; background: #F1F2F3; box-shadow: none; break-inside: avoid; }
+  #print-doc .tag { display: inline-block; background: #FFC300; border-radius: 99px; padding: 0.5mm 2.5mm; font-size: 8pt; font-weight: 700; }
+  #print-doc ul.checklist { list-style: none; padding: 0; margin: 2mm 0 3mm; } #print-doc ul.checklist li { padding: 0 0 0 6mm !important; position: relative; margin-bottom: 1.5mm; background: none !important; border: 0 !important; min-height: 0 !important; }
+  #print-doc ul.checklist li::before { content: "" !important; position: absolute; left: 0; top: 1mm; width: 3mm; height: 3mm; border: 1pt solid #000814; border-radius: 0.6mm; background: none !important; }
+  #print-doc ul.checklist li::after { display: none !important; }
+  #print-doc blockquote { border-left: 2pt solid #FFC300; margin: 3mm 0; padding: 1mm 4mm; font-style: italic; }
+  #print-doc .pd-foryou { background: #000814; color: #fff; border-radius: 3mm; padding: 4mm; margin-top: 4mm; break-inside: avoid; }
+  #print-doc .pd-foryou h4, #print-doc .pd-foryou p { color: #fff; }
+  #print-doc .for-you-tag, #print-doc .pt-pill { background: #FFC300; color: #000814; border-radius: 99px; padding: 0.4mm 2.5mm; font-size: 7.5pt; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+  #print-doc .pd-klub { -webkit-box-decoration-break: clone; box-decoration-break: clone; margin-top: 7mm; border: 1.5pt solid #000814; border-radius: 4mm; padding: 5mm 6mm; }
+  #print-doc .pd-klub-h, #print-doc .pd-appx-h { display: inline-block; background: #FFC300; font-weight: 800; font-size: 9pt; text-transform: uppercase; letter-spacing: .06em; padding: 1mm 3mm; border-radius: 99px; margin-bottom: 2mm; }
+  #print-doc .pd-appx { break-before: page; }
+  #print-doc .pd-appx svg { display: block; margin: 2mm 0; }
+  #print-doc .pd-note { font-size: 8pt; color: #5C6470; margin: 1mm 0 3mm; }
+  #print-doc .pd-fill { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9pt; break-inside: avoid; }
+  #print-doc .pd-fill th { background: #001D3D; color: #fff; text-align: left; padding: 1.5mm 2mm; font-weight: 700; }
+  #print-doc .pd-fill td { border: 0.75pt solid #B9BEC6; padding: 1.5mm 2mm; height: 7mm; }
+  #print-doc .pd-fill .pd-sec td { background: #FFF3C4; font-weight: 800; height: auto; }
+  #print-doc .pd-fill .pd-sum td { font-weight: 800; border-top: 1.5pt solid #000814; }
+  #print-doc .pd-check td:first-child { width: 38%; }
+  #print-doc .pd-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  #print-doc .pd-card { border: 1.2pt dashed #000814; border-radius: 3mm; padding: 4mm; break-inside: avoid; font-size: 9pt; }
+  #print-doc .pd-card ol { margin: 1mm 0 2mm; padding-left: 5mm; }
+  #print-doc .pd-card-h { font-weight: 800; letter-spacing: .06em; font-size: 8.5pt; margin-bottom: 2mm; }
+  #print-doc .pd-card-f { margin-top: 2mm; font-size: 8pt; font-weight: 700; color: #5C6470; }
+  #print-doc .pd-card-red { border-color: #C8102E; } #print-doc .pd-card-red .pd-card-h { color: #C8102E; }
+  #print-doc .pd-line { border-bottom: 0.75pt solid #B9BEC6; height: 7mm; padding-top: 2mm; }
+  #print-doc a { color: inherit; text-decoration: none; }
+}

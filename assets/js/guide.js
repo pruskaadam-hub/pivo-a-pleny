@@ -19,8 +19,12 @@
   function open(box, row) {
     box.innerHTML = `<div class="xopen"><div class="xopen-h"><span class="tag premium">Klub</span><h3>${esc(row.title)}</h3></div>
       <div class="prose">${PPMedia.md(row.body || "").replace(/<strong>Pro tebe:<\/strong>/g, '<br><span class="pt-pill">Pro tebe</span>').replace(/<h3>Co to znamená pro tebe<\/h3>/g, '<h3 class="pt-h">Co to znamená pro tebe</h3>')}</div>
-      <div class="flex ch-actions"><button class="btn btn-dark btn-sm" type="button" data-print>Stáhnout / vytisknout kapitolu</button><span class="small muted">V tiskovém okně zvol „Uložit jako PDF“.</span></div></div>`;
-    box.querySelector("[data-print]").onclick = () => printChapter(box.closest(".chapter"));
+      <div class="flex ch-actions"><button class="btn btn-dark btn-sm" type="button" data-print>Stáhnout PDF na hlavičkovém papíře</button><span class="small muted">Kapitola + rozšíření + příloha se schématy a tabulkami k vyplnění. V tiskovém okně zvol „Uložit jako PDF“.</span></div></div>`;
+    box.querySelector("[data-print]").onclick = () => {
+      const sec = box.closest(".chapter"), all = [...document.querySelectorAll(".chapter")];
+      if (window.PPPrint) PPPrint.print({ section: sec, row, name: MEMBER_NAME, num: all.indexOf(sec) + 1, total: all.length });
+      else printChapter(sec);
+    };
   }
   function printChapter(sec) {
     document.body.classList.add("printing"); sec.classList.add("print-target");
@@ -28,11 +32,12 @@
     addEventListener("afterprint", done); window.print(); setTimeout(done, 1500);
   }
 
-  let rows = [];
+  let rows = [], MEMBER_NAME = "";
   try {
     if (C.supabaseUrl && window.supabase) {
       const sb = supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: true, detectSessionInUrl: false, storageKey: "pp-member-auth" } });
       const r = await sb.rpc("guide_extras_list"); if (!r.error) rows = r.data || [];
+      if (logged && rows.some(x => !x.locked)) { try { const h = await sb.rpc("member_home"); if (!h.error && h.data) MEMBER_NAME = h.data.name || ""; } catch (e) {} }
     }
   } catch (e) {}
   boxes.forEach(b => { const row = rows.find(r => r.slug === b.dataset.extra); row && !row.locked && row.body ? open(b, row) : locked(b, row); });
