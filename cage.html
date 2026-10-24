@@ -7,7 +7,7 @@
 <meta name="description" content="Honest Cage – anonymní sdílení traumat, nejistot a strachů pro muže: strach, vztek, únava, porod, vztah. Bez jmen a bez soudů.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=202610241253">
+<link rel="stylesheet" href="assets/css/style.css?v=202610241311">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
 <body class="dark-page">
@@ -33,20 +33,25 @@
     </div>
   </section>
 
-  <section id="zed" style="padding-top:20px">
+  <section id="zed" class="wall-sec">
     <div class="wrap">
-      <div class="flex" style="justify-content:space-between;margin-bottom:24px">
-        <h2 class="mb-0">Zeď</h2>
+      <div class="wall-head">
+        <div><span class="kicker">Honest Cage</span><h2 class="mb-0">Zeď</h2></div>
         <div class="filters mb-0" data-filters="#wall" style="margin:0">
           <button class="active" data-f="all">Vše</button>
           <button data-f="porod">Porod</button>
-          <button data-f="psychika">Hlava</button>
-          <button data-f="vztah">Vztah</button>
+          <button data-f="myslenky">Moje myšlenky</button>
+          <button data-f="vztahy">Vztahy</button>
           <button data-f="otcovstvi">Otcovství</button>
         </div>
       </div>
-      <p class="small muted">Než začnou chodit vaše příběhy, zeď otevíráme skutečnými výpověďmi otců, které už byly zveřejněné v médiích a výzkumech – vždy s odkazem na zdroj.</p>
-      <div class="confessions" id="wall"></div>
+      <p class="small muted wall-note">Myšlenku, která tě chytla, si můžeš uložit <span class="save-ico" aria-hidden="true">☆</span> a vracet se k ní ve svém profilu. Ukládání je výhoda Klubu.</p>
+      <div class="confessions" id="wall"><p class="muted">Načítám zeď…</p></div>
+      <div class="save-pop hidden" id="save-pop" role="dialog" aria-live="polite">
+        <strong>Ukládání myšlenek je výhoda Klubu.</strong>
+        <p class="small" id="save-pop-t">Ulož si, co tě chytlo, a vracej se k tomu ve svém profilu.</p>
+        <div class="flex"><a class="btn btn-copper btn-sm" href="klub.html">Připojit se do Klubu</a><a class="small" id="save-pop-login" href="clen.html">Přihlásit se</a><button type="button" class="linkbtn small" data-close>Zavřít</button></div>
+      </div>
     </div>
   </section>
 
@@ -75,8 +80,8 @@
             <label for="c-cat">Téma</label>
             <select id="c-cat" required>
               <option value="porod">Porod</option>
-              <option value="psychika">Hlava (strach, únava, vztek)</option>
-              <option value="vztah">Vztah a sex</option>
+              <option value="myslenky">Moje myšlenky (strach, únava, vztek, pochybnosti)</option>
+              <option value="vztahy">Vztahy (partnerka, rodina, kamarádi)</option>
               <option value="otcovstvi">Otcovství a dítě</option>
             </select>
           </div>
@@ -100,76 +105,9 @@
   </section>
 </main>
 <footer id="site-footer"></footer>
-<script src="assets/js/config.js?v=202610241253"></script>
-<script src="assets/js/main.js?v=202610241253"></script>
-<script>
-/* Úvodní obsah zdi: skutečné, veřejně publikované výpovědi otců se zdrojem.
-   Nové zpovědi jdou do Supabase (tabulka confessions) a po schválení v administraci se zobrazí nahoře. */
-const SEED = [
-  { cat: "porod", phase: "Porod", text: "Nad ránem jsem se reálně bál, že omdlím vyčerpáním. A překvapila mě ta její fyzická síla.", src: "Jarda pro Radio Wave (2023)", url: "https://wave.rozhlas.cz/ohromila-me-ta-fyzicka-sila-malem-jsem-omdlel-vycerpanim-jak-prozivaji-porod-8919978" },
-  { cat: "psychika", phase: "Po porodu", text: "Mám tendenci dělat tu typickou mužskou věc – schovávám to, dokud to už nejde.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
-  { cat: "porod", phase: "Porod", text: "Přišlo mi, že jsem součástí nějakého pravěkého rituálu a moje žena je jeho centrem. A byla krásná, fyzicky krásná.", src: "Dominik pro Radio Wave (2023)", url: "https://wave.rozhlas.cz/ohromila-me-ta-fyzicka-sila-malem-jsem-omdlel-vycerpanim-jak-prozivaji-porod-8919978" },
-  { cat: "psychika", phase: "Po porodu", text: "Nakonec jsem prostě nemohl fungovat. Nebyl jsem sám sebou.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
-  { cat: "otcovstvi psychika", phase: "Po porodu", text: "Bral jsem si to osobně – jako že selhávám. Moje žena poporodní depresi nezažila, já ano.", src: "David Levine, pediatr, přes Flowee", url: "https://www.flowee.cz/civilizace/poporodni-depresi-zaziva-az-ctvrtina-muzu-vetsina-z-nich-jen-tise-trpi" },
-  { cat: "porod", phase: "Porod", text: "Porodní asistentka se zajímala o partnerku… ale ne o mě.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
-  { cat: "porod otcovstvi", phase: "Porod", text: "Byl jsem v euforii a usmíval se jako v transu.", src: "Petr, Liga otevřených mužů", url: "https://ilom.cz/kdyz-rodi-muz/" },
-  { cat: "psychika", phase: "Čekáme", text: "Vždycky si uvědomuju, že partnerka je na tom mnohem hůř, takže se s tím prostě nějak vyrovnávám.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
-  { cat: "vztah porod", phase: "Porod", text: "Viděl jsem, co musela zvládnout.", src: "Vladimír, Liga otevřených mužů", url: "https://ilom.cz/kdyz-rodi-muz/" },
-  { cat: "psychika", phase: "Obecně", text: "Vždycky je tu strach, že když se otevřeš, ti chlapi se vysmějí.", src: "Otec z výzkumu Zoe Darwin", url: "https://13hrichurodicovstvi.cz/79-tehotenstvi-a-porod-ocima-muzu/" },
-];
-const LABEL = { porod: "Porod", psychika: "Hlava", vztah: "Vztah", otcovstvi: "Otcovství" };
-const RX = ["Mám to stejně", "Držím palce", "Díky, žes to napsal"];
-const esc = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const wall = document.getElementById("wall");
-let reacts = {}; try { reacts = JSON.parse(localStorage.getItem("pp-cage-reacts") || "{}"); } catch (e) {}
-const btns = (key, counts) => `<div class="reactions">${RX.map((r, j) =>
-  `<button type="button" data-k="${key}-${j}" class="${reacts[key + "-" + j] ? "on" : ""}">${r}${counts ? ` <b data-n>${counts[j] || ""}</b>` : ""}</button>`).join("")}</div>`;
-const seedHtml = SEED.map((c, i) => `
-  <article class="confession" data-cat="${c.cat}">
-    <div class="meta"><span>${LABEL[c.cat.split(" ")[0]]} · ${c.phase}</span><span>Z veřejného zdroje</span></div>
-    <p>„${c.text}“</p>
-    <div class="src">${c.src} · <a href="${c.url}" target="_blank" rel="noopener">zdroj</a></div>
-    ${btns(i)}
-  </article>`).join("");
-wall.innerHTML = seedHtml;
-/* Schválené zpovědi z databáze jdou na začátek zdi */
-if (PP.live) PP.rpc("cage_wall", { p_limit: 60 }).then(rows => {
-  if (!rows || !rows.length) return;
-  wall.innerHTML = rows.map(c => `
-  <article class="confession" data-cat="${esc(c.category)}">
-    <div class="meta"><span>${LABEL[c.category] || ""}${c.phase ? " · " + esc(c.phase) : ""}</span><span>Anonymně</span></div>
-    <p>„${esc(c.body)}“</p>
-    ${btns("db" + c.id, c.reacts)}
-  </article>`).join("") + seedHtml;
-}).catch(() => {});
-wall.addEventListener("click", e => {
-  const b = e.target.closest(".reactions button"); if (!b) return;
-  b.classList.toggle("on"); const on = b.classList.contains("on"); reacts[b.dataset.k] = on;
-  try { localStorage.setItem("pp-cage-reacts", JSON.stringify(reacts)); } catch (e) {}
-  const m = b.dataset.k.match(/^db(\d+)-(\d)$/);
-  if (m && PP.live) {
-    const n = b.querySelector("[data-n]"); if (n) n.textContent = Math.max((+n.textContent || 0) + (on ? 1 : -1), 0) || "";
-    PP.rpc("cage_react", { p_id: +m[1], p_kind: +m[2], p_delta: on ? 1 : -1 }).catch(() => {});
-  }
-});
-const ta = document.getElementById("c-text"), cnt = document.getElementById("c-count");
-ta.addEventListener("input", () => cnt.textContent = ta.value.length);
-document.getElementById("cage-form").addEventListener("submit", async e => {
-  e.preventDefault();
-  const form = e.target, btn = form.querySelector("button[type=submit]");
-  if (ta.value.trim().length < 20) { ta.setCustomValidity("Napiš prosím aspoň pár vět (min. 20 znaků)."); ta.reportValidity(); ta.setCustomValidity(""); return; }
-  btn.disabled = true;
-  try {
-    if (PP.live) await PP.rpc("submit_confession", { p_category: document.getElementById("c-cat").value, p_phase: document.getElementById("c-phase").value, p_body: ta.value.trim() });
-    [...form.querySelectorAll(":scope > :not(#cage-msg)")].forEach(el => el.style.display = "none");
-    document.getElementById("cage-msg").classList.add("show");
-  } catch (x) {
-    btn.disabled = false;
-    let er = form.querySelector(".form-err");
-    if (!er) { er = document.createElement("p"); er.className = "form-err small"; er.setAttribute("role", "alert"); er.style.color = "var(--red)"; btn.after(er); }
-    er.textContent = "Odeslání se nepovedlo. Zkus to prosím za chvíli znovu – text máš pořád v políčku.";
-  }
-});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="assets/js/config.js?v=202610241311"></script>
+<script src="assets/js/main.js?v=202610241311"></script>
+<script src="assets/js/cage.js?v=202610241311"></script>
 </body>
 </html>
