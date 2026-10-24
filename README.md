@@ -1,6 +1,6 @@
 # Pivo & Pleny
 
-Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, anonymní zpovědnice **Cage**, dotazník „Jaký jsem táta?“ a podpora psychiky otců.
+Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, **Honest Cage** (anonymní sdílení traumat, nejistot a strachů), dotazník „Jaký jsem táta?“ a podpora psychiky otců.
 
 ## Struktura
 
@@ -15,7 +15,7 @@ Statický web (HTML + CSS + vanilla JS), bez build kroku. Funguje na GitHub Page
 | `stres.html` | Stres, vztek a agresivita |
 | `pomoc.html` | Jak pomoct sobě a okolí + krizové kontakty |
 | `myty.html` | Bořiči mýtů (20 mýtů se zdroji) |
-| `cage.html` | Cage – anonymní zpovědnice |
+| `cage.html` | Honest Cage – anonymní sdílení traumat, nejistot a strachů |
 | `dotaznik.html` | Dotazník Jaký jsem táta? (5 typů + stav „Na rezervu“) |
 | `faq.html` | Časté otázky |
 | `blog.html` + `clanek-*.html` | Blog |
@@ -27,7 +27,7 @@ Sdílená hlavička a patička se vkládají z `assets/js/main.js`, design je v 
 ## Co je potřeba napojit (TODO)
 
 - **Newsletter** – formuláře `form[data-newsletter]` zatím jen zobrazí poděkování (napojit Ecomail / MailerLite).
-- **Cage** a **Ona píše** – odesílání příspěvků do moderace (např. Supabase, Airtable, Netlify Forms).
+- **Honest Cage** a **Ona píše** – odesílání příspěvků do moderace (např. Supabase, Airtable, Netlify Forms).
 - **Platby Klubu** – GoPay / Stripe / Patreon / Forendors; obsah Klubu (členská zóna).
 - **Konzultace** – rezervační systém (Calendly / Reservio) a ceník.
 - Doména a e-maily `@pivoapleny.cz` jsou zatím zástupné.
@@ -64,7 +64,7 @@ Projekt `pivo-a-pleny` (EU). Web volá jen veřejné databázové funkce s klí�
 | Schéma, RLS, funkce | `supabase/migrations/` (spustit v SQL Editoru, je opakovatelné) |
 | Newsletter | `subscribe_newsletter()` → tabulka `newsletter` |
 | Registrace do Klubu | `register_member()` → `members` |
-| Cage | `submit_confession()`, `cage_wall()`, `cage_react()` → `confessions` |
+| Honest Cage | `submit_confession()`, `cage_wall()`, `cage_react()` → `confessions` |
 | Platby | Edge Functions `create-checkout` a `stripe-webhook` → `orders`, stav v `members` |
 | Administrace | `admin/` – přihlášení přes Supabase Auth, aplikace se odemkne klíčem z `admin_secrets` |
 

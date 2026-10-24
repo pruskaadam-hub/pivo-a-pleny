@@ -8,7 +8,7 @@
 <meta name="description" content="Přihlášení a registrace do Pivo &amp; Pleny. Účet je zdarma, členství v Klubu odemyká celý obsah.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=202610240901">
+<link rel="stylesheet" href="assets/css/style.css?v=202610241247">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <style>
   .zone { max-width: 860px; }
@@ -74,9 +74,9 @@
 </main>
 <footer id="site-footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="assets/js/config.js?v=202610240901"></script>
-<script src="assets/js/main.js?v=202610240901"></script>
-<script src="assets/js/media.js?v=202610240901"></script>
+<script src="assets/js/config.js?v=202610241247"></script>
+<script src="assets/js/main.js?v=202610241247"></script>
+<script src="assets/js/media.js?v=202610241247"></script>
 <script>
 (async function () {
   const C = window.PP_CONFIG;
@@ -86,7 +86,7 @@
   const esc = PPMedia.esc;
   const list = arr => `<ul>${(arr || []).map(x => `<li>${x}</li>`).join("")}</ul>`; // obsah rozboru píšeme my, smí obsahovat odkazy
   const quiz = () => { try { const q = JSON.parse(sessionStorage.getItem("pp-quiz") || "null"); return q && QT[q.typ] ? q : null; } catch (e) { return null; } };
-  const steps = n => `<ol class="steps3"><li class="${n === 1 ? "on" : ""}"><strong>Účet zdarma</strong><br>dotazník, Cage, newsletter, ukázky</li><li class="${n === 2 ? "on" : ""}"><strong>Člen Klubu</strong><br>celý rozbor, tipy na míru, audia, Q&amp;A</li><li class="${n === 3 ? "on" : ""}"><strong>Akce a konzultace</strong><br>workshopy, setkání, konzultace 1:1</li></ol>`;
+  const steps = n => `<ol class="steps3"><li class="${n === 1 ? "on" : ""}"><strong>Účet zdarma</strong><br>dotazník, Honest Cage, newsletter, ukázky</li><li class="${n === 2 ? "on" : ""}"><strong>Člen Klubu</strong><br>celý rozbor, tipy na míru, audia, Q&amp;A</li><li class="${n === 3 ? "on" : ""}"><strong>Akce a konzultace</strong><br>workshopy, setkání, konzultace 1:1</li></ol>`;
 
   function loginForm(msg) {
     document.getElementById("z-hero").classList.remove("hidden"); if (window.PPAuth) PPAuth.refresh();
@@ -203,7 +203,7 @@
   function membership(d) {
     const paid = d.level >= 1;
     const perks = paid ? ["Celý rozbor dotazníku", "Newslettery na míru tvému týdnu", "Celá knihovna Táta za 5 minut", "Q&A s odborníky a setkání tátů", "Sleva 20 % na akce a konzultace"]
-      : ["Dotazník a typ táty", "Cage – čtení i psaní", "Ukázky audií", "Nedělní newsletter"];
+      : ["Dotazník a typ táty", "Honest Cage – čtení i psaní", "Ukázky audií", "Nedělní newsletter"];
     return `<div class="card memb ${paid ? "paid" : ""}">
       <span class="kicker" style="display:block">Tvoje členství</span>
       <div class="tl-big" style="font-size:1.6rem">${d.admin ? "Zakladatel" : paid ? esc(d.tier_name || "Klub") : d.status === "pending" ? esc(d.tier_name || "Klub") + " · čeká na platbu" : "Účet zdarma"}</div>
@@ -216,8 +216,8 @@
     return `<div class="card voice"><span class="kicker" style="display:block">Tvůj hlas</span><h3 style="margin:4px 0 6px">Sdílej, co prožíváš</h3>
       <form id="z-cage" class="reg-mini" style="max-width:none">
         <select name="cat"><option value="psychika">Hlava (strach, únava, vztek)</option><option value="porod">Porod</option><option value="vztah">Vztah a sex</option><option value="otcovstvi">Otcovství a dítě</option></select>
-        <textarea name="text" rows="4" maxlength="1500" placeholder="Nikomu jsem neřekl, že… (anonymně do Cage, zveřejníme po moderaci)" required></textarea>
-        <div class="flex"><button class="btn btn-dark btn-sm" type="submit">Poslat do Cage anonymně</button><a class="small" href="cage.html">Číst Cage →</a></div><p class="small z-msg" data-msg></p>
+        <textarea name="text" rows="4" maxlength="1500" placeholder="Nikomu jsem neřekl, že… (anonymně do Honest Cage, zveřejníme po moderaci)" required></textarea>
+        <div class="flex"><button class="btn btn-dark btn-sm" type="submit">Poslat do Honest Cage anonymně</button><a class="small" href="cage.html">Číst Honest Cage →</a></div><p class="small z-msg" data-msg></p>
       </form>
       <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
       <form id="z-myth" class="reg-mini" style="max-width:none">
@@ -271,7 +271,7 @@
     const send = (id, fn) => { const f = document.getElementById(id); f.onsubmit = async e => { e.preventDefault(); const m = f.querySelector("[data-msg]"); m.className = "small z-msg"; m.textContent = "Posílám…"; const ok = await fn(f); m.className = "small z-msg" + (ok ? "" : " err"); m.textContent = ok || "Nepovedlo se, zkus to prosím znovu."; if (ok) f.reset(); }; };
     send("z-cage", async f => { if (f.text.value.trim().length < 20) return f.text.setCustomValidity("Napiš prosím aspoň pár vět."), f.text.reportValidity(), f.text.setCustomValidity(""), "";
       const { error } = await sb.rpc("submit_confession", { p_category: f.cat.value, p_phase: d.week ? (d.week.phase === "tehotenstvi" ? "Čekáme" : d.week.phase === "po-porodu" ? "Po porodu" : "Plánujeme") : null, p_body: f.text.value.trim() });
-      return error ? "" : "Díky, že ses svěřil. Po moderaci se objeví v Cage – anonymně."; });
+      return error ? "" : "Díky, že ses svěřil. Po moderaci se objeví v Honest Cage – anonymně."; });
     send("z-myth", async f => { const { error } = await sb.rpc("suggest_myth", { p_text: f.text.value.trim() }); return error ? "" : "Díky! Projdeme ho s odborníky a možná ho brzy rozbijeme na webu."; });
   }
 

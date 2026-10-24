@@ -28,7 +28,7 @@ window.PP = (function () {
 
   const BIG = [
     ["index.html", "Úvod"], ["pruvodce.html", "Průvodce"], ["blog.html", "Blog"], ["myty.html", "Bořiči mýtů"],
-    ["cage.html", "Cage"], ["dotaznik.html", "Jaký jsem táta?"], ["klub.html", "Klub ★"],
+    ["cage.html", "Honest Cage"], ["dotaznik.html", "Jaký jsem táta?"], ["klub.html", "Klub ★"],
   ];
   const GUIDE = [
     ["pruvodce.html", "Praktické návody"], ["zvyky.html", "10 zvyků"], ["spanek.html", "Spánkový deficit"],
@@ -37,22 +37,20 @@ window.PP = (function () {
   const MORE = [["faq.html", "Časté otázky"], ["o-nas.html", "O nás"]];
   const links = arr => arr.map(([h, l]) => `<a href="${h}"${cur(h)}>${l}</a>`).join("");
 
-  /* Přihlášení: ikonky v záhlaví podle stavu (Přihlásit / Můj účet + Odhlásit) */
+  /* Přihlášení: tlačítko v záhlaví podle stavu (Přihlásit se / Můj profil); odhlášení je v menu a na profilu */
   const AUTH_KEY = "pp-member-auth";
   const session = () => { try { return JSON.parse(localStorage.getItem(AUTH_KEY) || "null"); } catch (e) { return null; } };
-  const ICON_USER = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>';
-  const ICON_OUT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15 8l4 4-4 4"/><path d="M19 12H9"/></svg>';
   function renderAcct() {
     const slot = document.getElementById("acct-slot"); if (!slot) return;
     const s = session();
     slot.innerHTML = s
-      ? `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Můj účet" title="Můj účet">${ICON_USER}</a><button type="button" class="acct-btn" id="acct-out" aria-label="Odhlásit se" title="Odhlásit se">${ICON_OUT}</button>`
-      : `<a class="acct-btn" href="clen.html"${cur("clen.html")} aria-label="Přihlásit se nebo registrovat" title="Přihlásit se / registrovat">${ICON_USER}<span>Přihlásit</span></a>`;
+      ? `<a class="acct-btn" href="clen.html"${cur("clen.html")}>Můj profil</a>`
+      : `<a class="acct-btn" href="clen.html"${cur("clen.html")}>Přihlásit se</a>`;
     const ma = document.getElementById("menu-acct");
     if (ma) ma.innerHTML = s
-      ? `<a href="clen.html"${cur("clen.html")}>Můj účet</a><a href="#" data-logout>Odhlásit se</a>`
+      ? `<a href="clen.html"${cur("clen.html")}>Můj profil</a><a href="#" data-logout>Odhlásit se</a>`
       : `<a href="clen.html"${cur("clen.html")}>Přihlásit / registrovat</a>`;
-    document.querySelectorAll("#acct-out, [data-logout]").forEach(b => b.onclick = async e => { e.preventDefault(); await logout(); });
+    document.querySelectorAll("[data-logout]").forEach(b => b.onclick = async e => { e.preventDefault(); await logout(); });
   }
   async function logout() {
     const C = window.PP_CONFIG || {}, ses = session();
@@ -70,14 +68,14 @@ window.PP = (function () {
         <a class="brand" href="index.html" aria-label="Pivo &amp; Pleny – domů">${MARK}
           <span class="brand-name">Pivo &amp; Pleny<small>Táta. Parťák. Člověk.</small></span></a>
         <div class="head-actions">
-          <nav class="quick" aria-label="Rychlá navigace">
+          <nav class="quick" aria-label="Hlavní části webu">
             <a href="pruvodce.html"${cur("pruvodce.html")}>Průvodce</a>
             <a href="myty.html"${cur("myty.html")}>Mýty</a>
-            <a href="cage.html"${cur("cage.html")}>Cage</a>
-            <a href="dotaznik.html"${cur("dotaznik.html")}>Dotazník</a>
+            <a href="cage.html"${cur("cage.html")}>Honest Cage</a>
+            <a href="dotaznik.html"${cur("dotaznik.html")}>Jaký jsem táta?</a>
           </nav>
+          <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Připoj se do Klubu</a>
           <span class="acct-slot" id="acct-slot"></span>
-          <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Do Klubu</a>
           <button class="menu-btn" aria-expanded="false" aria-controls="overlay" aria-label="Menu"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
         </div>
       </div>`;
@@ -128,11 +126,11 @@ window.PP = (function () {
           </div>
           <div><h4>Průvodce a blog</h4><ul>${GUIDE.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="blog.html">Blog</a></li></ul></div>
           <div><h4>Komunita</h4><ul>
-            <li><a href="cage.html">Cage – zpovědnice</a></li><li><a href="myty.html">Bořiči mýtů</a></li>
+            <li><a href="cage.html">Honest Cage – anonymní sdílení</a></li><li><a href="myty.html">Bořiči mýtů</a></li>
             <li><a href="dotaznik.html">Jaký jsem táta?</a></li><li><a href="klub.html">Klub ★</a></li><li><a href="klub.html#konzultace">Konzultace</a></li>
           </ul></div>
           <div><h4>Účet a info</h4><ul>
-            <li><a href="clen.html">Můj účet</a></li><li><a href="faq.html">Časté otázky</a></li><li><a href="o-nas.html">O nás</a></li><li><a href="mailto:ahoj@pivoapleny.cz">ahoj@pivoapleny.cz</a></li>
+            <li><a href="clen.html">Můj profil</a></li><li><a href="faq.html">Časté otázky</a></li><li><a href="o-nas.html">O nás</a></li><li><a href="mailto:ahoj@pivoapleny.cz">ahoj@pivoapleny.cz</a></li>
           </ul></div>
         </div>
         <div class="bottom">
@@ -192,7 +190,7 @@ window.PP = (function () {
     m.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); t(); } });
   });
 
-  /* Filtry (mýty, blog, Cage) */
+  /* Filtry (mýty, blog, Honest Cage) */
   document.querySelectorAll("[data-filters]").forEach(bar => {
     const target = document.querySelector(bar.dataset.filters);
     bar.addEventListener("click", e => {
