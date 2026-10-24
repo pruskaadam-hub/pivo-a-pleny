@@ -43,6 +43,10 @@ window.PPMedia = (function () {
       .replace(/(^|[\s(])_(.+?)_(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
     return t.replace(/\r/g, "").trim().split(/\n\s*\n/).map(block => {
       const lines = block.split("\n").filter(l => l.trim() !== "");
+      if (lines.length && lines.every(l => /^\s*&gt;/.test(l))) {
+        const inner = lines.map(l => l.replace(/^\s*&gt;\s?/, "")).join("\n").split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+        return `<blockquote>${inner.map(p => `<p>${inline(p.split("\n").join("<br>"))}</p>`).join("")}</blockquote>`;
+      }
       if (/^#{1,3} /.test(block)) { const n = Math.min(block.match(/^#+/)[0].length + 1, 4); return `<h${n}>${inline(block.replace(/^#+ /, ""))}</h${n}>`; }
       if (lines.every(l => /^\s*[-*] /.test(l))) return `<ul>${lines.map(l => `<li>${inline(l.replace(/^\s*[-*] /, ""))}</li>`).join("")}</ul>`;
       if (lines.every(l => /^\s*\d+\. /.test(l))) return `<ol>${lines.map(l => `<li>${inline(l.replace(/^\s*\d+\. /, ""))}</li>`).join("")}</ol>`;

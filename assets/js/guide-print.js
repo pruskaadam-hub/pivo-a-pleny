@@ -145,7 +145,7 @@ window.PPPrint = (function () {
     const free = section.querySelector(".ch-body").cloneNode(true);
     free.querySelectorAll(".for-you").forEach(e => e.classList.add("pd-foryou"));
     const today = new Date().toLocaleDateString("cs-CZ");
-    const memberHtml = PPMedia.md(row.body || "").replace(/<strong>Pro tebe:<\/strong>/g, '<br><span class="pt-pill">Pro tebe</span>');
+    const memberHtml = (window.PPTools ? PPTools.expand(PPMedia.md(row.body || ""), "print") : PPMedia.md(row.body || "")).replace(/<strong>Pro tebe:<\/strong>/g, '<br><span class="pt-pill">Pro tebe</span>');
     const doc = document.createElement("div");
     doc.id = "print-doc";
     doc.innerHTML = `
@@ -155,7 +155,7 @@ window.PPPrint = (function () {
       <table class="pd-frame"><thead><tr><td><div class="pd-space-h"></div></td></tr></thead><tfoot><tr><td><div class="pd-space-f"></div></td></tr></tfoot><tbody><tr><td>
         <div class="pd-title"><span class="pd-num">0${num}</span><div><h1>${title}</h1>${lead ? `<p>${lead.textContent}</p>` : ""}</div></div>
         <div class="pd-body">${free.innerHTML}</div>
-        <div class="pd-klub"><div class="pd-klub-h">Pro členy Klubu · ${PPMedia.esc(row.title)}</div>${memberHtml}</div>
+        <div class="pd-klub"><div class="pd-klub-h">Část 2 · pro členy Klubu · ${PPMedia.esc(row.title)}</div>${memberHtml}</div>
         <div class="pd-appx"><div class="pd-appx-h">Příloha · schémata a tabulky k vyplnění</div>${APPX[row.slug] ? APPX[row.slug]() : ""}</div>
       </td></tr></tbody></table>`;
     return doc;
