@@ -434,6 +434,8 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .sticker small { display: block; font-weight: 500; color: var(--muted); margin-top: 6px; font-size: .78rem; letter-spacing: 0; }
 .sticker:hover { transform: rotate(0) scale(1.04) !important; }
 .sticker.s1 { left: 12%; bottom: 14%; transform: rotate(-4deg); }
+a.sticker { color: var(--ink); text-decoration: none; }
+.sticker.s1.c-porod { background: #FFF3C9; } .sticker.s1.c-myslenky { background: #E4EBF6; } .sticker.s1.c-vztahy { background: #F8E6E1; } .sticker.s1.c-otcovstvi { background: #E3F1E5; }
 .sticker.s2 { right: 7%; top: 12%; transform: rotate(7deg); width: 138px; height: 138px; border-radius: 50%; display: grid; place-items: center; text-align: center; background: var(--gold); font-family: var(--f-loud); font-size: 1.5rem; line-height: .95; text-transform: uppercase; }
 .sticker.s2 small { font-family: var(--f-body); text-transform: none; color: var(--ink); font-size: .72rem; font-weight: 600; }
 .sticker.s3 { right: 9%; bottom: 30%; transform: rotate(-6deg); background: var(--ink); color: #fff; text-decoration: none; }
