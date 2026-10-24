@@ -41,8 +41,8 @@ window.PPMedia = (function () {
       .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|[\w.\-\/#]+\.html[^)\s]*)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[\s(])_(.+?)_(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
-    return t.split(/\n{2,}/).map(block => {
-      const lines = block.split("\n");
+    return t.replace(/\r/g, "").trim().split(/\n\s*\n/).map(block => {
+      const lines = block.split("\n").filter(l => l.trim() !== "");
       if (/^#{1,3} /.test(block)) { const n = Math.min(block.match(/^#+/)[0].length + 1, 4); return `<h${n}>${inline(block.replace(/^#+ /, ""))}</h${n}>`; }
       if (lines.every(l => /^\s*[-*] /.test(l))) return `<ul>${lines.map(l => `<li>${inline(l.replace(/^\s*[-*] /, ""))}</li>`).join("")}</ul>`;
       if (lines.every(l => /^\s*\d+\. /.test(l))) return `<ol>${lines.map(l => `<li>${inline(l.replace(/^\s*\d+\. /, ""))}</li>`).join("")}</ol>`;

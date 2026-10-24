@@ -538,3 +538,10 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
   body.printing .ch-num { box-shadow: none; transform: none; }
   body.printing a { color: inherit; text-decoration: none; }
 }
+.for-you { position: relative; margin-top: 28px; padding: 22px 24px 20px; border-radius: var(--r-card); background: var(--ink); color: #fff; }
+.for-you h4 { color: #fff; margin: 8px 0 6px; }
+.for-you p { color: #DDE3EA; }
+.for-you-tag { display: inline-block; background: var(--gold); color: var(--ink); font-weight: 700; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.xopen h2 + p strong:first-child { color: var(--gold-text); }
+.pt-pill { display: inline-block; background: var(--gold); color: var(--ink); font-weight: 700; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin: 6px 6px 0 0; }
+.xopen .pt-h { background: var(--ink); color: #fff; display: inline-block; padding: 6px 14px; border-radius: 12px; }

@@ -18,7 +18,7 @@
   }
   function open(box, row) {
     box.innerHTML = `<div class="xopen"><div class="xopen-h"><span class="tag premium">Klub</span><h3>${esc(row.title)}</h3></div>
-      <div class="prose">${PPMedia.md(row.body || "")}</div>
+      <div class="prose">${PPMedia.md(row.body || "").replace(/<strong>Pro tebe:<\/strong>/g, '<br><span class="pt-pill">Pro tebe</span>').replace(/<h3>Co to znamená pro tebe<\/h3>/g, '<h3 class="pt-h">Co to znamená pro tebe</h3>')}</div>
       <div class="flex ch-actions"><button class="btn btn-dark btn-sm" type="button" data-print>Stáhnout / vytisknout kapitolu</button><span class="small muted">V tiskovém okně zvol „Uložit jako PDF“.</span></div></div>`;
     box.querySelector("[data-print]").onclick = () => printChapter(box.closest(".chapter"));
   }
