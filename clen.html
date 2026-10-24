@@ -8,7 +8,7 @@
 <meta name="description" content="Přihlášení a registrace do Papalu. Účet je zdarma, členství v Klubu odemyká celý obsah.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=202610250010">
+<link rel="stylesheet" href="assets/css/style.css?v=202610250024">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <style>
   .zone { max-width: 860px; }
@@ -79,9 +79,9 @@
 </main>
 <footer id="site-footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="assets/js/config.js?v=202610250010"></script>
-<script src="assets/js/main.js?v=202610250010"></script>
-<script src="assets/js/media.js?v=202610250010"></script>
+<script src="assets/js/config.js?v=202610250024"></script>
+<script src="assets/js/main.js?v=202610250024"></script>
+<script src="assets/js/media.js?v=202610250024"></script>
 <script>
 (async function () {
   const C = window.PP_CONFIG;
@@ -252,7 +252,7 @@
       `<div class="grid g2 mt-2" style="align-items:start">${membership(d)}${voice()}</div>` +
       `<div class="mt-2">${issuesBlock(d, list)}</div>`;
     html += `<div class="mt-3">${paid ? (d.quiz_type && d.rozbor ? rozbor(d) : `<div class="callout calm"><h4>Rozbor tvého typu táty</h4><p>Zatím u tebe nemáme výsledek dotazníku. Vyplň ho – za 3 minuty tu uvidíš celý rozbor a plán na prvních 12 týdnů.</p><a class="btn btn-dark" href="dotaznik.html">Vyplnit dotazník</a></div>`)
-      : `<div class="callout calm"><h4>${d.quiz_type ? "Tvůj typ táty: " + QT[d.quiz_type] : "Jaký jsi táta?"}</h4><p class="mb-0">${d.quiz_type ? "Celý rozbor, jak ladíš s partnerkou a plán na 12 týdnů uvidíš jako člen Klubu." : '<a href="dotaznik.html">Zjisti to zdarma za 3 minuty →</a>'}</p></div>`}</div>`;
+      : `<div class="callout calm"><h4>${d.quiz_type ? "Tvůj typ táty: " + QT[d.quiz_type] : "Jaký jsi typ táty?"}</h4><p class="mb-0">${d.quiz_type ? "Celý rozbor, jak ladíš s partnerkou a plán na 12 týdnů uvidíš jako člen Klubu." : '<a href="dotaznik.html">Zjisti to zdarma za 3 minuty →</a>'}</p></div>`}</div>`;
     html += `<div class="mt-2" id="z-saved"></div>`;
     html += `<div class="callout mt-3"><h4>Akce a konzultace</h4><p class="mb-0">Konzultace 1:1 s porodní asistentkou nebo psychologem si můžeš objednat <a href="klub.html#konzultace">tady</a>${paid ? " se slevou pro členy" : ""}. Workshopy a setkání tátů vypisujeme postupně – dáme vědět e-mailem.</p></div>`;
     zone.innerHTML = html; bindOut(); bindSpace(d); renderSaved(d);

@@ -28,7 +28,7 @@ window.PP = (function () {
 
   const BIG = [
     ["index.html", "Úvod"], ["pruvodce.html", "Průvodce"], ["blog.html", "Blog"], ["myty.html", "Bořiči mýtů"],
-    ["cage.html", "Honest Cage"], ["dotaznik.html", "Jaký jsem táta?"], ["klub.html", "Klub ★"],
+    ["cage.html", "Honest Cage"], ["dotaznik.html", "Jaký jsem typ táty?"], ["klub.html", "Klub ★"],
   ];
   const GUIDE = [
     ["pruvodce.html", "Praktické návody"], ["zvyky.html", "10 zvyků"], ["spanek.html", "Spánkový deficit"],
@@ -72,7 +72,7 @@ window.PP = (function () {
             <a href="pruvodce.html"${cur("pruvodce.html")}>Průvodce</a>
             <a href="myty.html"${cur("myty.html")}>Mýty</a>
             <a href="cage.html"${cur("cage.html")}>Honest Cage</a>
-            <a href="dotaznik.html"${cur("dotaznik.html")}>Jaký jsem táta?</a>
+            <a href="dotaznik.html"${cur("dotaznik.html")}>Jaký jsem typ táty?</a>
           </nav>
           <a class="btn btn-copper btn-sm btn-nav" href="klub.html">Připoj se do Klubu</a>
           <span class="acct-slot" id="acct-slot"></span>
@@ -127,7 +127,7 @@ window.PP = (function () {
           <div><h4>Průvodce a blog</h4><ul>${GUIDE.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}<li><a href="blog.html">Blog</a></li></ul></div>
           <div><h4>Komunita</h4><ul>
             <li><a href="cage.html">Honest Cage – anonymní sdílení</a></li><li><a href="myty.html">Bořiči mýtů</a></li>
-            <li><a href="dotaznik.html">Jaký jsem táta?</a></li><li><a href="klub.html">Klub ★</a></li><li><a href="klub.html#konzultace">Konzultace</a></li>
+            <li><a href="dotaznik.html">Jaký jsem typ táty?</a></li><li><a href="klub.html">Klub ★</a></li><li><a href="klub.html#konzultace">Konzultace</a></li>
           </ul></div>
           <div><h4>Účet a info</h4><ul>
             <li><a href="clen.html">Můj profil</a></li><li><a href="faq.html">Časté otázky</a></li><li><a href="o-nas.html">O nás</a></li><li><a href="mailto:ahoj@pivoapleny.cz">ahoj@pivoapleny.cz</a></li>

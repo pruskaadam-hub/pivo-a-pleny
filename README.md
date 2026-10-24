@@ -1,6 +1,6 @@
 # Papalu
 
-Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, **Honest Cage** (anonymní sdílení traumat, nejistot a strachů), dotazník „Jaký jsem táta?“ a podpora psychiky otců.
+Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, **Honest Cage** (anonymní sdílení traumat, nejistot a strachů), dotazník „Jaký jsem typ táty?“ a podpora psychiky otců.
 
 ## Struktura
 
@@ -16,7 +16,7 @@ Statický web (HTML + CSS + vanilla JS), bez build kroku. Funguje na GitHub Page
 | `pomoc.html` | Jak pomoct sobě a okolí + krizové kontakty |
 | `myty.html` | Bořiči mýtů (20 mýtů se zdroji) |
 | `cage.html` | Honest Cage – anonymní sdílení traumat, nejistot a strachů |
-| `dotaznik.html` | Dotazník Jaký jsem táta? (5 typů + stav „Na rezervu“) |
+| `dotaznik.html` | Dotazník Jaký jsem typ táty? (5 typů + stav „Na rezervu“) |
 | `faq.html` | Časté otázky |
 | `blog.html` + `clanek-*.html` | Blog |
 | `klub.html` | Placený Klub (99 Kč/měs), konzultace, pánský předporodní kurz |
