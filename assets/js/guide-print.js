@@ -1,4 +1,4 @@
-/* Papaloo – kapitola průvodce na hlavičkovém papíře s přílohou (schémata, grafy, tabulky k vyplnění) */
+/* Papalu – kapitola průvodce na hlavičkovém papíře s přílohou (schémata, grafy, tabulky k vyplnění) */
 window.PPPrint = (function () {
   const INK = "#000814", NAVY = "#001D3D", GOLD = "#FFC300", GOLD2 = "#FFD60A", MUTED = "#5C6470", LIGHT = "#F1F2F3", LINE = "#D7D9DD";
   const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" font-size="${o.size || 11}" font-weight="${o.w || 400}" fill="${o.fill || INK}" text-anchor="${o.a || "start"}" font-family="Inter Tight, Arial, sans-serif">${s}</text>`;
@@ -80,10 +80,10 @@ window.PPPrint = (function () {
     </svg><p class="pd-note">Řiďte se vždy doporučením vaší porodnice a porodní asistentky.</p>`;
   }
   function pocketCard() {
-    return `<div class="pd-cards"><div class="pd-card"><div class="pd-card-h">papaloo · TAHÁK NA SÁL</div>
+    return `<div class="pd-cards"><div class="pd-card"><div class="pd-card-h">papalu · TAHÁK NA SÁL</div>
       <ol><li>Ptej se, než se jí dotkneš.</li><li>Voda, světlo, klid.</li><li>Připomeň porodní plán.</li><li>Jez a pij každé 3–4 h.</li><li>Zlatá hodinka, kůže na kůži.</li></ol>
       <div class="pd-card-f">Tíseň 155 · 112</div></div>
-      <div class="pd-card"><div class="pd-card-h">papaloo · DŮLEŽITÁ ČÍSLA</div>
+      <div class="pd-card"><div class="pd-card-h">papalu · DŮLEŽITÁ ČÍSLA</div>
       <div class="pd-line">Porodnice: </div><div class="pd-line">Porodní asistentka: </div><div class="pd-line">Záložní odvoz: </div><div class="pd-line">Taxi: </div><div class="pd-line">Pes / děti hlídá: </div>
       <div class="pd-card-f">Vystřihni, slož, dej do peněženky</div></div></div>`;
   }
@@ -149,7 +149,7 @@ window.PPPrint = (function () {
     const doc = document.createElement("div");
     doc.id = "print-doc";
     doc.innerHTML = `
-      <div class="pd-head"><div class="pd-logo"><span class="pd-mark">pa<b>.</b></span><span><strong>Papaloo</strong><small>Průvodce pro tátu · Klub</small></span></div>
+      <div class="pd-head"><div class="pd-logo"><span class="pd-mark">pa<b>.</b></span><span><strong>Papalu</strong><small>Průvodce pro tátu · Klub</small></span></div>
         <div class="pd-meta"><strong>Kapitola ${num} z ${total} · ${title}</strong><small>${name ? "Pro: " + PPMedia.esc(name) + " · " : ""}${today}</small></div></div>
       <div class="pd-foot"><span>pivoapleny.cz · Obsah je informativní a nenahrazuje lékaře, porodní asistentku ani psychologa.</span><span>V krizi: 116 123 · tíseň 155 / 112</span></div>
       <table class="pd-frame"><thead><tr><td><div class="pd-space-h"></div></td></tr></thead><tfoot><tr><td><div class="pd-space-f"></div></td></tr></tfoot><tbody><tr><td>

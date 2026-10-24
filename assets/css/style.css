@@ -1,5 +1,5 @@
 /* =========================================================
-   PAPALOO — design v3
+   PAPALU — design v3
    Swiss čistota (světlé plochy, utažená typografie, ČB fotky)
    + odvážné momenty (zlaté bloky, nálepky, tvrdé stíny).
    Paleta: #000814 · #001D3D · #003566 · #FFC300 · #FFD60A
@@ -565,7 +565,7 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
   body.printing .site-header, body.printing .overlay, body.printing #site-footer, body.printing .floatbar, body.printing .page-hero,
   body.printing .chapter:not(.print-target), body.printing .sources-sec, body.printing .ch-actions, body.printing .quiz-banner { display: none !important; }
   body.printing .chapter.print-target { border: 0; padding: 0; background: #fff; }
-  body.printing .chapter.print-target::before { content: "Papaloo · Průvodce pro tátu · pivoapleny.cz"; display: block; font-size: 10pt; color: #5C6470; margin-bottom: 14px; }
+  body.printing .chapter.print-target::before { content: "Papalu · Průvodce pro tátu · pivoapleny.cz"; display: block; font-size: 10pt; color: #5C6470; margin-bottom: 14px; }
   body.printing .xopen { box-shadow: none; border: 1px solid #999; }
   body.printing .ch-num { box-shadow: none; transform: none; }
   body.printing a { color: inherit; text-decoration: none; }
