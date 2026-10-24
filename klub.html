@@ -7,16 +7,34 @@
 <meta name="description" content="Členství v Klubu Pivo &amp; Pleny: měsíční tipy na míru podle týdne těhotenství nebo věku dítěte, taháky, audio, živé Q&A, pánský předporodní workshop a setkání tátů. 290 Kč měsíčně nebo 2 700 Kč ročně.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=202610241247">
+<link rel="stylesheet" href="assets/css/style.css?v=202610241253">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <style>
-  .benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; counter-reset: b; }
-  .benefit { display: grid; grid-template-columns: 56px 1fr; gap: 18px; padding: 22px 0; border-top: 1px solid var(--line); }
-  .benefit .ico { width: 56px; height: 56px; border-radius: 16px; background: var(--surface); display: grid; place-items: center; font-size: 1.4rem; }
-  .benefit h4 { margin: 2px 0 4px; font-size: 1.1rem; }
-  .benefit p { margin: 0; color: var(--muted); font-size: .96rem; }
-  .benefit .only { display: inline-block; margin-left: 6px; font-size: .7rem; font-weight: 700; background: var(--gold); padding: 2px 8px; border-radius: 999px; vertical-align: 2px; }
-  @media (max-width: 760px) { .benefits { grid-template-columns: 1fr; } }
+  .join-cta { margin-top: 30px; display: grid; justify-items: start; gap: 12px; }
+  .btn-xl { font-size: 1.2rem; padding: 22px 30px 22px 32px; gap: 18px; box-shadow: 5px 5px 0 var(--ink); }
+  .btn-xl:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn-xl::after { border-width: 6px 0 6px 10px; }
+  .join-cta .login { font-size: .92rem; color: var(--muted); }
+  .join-cta .login a { color: var(--ink); font-weight: 600; }
+
+  .perks-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: clamp(48px, 7vw, 80px) 0 18px; padding-top: 28px; border-top: 1px solid #00081414; }
+  .perks-h h2 { margin: 0; font-size: clamp(1.6rem, 3.4vw, 2.3rem); }
+  .perks-h p { margin: 0; color: var(--muted); font-size: .95rem; }
+  .perks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+  .perk-cat h3 { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; display: flex; gap: 8px; align-items: center; }
+  .perk-cat h3 i { font-style: normal; width: 26px; height: 26px; border-radius: 8px; background: var(--ink); color: var(--gold); display: grid; place-items: center; font-size: .8rem; letter-spacing: 0; }
+  .perk { background: #fff; border-radius: 16px; margin-bottom: 8px; transition: box-shadow .2s; }
+  .perk[open] { box-shadow: inset 0 0 0 1.5px var(--ink); }
+  .perk summary { list-style: none; cursor: pointer; padding: 14px 40px 14px 16px; position: relative; }
+  .perk summary::-webkit-details-marker { display: none; }
+  .perk summary::after { content: ""; position: absolute; right: 16px; top: 50%; margin-top: -4px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--ink); transition: transform .2s; }
+  .perk[open] summary::after { transform: rotate(90deg); }
+  .perk summary:hover { background: #ffffff; border-radius: 16px; }
+  .perk summary b { display: block; font-weight: 600; font-size: 1rem; line-height: 1.25; }
+  .perk summary small { display: block; color: var(--muted); font-size: .85rem; margin-top: 2px; }
+  .perk p { margin: 0; padding: 0 16px 16px; font-size: .92rem; color: #2a3340; }
+  @media (max-width: 1000px) { .perks { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .perks { grid-template-columns: 1fr; } }
 
   .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .plan { position: relative; display: block; cursor: pointer; }
@@ -73,41 +91,34 @@
 <body>
 <header id="site-header"></header>
 <main>
-  <section class="page-hero">
-    <div class="wrap split" style="align-items:end">
-      <div>
-        <div class="breadcrumb"><a href="index.html">Úvod</a> / Klub</div>
-        <span class="kicker">Klub Pivo &amp; Pleny</span>
-        <h1>Za cenu tří<br><span class="loud hl">piv měsíčně.</span></h1>
-        <p class="lead">Tipy na míru podle toho, kde zrovna jste. Taháky do kapsy, audio, živé Q&amp;A s odborníky – a parta tátů, se kterými se dá potkat na workshopu i u piva.</p>
-        <div class="hero-actions"><a class="btn btn-dark" href="#registrace">Chci do Klubu</a><a class="btn btn-ghost" href="#co-dostanes">Co dostanu?</a><a class="btn btn-ghost" href="clen.html">Už jsem člen · Přihlásit</a></div>
-      </div>
-      <div class="plans" aria-hidden="true">
-        <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p" id="hero-m">290 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
-        <div class="plan"><div class="box" style="border-color:#000814;box-shadow:6px 6px 0 #000814"><div class="name">Ročně <span class="save" id="hero-save">−22 %</span></div><div class="p" id="hero-y">2 700 Kč<small> / rok</small></div><div class="sub" id="hero-ysub">Vychází na 225 Kč měsíčně</div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="co-dostanes">
+  <section class="page-hero" id="co-dostanes">
     <div class="wrap">
-      <div class="section-head">
-        <span class="kicker">Co dostaneš</span>
-        <h2>Všechno, co<br><em>v Klubu najdeš.</em></h2>
+      <div class="split" style="align-items:end">
+        <div>
+          <div class="breadcrumb"><a href="index.html">Úvod</a> / Klub</div>
+          <span class="kicker">Klub Pivo &amp; Pleny</span>
+          <h1>Za cenu tří<br><span class="loud hl">piv měsíčně.</span></h1>
+          <p class="lead">Tipy na míru podle toho, kde zrovna jste. Taháky do kapsy, audio, živé Q&amp;A s odborníky – a parta tátů, se kterými se dá potkat na workshopu i u piva.</p>
+          <div class="join-cta">
+            <a class="btn btn-copper btn-xl" href="#registrace">Připojit se do Klubu</a>
+            <span class="login">Už jsi členem? <a href="clen.html">Přihlásit se</a></span>
+          </div>
+        </div>
+        <div class="plans" aria-hidden="true">
+          <div class="plan"><div class="box"><div class="name">Měsíčně</div><div class="p" id="hero-m">290 Kč<small> / měsíc</small></div><div class="sub">Zrušíš kdykoli</div></div></div>
+          <div class="plan"><div class="box" style="border-color:#000814;box-shadow:6px 6px 0 #000814"><div class="name">Ročně <span class="save" id="hero-save">−22 %</span></div><div class="p" id="hero-y">2 700 Kč<small> / rok</small></div><div class="sub" id="hero-ysub">Vychází na 225 Kč měsíčně</div></div></div>
+        </div>
       </div>
-      <div class="benefits">
-        <div class="benefit"><div class="ico">✉</div><div><h4>Měsíční tipy na míru</h4><p>Každý měsíc e-mail přesně pro váš týden těhotenství nebo věk miminka. Jiný pro prvootce, jiný pro zkušené táty.</p></div></div>
-        <div class="benefit"><div class="ico">✓</div><div><h4>Tahák do kapsy na porodní sál</h4><p>Jedna stránka: kdy jet, co dělat, co říct, na co se ptát. Do mobilu i vytisknout.</p></div></div>
-        <div class="benefit"><div class="ico">☰</div><div><h4>Checklisty a plány</h4><p>Taška do porodnice, prvních 48 hodin doma, rozpis nočních směn, plán na večery s pláčem, karta varovných signálů.</p></div></div>
-        <div class="benefit"><div class="ico">“</div><div><h4>Scénáře rozhovorů</h4><p>Co říct personálu, když nesouhlasíte. Jak mluvit se šéfem o otcovské. Jak nastavit hranice návštěvám. Co říct partnerce ve 3 ráno.</p></div></div>
-        <div class="benefit"><div class="ico">♪</div><div><h4>Táta za 5 minut</h4><p>Krátká audia do auta nebo ve 3 ráno: jedna rada pro váš týden, přečtené příběhy tátů z Honest Cage a odborník, který odpoví na jednu otázku. Plus „Cesta domů z porodnice“ a 5 minut zpátky do klidu.</p></div></div>
-        <div class="benefit"><div class="ico">▶</div><div><h4>Krátká videa do 12 minut</h4><p>Přebalování, koupání, nosítko, montáž autosedačky, masáž zad při porodu.</p></div></div>
-        <div class="benefit"><div class="ico">?</div><div><h4>Živé Q&amp;A jednou měsíčně</h4><p>Online s porodní asistentkou, psychologem nebo zkušeným tátou. Ptát se můžeš i anonymně předem.</p></div></div>
-        <div class="benefit"><div class="ico">★</div><div><h4>Přednostní místo na pánském workshopu</h4><p>Předporodní workshop jen pro chlapy – odborně a v pánském stylu. Členové se hlásí jako první a mají slevu.</p></div></div>
-        <div class="benefit"><div class="ico">🍺</div><div><h4>Setkání tátů u piva</h4><p>Neformální večery s dalšími táty ve tvém kraji. Pozvánky posíláme jen členům, kteří o ně stojí.</p></div></div>
-        <div class="benefit"><div class="ico">1:1</div><div><h4>Sleva na soukromé konzultace</h4><p>Online konzultace s porodní asistentkou, dulou nebo psychologem pro otce.</p></div></div>
-        <div class="benefit"><div class="ico">✍</div><div><h4>Celý rozbor dotazníku Jaký jsem táta?</h4><p>Typ zjistíš zdarma. V Klubu dostaneš celý profil: silné stránky, na co si dát pozor, jak ladíš s partnerkou a plán na prvních 12 týdnů po porodu.</p></div></div>
-        <div class="benefit"><div class="ico">%</div><div><h4>Roční členství navíc<span class="only">jen ročně</span></h4><p>Vychází na 225 Kč měsíčně a pokryje celé těhotenství i první měsíce s miminkem bez přerušení.</p></div></div>
+
+      <div class="perks-h">
+        <h2>Všechno, co v Klubu najdeš.</h2>
+        <p>Klikni na cokoli a uvidíš detail.</p>
+      </div>
+      <div class="perks">
+        <div class="perk-cat"><h3><i>✉</i>Na míru tobě</h3><details class="perk"><summary><b>Měsíční tipy na míru</b><small>E-mail přesně pro váš týden</small></summary><p>Každý měsíc e-mail pro váš týden těhotenství nebo věk miminka. Jiný pro prvootce, jiný pro zkušené táty.</p></details><details class="perk"><summary><b>Celý rozbor dotazníku</b><small>Tvůj profil táty do detailu</small></summary><p>Typ zjistíš zdarma. V Klubu dostaneš celý profil: silné stránky, na co si dát pozor, jak ladíš s partnerkou a plán na prvních 12 týdnů po porodu.</p></details></div>
+        <div class="perk-cat"><h3><i>✓</i>Do kapsy</h3><details class="perk"><summary><b>Tahák na porodní sál</b><small>Jedna stránka do mobilu</small></summary><p>Kdy jet, co dělat, co říct, na co se ptát. Do mobilu i k vytištění.</p></details><details class="perk"><summary><b>Checklisty a plány</b><small>Taška, první dny, noční směny</small></summary><p>Taška do porodnice, prvních 48 hodin doma, rozpis nočních směn, plán na večery s pláčem, karta varovných signálů.</p></details><details class="perk"><summary><b>Scénáře rozhovorů</b><small>Co říct, když nevíš jak</small></summary><p>Co říct personálu, když nesouhlasíte. Jak mluvit se šéfem o otcovské. Jak nastavit hranice návštěvám. Co říct partnerce ve 3 ráno.</p></details></div>
+        <div class="perk-cat"><h3><i>♪</i>Poslech a video</h3><details class="perk"><summary><b>Táta za 5 minut</b><small>Krátká audia do auta i ve 3 ráno</small></summary><p>Jedna rada pro váš týden, přečtené příběhy tátů z Honest Cage a odborník, který odpoví na jednu otázku. Plus „Cesta domů z porodnice“ a 5 minut zpátky do klidu.</p></details><details class="perk"><summary><b>Videa do 12 minut</b><small>Přebalování, koupání, autosedačka</small></summary><p>Přebalování, koupání, nosítko, montáž autosedačky, masáž zad při porodu.</p></details><details class="perk"><summary><b>Živé Q&amp;A</b><small>Jednou měsíčně s odborníkem</small></summary><p>Online s porodní asistentkou, psychologem nebo zkušeným tátou. Ptát se můžeš i anonymně předem.</p></details></div>
+        <div class="perk-cat"><h3><i>★</i>Naživo s táty</h3><details class="perk"><summary><b>Pánský workshop</b><small>Přednostně a se slevou</small></summary><p>Předporodní workshop jen pro chlapy – odborně a v pánském stylu. Členové se hlásí jako první a mají slevu.</p></details><details class="perk"><summary><b>Setkání tátů u piva</b><small>Večery ve tvém kraji</small></summary><p>Neformální večery s dalšími táty ve tvém kraji. Pozvánky posíláme jen členům, kteří o ně stojí.</p></details><details class="perk"><summary><b>Konzultace 1:1</b><small>Se slevou pro členy</small></summary><p>Online konzultace s porodní asistentkou, dulou nebo psychologem pro otce. <a href="#konzultace">Víc o konzultacích</a></p></details></div>
       </div>
     </div>
   </section>
@@ -286,8 +297,8 @@
   </section>
 </main>
 <footer id="site-footer"></footer>
-<script src="assets/js/config.js?v=202610241247"></script>
-<script src="assets/js/main.js?v=202610241247"></script>
+<script src="assets/js/config.js?v=202610241253"></script>
+<script src="assets/js/main.js?v=202610241253"></script>
 <script>
 (function () {
   const f = document.getElementById("reg-form");
