@@ -1,4 +1,4 @@
-/* PIVO & PLENY — sdílená hlavička, menu, plovoucí lišta, patička a interakce */
+/* PAPALOO — sdílená hlavička, menu, plovoucí lišta, patička a interakce */
 /* Backend (Supabase): PP.rpc() volá veřejné databázové funkce, PP.fn() Edge Functions */
 window.PP = (function () {
   const C = window.PP_CONFIG || {};
@@ -24,7 +24,7 @@ window.PP = (function () {
 (function () {
   const here = location.pathname.split("/").pop() || "index.html";
   const cur = h => (h === here ? ' aria-current="page"' : "");
-  const MARK = '<span class="mark">p<b>&amp;</b>p.</span>';
+  const MARK = '<span class="mark">pa<b>.</b></span>';
 
   const BIG = [
     ["index.html", "Úvod"], ["pruvodce.html", "Průvodce"], ["blog.html", "Blog"], ["myty.html", "Bořiči mýtů"],
@@ -65,8 +65,8 @@ window.PP = (function () {
     header.className = "site-header";
     header.innerHTML = `
       <div class="wrap bar">
-        <a class="brand" href="index.html" aria-label="Pivo &amp; Pleny – domů">${MARK}
-          <span class="brand-name">Pivo &amp; Pleny<small>Táta. Parťák. Člověk.</small></span></a>
+        <a class="brand" href="index.html" aria-label="Papaloo – domů">${MARK}
+          <span class="brand-name">Papaloo<small>Táta. Parťák. Člověk.</small></span></a>
         <div class="head-actions">
           <nav class="quick" aria-label="Hlavní části webu">
             <a href="pruvodce.html"${cur("pruvodce.html")}>Průvodce</a>
@@ -120,7 +120,7 @@ window.PP = (function () {
         <div class="footer-big">Táta. Parťák. Člověk.<br><span style="color:#A87F00">A v tom všem nejsi sám.</span></div>
         <div class="cols">
           <div>
-            <a class="brand" href="index.html" style="margin-bottom:18px">${MARK}<span class="brand-name">Pivo &amp; Pleny</span></a>
+            <a class="brand" href="index.html" style="margin-bottom:18px">${MARK}<span class="brand-name">Papaloo</span></a>
             <p>Web pro chlapy, kteří čekají dítě, právě se jim narodilo – nebo to celé zpracovávají. Prakticky, s fakty a s respektem k ženám.</p>
             <p class="small muted">Obsah je informativní a nenahrazuje lékaře, porodní asistentku ani psychologa.</p>
           </div>
@@ -134,7 +134,7 @@ window.PP = (function () {
           </ul></div>
         </div>
         <div class="bottom">
-          <span>© ${new Date().getFullYear()} Pivo &amp; Pleny · Fotografie: <a href="https://unsplash.com/license">Unsplash</a></span>
+          <span>© ${new Date().getFullYear()} Papaloo · Fotografie: <a href="https://unsplash.com/license">Unsplash</a></span>
           <span>V krizi volej <strong style="color:#000814">116 123</strong> (nonstop, zdarma) nebo <strong style="color:#000814">112</strong>.</span>
         </div>
       </div>`;
