@@ -66,7 +66,6 @@
   <section class="page-hero grain" id="z-hero">
     <div class="wrap">
       <div class="breadcrumb"><a href="index.html">Úvod</a> / Můj účet</div>
-      <span class="kicker">Můj účet</span>
       <h1>Přihlas se, nebo<br>se zaregistruj.</h1>
       <p class="lead">Účet je zdarma a stačí ti k němu e-mail – žádné heslo, pošleme ti odkaz. S účtem si můžeš koupit členství v Klubu a hlásit se na akce a konzultace.</p>
     </div>
@@ -146,7 +145,7 @@
     });
   }
 
-  const head = d => `<div class="z-head"><div><span class="kicker">Přihlášen jako ${esc(d.email)}</span><h2 style="margin:6px 0 0">${d.name ? "Ahoj, " + esc(d.name) + "." : "Ahoj."}</h2></div>
+  const head = d => `<div class="z-head"><div><h2 style="margin:0">${d.name ? "Ahoj, " + esc(d.name) + "." : "Ahoj."}</h2><p class="small muted mb-0">Přihlášen jako ${esc(d.email)}</p></div>
       <div class="flex" style="gap:8px;align-items:center">${d.member ? badge(d) : ""}<button class="btn btn-ghost btn-sm" id="z-out" type="button">Odhlásit</button></div></div>`;
   const badge = d => d.admin ? `<span class="z-status active">Zakladatel · plný přístup</span>`
     : d.level >= 1 ? `<span class="z-status active">${esc(d.tier_name || "Klub")}${d.comp ? " zdarma" : d.paid_until ? " do " + new Date(d.paid_until).toLocaleDateString("cs-CZ") : ""}</span>`
@@ -158,7 +157,7 @@
 
   function rozbor(d) {
     const r = d.rozbor, t = d.quiz_type;
-    return `<span class="kicker" style="display:block">Tvůj rozbor</span><div class="result-type">${QT[t]}</div>
+    return `<div class="result-type">${QT[t]}</div>
       ${d.quiz_profile ? `<div class="bars">${Object.entries(d.quiz_profile).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div class="bar"><span>${QT[k] || k}</span><span class="track"><span style="width:${Math.min(v / 12 * 100, 100)}%"></span></span><span>${Math.round(v / 12 * 100)} %</span></div>`).join("")}</div>` : ""}
       <div class="grid g2 mt-2"><div><h3>V čem jsi silný</h3>${list(r.good)}</div><div><h3>Na co si dát pozor</h3>${list(r.watch)}</div></div>
       <h3 class="mt-2">Co s tím tento týden</h3>${list(r.tips)}
@@ -189,7 +188,7 @@
     }
     const lo = segs[0][0], pos = n => ((n - lo) / (max - lo)) * 100;
     return `<div class="tl card">
-      <div class="tl-top"><div><span class="kicker" style="display:block">Kde jste teď</span><div class="tl-big">${big}</div><p class="small mb-0">${sub}</p></div><button class="btn btn-ghost btn-sm" type="button" data-edit>Upravit</button></div>
+      <div class="tl-top"><div><div class="tl-big">${big}</div><p class="small mb-0">${sub}</p></div><button class="btn btn-ghost btn-sm" type="button" data-edit>Upravit</button></div>
       <div class="tl-bar">${segs.map(([a, b, l]) => `<div class="tl-seg" style="left:${pos(a)}%;width:${pos(b) - pos(a)}%"><span>${l}</span></div>`).join("")}
         <div class="tl-fill" style="width:${pos(Math.min(w.week, max))}%"></div>
         ${(window.__issues || []).map(i => `<i class="tl-dot" style="left:${pos(i.week)}%" title="Newsletter ${i.week}. týden"></i>`).join("")}
@@ -219,7 +218,7 @@
     </div>`;
   }
   function voice() {
-    return `<div class="card voice"><span class="kicker" style="display:block">Tvůj hlas</span><h3 style="margin:4px 0 6px">Sdílej, co prožíváš</h3>
+    return `<div class="card voice"><h3 style="margin:4px 0 6px">Sdílej, co prožíváš</h3>
       <form id="z-cage" class="reg-mini" style="max-width:none">
         <select name="cat"><option value="myslenky">Moje myšlenky (strach, únava, vztek)</option><option value="porod">Porod</option><option value="vztahy">Vztahy</option><option value="otcovstvi">Otcovství a dítě</option></select>
         <textarea name="text" rows="4" maxlength="1500" placeholder="Nikomu jsem neřekl, že… (anonymně do Honest Cage, zveřejníme po moderaci)" required></textarea>
@@ -286,10 +285,10 @@
   const CCAT = { porod: "Porod", myslenky: "Moje myšlenky", vztahy: "Vztahy", otcovstvi: "Otcovství" };
   async function renderSaved(d) {
     const box = document.getElementById("z-saved"); if (!box) return;
-    if (d.level < 1) { box.innerHTML = `<div class="card saved-box locked"><span class="kicker" style="display:block">Uložené myšlenky</span><h3 style="margin:4px 0 6px">Tvoje sbírka z Honest Cage</h3><p class="mb-0">Na zdi Honest Cage si můžeš ukládat myšlenky, které tě chytly, a vracet se k nim tady. Je to výhoda Klubu. <a href="klub.html#registrace">Odemknout</a></p></div>`; return; }
+    if (d.level < 1) { box.innerHTML = `<div class="card saved-box locked"><h3 style="margin:4px 0 6px">Tvoje sbírka z Honest Cage</h3><p class="mb-0">Na zdi Honest Cage si můžeš ukládat myšlenky, které tě chytly, a vracet se k nim tady. Je to výhoda Klubu. <a href="klub.html#registrace">Odemknout</a></p></div>`; return; }
     const { data, error } = await sb.rpc("cage_saved");
     const list = error ? [] : data || [];
-    box.innerHTML = `<div class="card saved-box"><span class="kicker" style="display:block">Uložené myšlenky · ${list.length}</span><h3 style="margin:4px 0 12px">Tvoje sbírka z Honest Cage</h3>
+    box.innerHTML = `<div class="card saved-box"><h3 style="margin:4px 0 12px">Tvoje sbírka z Honest Cage</h3>
       ${list.length ? `<div class="saved-grid">${list.map(c => `<article class="saved-it c-${esc(c.category)}" data-id="${c.id}"><span class="chip">${CCAT[c.category] || ""}${c.phase ? " · " + esc(c.phase) : ""}</span><p>„${esc(c.body)}“</p><button type="button" class="linkbtn small" data-unsave="${c.id}">Odebrat</button></article>`).join("")}</div>`
         : `<p class="mb-0">Zatím nic. Na <a href="cage.html#zed">zdi Honest Cage</a> klikni u karty na „☆ Uložit“ a myšlenka se objeví tady.</p>`}</div>`;
     box.querySelectorAll("[data-unsave]").forEach(b => b.onclick = async () => { const r = await sb.rpc("cage_save", { p_id: +b.dataset.unsave, p_on: false }); if (!r.error) renderSaved(d); });
