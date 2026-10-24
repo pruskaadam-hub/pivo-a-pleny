@@ -504,3 +504,37 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 .embed audio { width: 100%; display: block; }
 .media-card.locked { background: var(--surface); }
 .site-header .acct-btn { color: var(--ink); }
+
+/* Průvodce – kapitoly */
+.ch-pick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 28px; }
+.ch-card { display: grid; gap: 4px; text-decoration: none; background: #fff; border: 2px solid var(--ink); border-radius: 18px; padding: 14px 16px; box-shadow: 4px 4px 0 var(--ink); transition: transform .15s, box-shadow .15s; }
+.ch-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--gold); }
+.ch-card .ch-n { font-family: var(--f-loud); font-size: 1.4rem; color: var(--gold-text); line-height: 1; }
+.ch-card small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
+@media (max-width: 900px) { .ch-pick { grid-template-columns: repeat(2, 1fr); } }
+.chapter { border-top: 6px solid var(--ink); scroll-margin-top: 70px; }
+.chapter .wrap { max-width: 920px; }
+.ch-head { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; margin-bottom: 30px; }
+.ch-num { font-family: var(--f-loud); font-size: clamp(3.4rem, 9vw, 6rem); line-height: .8; background: var(--gold); color: var(--ink); padding: 12px 16px 6px; border-radius: 18px; transform: rotate(-3deg); box-shadow: 5px 5px 0 var(--ink); }
+.ch-head h2 { margin: 6px 0 8px; }
+.ch-body { max-width: none; }
+.ch-extra { margin-top: 34px; }
+.xlock { position: relative; border: 2px dashed var(--ink); border-radius: var(--r-card); overflow: hidden; background: #fff; }
+.xlock-fake { padding: 24px 26px 0; filter: blur(3px); opacity: .5; user-select: none; }
+.xlock-fake .fake { color: var(--muted); letter-spacing: -.1em; margin: 0 0 10px; }
+.xlock-box { position: relative; margin-top: -70px; padding: 70px 26px 26px; background: linear-gradient(to bottom, rgba(255,255,255,0), #fff 70px); }
+.xlock-box h3 { margin: 10px 0 12px; }
+.xopen { border: 2px solid var(--ink); border-radius: var(--r-card); background: #fff; box-shadow: var(--pop); padding: clamp(20px, 3vw, 32px); }
+.xopen-h { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.xopen-h h3 { margin: 0; }
+.ch-actions { margin-top: 18px; align-items: center; }
+.sources-sec { padding-top: 40px; }
+@media print {
+  body.printing .site-header, body.printing .overlay, body.printing #site-footer, body.printing .floatbar, body.printing .page-hero,
+  body.printing .chapter:not(.print-target), body.printing .sources-sec, body.printing .ch-actions, body.printing .quiz-banner { display: none !important; }
+  body.printing .chapter.print-target { border: 0; padding: 0; background: #fff; }
+  body.printing .chapter.print-target::before { content: "Pivo & Pleny · Průvodce pro tátu · pivoapleny.cz"; display: block; font-size: 10pt; color: #5C6470; margin-bottom: 14px; }
+  body.printing .xopen { box-shadow: none; border: 1px solid #999; }
+  body.printing .ch-num { box-shadow: none; transform: none; }
+  body.printing a { color: inherit; text-decoration: none; }
+}
