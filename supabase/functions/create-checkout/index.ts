@@ -1,4 +1,4 @@
-// Pivo & Pleny – vytvoří Stripe Checkout pro Klub (předplatné) nebo konzultace (jednorázově).
+// Kuvalo – vytvoří Stripe Checkout pro Klub (předplatné) nebo konzultace (jednorázově).
 // Tajné hodnoty (Edge Functions → Secrets): STRIPE_SECRET_KEY, volitelně SITE_URL.
 // SUPABASE_URL a SUPABASE_SERVICE_ROLE_KEY dodává Supabase automaticky.
 import Stripe from "npm:stripe@16.12.0";
@@ -14,8 +14,8 @@ const json = (body: unknown, status = 200) =>
 
 type Product = { mode: "subscription" | "payment"; amount: number; name: string; interval?: "month" | "year" };
 const PRODUCTS: Record<string, Product> = {
-  "klub-mesicne": { mode: "subscription", amount: 29000, name: "Klub Pivo & Pleny – měsíčně", interval: "month" },
-  "klub-rocne": { mode: "subscription", amount: 270000, name: "Klub Pivo & Pleny – ročně", interval: "year" },
+  "klub-mesicne": { mode: "subscription", amount: 29000, name: "Klub Kuvalo – měsíčně", interval: "month" },
+  "klub-rocne": { mode: "subscription", amount: 270000, name: "Klub Kuvalo – ročně", interval: "year" },
   "konzultace-1": { mode: "payment", amount: 149000, name: "Konzultace 1:1 (50 min)" },
   "konzultace-3": { mode: "payment", amount: 359000, name: "Balíček 3 konzultací 1:1 (50 min)" },
 };
@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
       const price = pl && (interval === "month" ? pl.price_month : pl.price_year);
       if (!pl || !pl.active || !price) return json({ error: "unknown_plan" }, 400);
       product = `${pl.slug}-${interval === "month" ? "mesicne" : "rocne"}`;
-      p = { mode: "subscription", amount: price * 100, name: `${pl.name} Pivo & Pleny – ${interval === "month" ? "měsíčně" : "ročně"}`, interval };
+      p = { mode: "subscription", amount: price * 100, name: `${pl.name} Kuvalo – ${interval === "month" ? "měsíčně" : "ročně"}`, interval };
     } else p = PRODUCTS[product];
     if (!p) return json({ error: "unknown_product" }, 400);
 

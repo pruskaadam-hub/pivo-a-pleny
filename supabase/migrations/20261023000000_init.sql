@@ -1,4 +1,4 @@
--- Pivo & Pleny – databáze, pravidla (RLS) a veřejné funkce
+-- Kuvalo – databáze, pravidla (RLS) a veřejné funkce
 -- Spusť celý soubor jednou v Supabase → SQL Editor. Je bezpečné spustit ho znovu.
 -- Veřejnost (anon) nesmí číst ani zapisovat do tabulek přímo – jen přes funkce níže.
 -- Zakladatelé (tabulka admins) vidí a upravují všechno.

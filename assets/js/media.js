@@ -1,4 +1,4 @@
-/* Papalu – přehrávače (YouTube, Spotify, Apple Podcasts, audio) a jednoduchý Markdown */
+/* Kuvalo – přehrávače (YouTube, Spotify, Apple Podcasts, audio) a jednoduchý Markdown */
 window.PPMedia = (function () {
   const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   PAPALU — design v3
+   Kuvalo — design v3
    Swiss čistota (světlé plochy, utažená typografie, ČB fotky)
    + odvážné momenty (zlaté bloky, nálepky, tvrdé stíny).
    Paleta: #000814 · #001D3D · #003566 · #FFC300 · #FFD60A
@@ -423,8 +423,8 @@ section { padding: clamp(64px, 10vw, 130px) 0; }
 /* ---------- Domovská stránka ---------- */
 .home-hero { display: grid; grid-template-columns: 1.05fr .95fr; min-height: calc(100vh - 76px); background: var(--surface-2); padding: 0; }
 .home-hero .txt { padding: clamp(48px, 8vh, 100px) clamp(20px, 5vw, 80px); display: flex; flex-direction: column; justify-content: center; }
-.home-hero h1 { font-size: clamp(3.2rem, 7.4vw, 7.4rem); margin-bottom: 30px; }
-.home-hero h1 .loud { font-size: .86em; display: inline-block; margin-top: .08em; }
+.home-hero h1 { font-size: clamp(3.55rem, 8vw, 8.2rem); line-height: 1; margin-bottom: 20px; }
+.home-hero .hero-tagline { font-size: clamp(1.35rem, 2.5vw, 2.1rem); font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
 .home-hero .lead { margin-bottom: 0; }
 .home-hero .note { margin-top: 16px; font-size: .86rem; color: var(--muted); }
 .home-hero .ph { position: relative; overflow: hidden; background: var(--ink-2); min-height: 460px; }
@@ -661,7 +661,7 @@ a.sticker { color: var(--ink); text-decoration: none; }
   body.printing .site-header, body.printing .overlay, body.printing #site-footer, body.printing .floatbar, body.printing .page-hero,
   body.printing .chapter:not(.print-target), body.printing .sources-sec, body.printing .ch-actions, body.printing .quiz-banner { display: none !important; }
   body.printing .chapter.print-target { border: 0; padding: 0; background: #fff; }
-  body.printing .chapter.print-target::before { content: "Papalu · Průvodce pro tátu · pivoapleny.cz"; display: block; font-size: 10pt; color: #5C6470; margin-bottom: 14px; }
+  body.printing .chapter.print-target::before { content: "Kuvalo · Průvodce pro tátu"; display: block; font-size: 10pt; color: #5C6470; margin-bottom: 14px; }
   body.printing .xopen { box-shadow: none; border: 1px solid #999; }
   body.printing .ch-num { box-shadow: none; transform: none; }
   body.printing a { color: inherit; text-decoration: none; }

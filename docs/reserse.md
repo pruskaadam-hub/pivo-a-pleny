@@ -1,4 +1,4 @@
-# Rešerše – Pivo & Pleny (říjen 2026)
+# Rešerše – Kuvalo (říjen 2026)
 
 Podklady, ze kterých vychází obsah webu. Statistiky před velkým zveřejněním ideálně ověřit v původních studiích.
 

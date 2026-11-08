@@ -1,4 +1,4 @@
-// Pivo & Pleny – přijímá události ze Stripe a aktualizuje objednávky a členství.
+// Kuvalo – přijímá události ze Stripe a aktualizuje objednávky a členství.
 // Tajné hodnoty: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET (whsec_…).
 // Ve Stripe nastav endpoint na https://<projekt>.supabase.co/functions/v1/stripe-webhook s událostmi:
 // checkout.session.completed, checkout.session.expired, invoice.paid, invoice.payment_failed, customer.subscription.deleted

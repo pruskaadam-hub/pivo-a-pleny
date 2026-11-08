@@ -1,4 +1,6 @@
-# Papalu
+# Kuvalo
+
+Název vychází ze syndromu Couvade a připomíná, že i budoucí tátové prožívají těhotenství po svém.
 
 Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, **Honest Cage** (anonymní sdílení traumat, nejistot a strachů), dotazník „Jaký jsem typ táty?“ a podpora psychiky otců.
 
@@ -50,7 +52,7 @@ python3 -m http.server 8000
 Čitelný zdroj je v `admin-src/` (na GitHub se nenahrává). Po úpravě zašifruj znovu:
 
 ```bash
-ADMIN_PASSWORD='heslo' node tools/encrypt-admin.mjs
+ADMIN_BUNDLE_KEY='…base64…' node tools/encrypt-admin.mjs
 ```
 
 Pozor: jde o šifrování obsahu ve statickém webu, ne o serverové přihlášení. Pro skutečná data členů bude potřeba backend.

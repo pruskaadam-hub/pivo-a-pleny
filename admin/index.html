@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Administrace | Papalu</title>
+<title>Administrace | Kuvalo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/style.css?v=202610250915">
-<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css?v=20261108">
+<link rel="icon" href="../assets/img/favicon.svg?v=20261108" type="image/svg+xml">
 <style>
   body { background: var(--surface-2); }
   .login { min-height: 100vh; display: grid; grid-template-columns: 1.1fr .9fr; gap: 60px; align-items: center; width: min(1180px, 100% - 40px); margin: 0 auto; padding: 40px 0; }
@@ -38,7 +38,7 @@
   <a class="back" href="../index.html">← Zpět na web</a>
   <div class="login">
     <div>
-      <a class="brand" href="../index.html"><span class="mark">pa<b>.</b></span><span class="brand-name">Papalu<small>Táta. Parťák. Člověk.</small></span></a>
+      <a class="brand" href="../index.html"><span class="mark">ku<b>.</b></span><span class="brand-name">Kuvalo<small>Táta. Parťák. Člověk.</small></span></a>
       <span class="kicker">Soukromá administrace</span>
       <h1>Celý byznys<br><em>na jednom místě.</em></h1>
       <p class="lead">Finanční model, tarify, náklady a registrace. Prostor pro zakladatele.</p>
@@ -104,8 +104,13 @@
       const app = JSON.parse(new TextDecoder().decode(plain));
       window.PPA = { sb, user: session.user };
       const st = document.createElement("style"); st.textContent = app.css; document.head.appendChild(st);
+      const el = $("app"); el.innerHTML = app.html;
+      // Sdílej aktuální značku i se starší verzí šifrované administrace.
+      const brand = $("gate").querySelector(".brand").cloneNode(true);
+      brand.querySelector("small").textContent = "Administrace";
+      el.querySelector(".brand")?.replaceWith(brand);
       $("gate").remove();
-      const el = $("app"); el.innerHTML = app.html; el.hidden = false;
+      el.hidden = false;
       if (location.hash.includes("access_token")) history.replaceState(null, "", location.pathname);
       new Function(app.js)();
     } catch (x) {

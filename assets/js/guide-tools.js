@@ -1,4 +1,4 @@
-/* Papalu – nástroje pro členy Klubu v průvodci (kalkulačka, týden po týdnu, checklisty, směny, check-in)
+/* Kuvalo – nástroje pro členy Klubu v průvodci (kalkulačka, týden po týdnu, checklisty, směny, check-in)
    Data se ukládají k účtu (Supabase: member_tool_save). Texty a obsah týdnů jsou jen v databázi. */
 window.PPTools = (function () {
   const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
