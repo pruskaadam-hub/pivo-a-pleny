@@ -1,43 +1,27 @@
-# Kuvalo
+# PLENNY
 
-Název vychází ze syndromu Couvade a připomíná, že i budoucí tátové prožívají těhotenství po svém.
-
-Web pro muže o těhotenství, porodu a otcovství – praktické návody, bořiči mýtů, **Honest Cage** (anonymní sdílení traumat, nejistot a strachů), dotazník „Jaký jsem typ táty?“ a podpora psychiky otců.
+**O těhotenství v pánském stylu.** Web pro muže o těhotenství, porodu a prvních týdnech s miminkem – praktické rady, Cage (anonymní zpovědi), dotazník „Zjisti svůj tátovský styl“ a Klub.
 
 ## Struktura
 
-Statický web (HTML + CSS + vanilla JS), bez build kroku. Funguje na GitHub Pages, Netlify i jakémkoli hostingu.
+Statický web bez build kroku, běží na GitHub Pages.
 
-| Soubor | Sekce |
+| Soubor | Obsah |
 |---|---|
-| `index.html` | Úvod |
-| `pruvodce.html` | Praktické návody – těhotenství, taška, porod, po porodu |
-| `zvyky.html` | 10 zvyků, které pomůžou |
-| `spanek.html` | Spánkový deficit |
-| `stres.html` | Stres, vztek a agresivita |
-| `pomoc.html` | Jak pomoct sobě a okolí + krizové kontakty |
-| `myty.html` | Bořiči mýtů (20 mýtů se zdroji) |
-| `cage.html` | Honest Cage – anonymní sdílení traumat, nejistot a strachů |
-| `dotaznik.html` | Dotazník Jaký jsem typ táty? (5 typů + stav „Na rezervu“) |
-| `faq.html` | Časté otázky |
-| `blog.html` + `clanek-*.html` | Blog |
-| `klub.html` | Placený Klub (99 Kč/měs), konzultace, pánský předporodní kurz |
-| `o-nas.html` | O nás |
+| `index.html` | Celý web PLENNY (jednostránková aplikace – HTML, CSS i JS v jednom souboru) |
+| `assets/img/` | Favicon a ikona pro iOS |
+| `favicon.ico` | Favicon pro starší prohlížeče |
+| `admin/` | Administrace (používá `assets/css/style.css`) |
+| `supabase/` | Backend – databáze a funkce |
 
-Sdílená hlavička a patička se vkládají z `assets/js/main.js`, design je v `assets/css/style.css`.
+Předchozí vícestránkový web (Kuvalo / Pivo & Pleny) je v historii gitu, poslední verze je commit `fd80db0`.
 
 ## Co je potřeba napojit (TODO)
 
-- **Newsletter** – formuláře `form[data-newsletter]` zatím jen zobrazí poděkování (napojit Ecomail / MailerLite).
-- **Honest Cage** a **Ona píše** – odesílání příspěvků do moderace (např. Supabase, Airtable, Netlify Forms).
-- **Platby Klubu** – GoPay / Stripe / Patreon / Forendors; obsah Klubu (členská zóna).
-- **Konzultace** – rezervační systém (Calendly / Reservio) a ceník.
-- Doména a e-maily `@pivoapleny.cz` jsou zatím zástupné.
-- Medailonky týmu a odborných garantů na `o-nas.html`.
-
-## Rešerše
-
-Podklady a zdroje: `docs/reserse.md`.
+- Newsletter a registrace – napojit na Supabase / e-mailový nástroj.
+- Cage – odesílání příspěvků do moderace.
+- Platby Klubu (Stripe) – až po založení firmy.
+- Doména a e-maily `@plenny.cz`.
 
 ## Lokální náhled
 
