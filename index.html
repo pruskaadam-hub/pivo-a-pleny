@@ -1688,7 +1688,7 @@ else{intro.hidden=false;document.body.style.overflow='hidden';
  intro.querySelectorAll('path[fill]').forEach(function(p,i){p.style.transitionDelay=(1.8+i*.04)+'s';});
  requestAnimationFrame(function(){requestAnimationFrame(function(){intro.classList.add('go');});});
  var done=false;function end(){if(done)return;done=true;try{sessionStorage.setItem('plenny-intro','1');}catch(e){}intro.classList.add('out');document.body.style.overflow='';setTimeout(start,250);setTimeout(function(){intro.remove();},800);}
- var tm=setTimeout(end,3300);intro.addEventListener('click',function(){clearTimeout(tm);end();});}
+ var tm=setTimeout(end,4600);intro.addEventListener('click',function(){clearTimeout(tm);end();});}
 
 /* 23 mise: odškrtnutí a lišta postupu */
 app.querySelectorAll('.mise').forEach(function(ul){var pr=ul.nextElementSibling;if(!pr||!pr.classList.contains('ck-prog'))return;var cks=ul.querySelectorAll('input[type=checkbox]');
